@@ -102,5 +102,6 @@ for the full week-by-week plan.
 
 ## Additional Resources
 
-GPU Mode community: https://www.gpumode.com/home 
+GPU Mode community: https://www.gpumode.com/home
+
 Modal AI GPU Glossary: https://modal.com/gpu-glossary 
