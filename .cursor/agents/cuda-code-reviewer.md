@@ -1,5 +1,6 @@
 ---
 name: cuda-code-reviewer
+model: claude-opus-4-7-low
 description: Senior reviewer for CUDA + C++20 code in this lab. Use proactively after writing or modifying any kernel, host wrapper, CMake file, or benchmark. Reviews for correctness, performance, modern C++ idiom, and adherence to the lab's rigor rules.
 ---
 

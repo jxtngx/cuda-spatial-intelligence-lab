@@ -1,15 +1,10 @@
 # Getting Started
 
-Before you touch Week 1, prove that your toolchain works. This guide is
-the **first 30 minutes** of the curriculum: confirm versions, learn the
-two CLI tools you'll live in (`nvidia-smi` and `nvcc`), and compile one
-`.cu` file end-to-end.
+Before you touch Week 1, prove that your toolchain works.
+This guide is the **first 30 minutes** of the curriculum: confirm versions, learn the two CLI tools you'll live in (`nvidia-smi` and `nvcc`), and compile one `.cu` file end-to-end.
 
-> **Target setup.** NVIDIA DGX Spark, DGX OS (Ubuntu-based, ARM64),
-> CUDA Toolkit 13+, GCC 13+ (or Clang 17+), CMake ≥ 3.28, Ninja, NVIDIA
-> Container Runtime for Docker, NGC login. If you're on a different
-> CUDA-capable box, most of this still applies — just substitute your
-> compute capability for `sm_121`.
+> **Target setup.** NVIDIA DGX Spark, DGX OS (Ubuntu-based, ARM64), CUDA Toolkit 13+, GCC 13+ (or Clang 17+), CMake ≥ 3.28, Ninja, NVIDIA Container Runtime for Docker, NGC login.
+> If you're on a different CUDA-capable box, most of this still applies — just substitute your compute capability for `sm_121`.
 
 ---
 
@@ -17,24 +12,20 @@ two CLI tools you'll live in (`nvidia-smi` and `nvcc`), and compile one
 
 You will repeatedly answer four questions:
 
-1. **What GPU do I have, and what does it support?** → `nvidia-smi`,
-   `nvidia-smi -q`, `deviceQuery`.
-2. **What CUDA toolkit am I compiling against?** → `nvcc --version`,
-   `which nvcc`, `nvidia-smi` (driver's max supported CUDA).
-3. **What C++ compiler am I pairing with `nvcc`?** → `g++ --version`,
-   `clang++ --version`, plus a tiny program that prints `__cplusplus`.
-4. **Does a real kernel compile and run on my GPU?** → build and run
-   the smoke test in §6.
+1. **What GPU do I have, and what does it support?** → `nvidia-smi`, `nvidia-smi -q`, `deviceQuery`.
+2. **What CUDA toolkit am I compiling against?** → `nvcc --version`, `which nvcc`, `nvidia-smi` (driver's max supported CUDA).
+3. **What C++ compiler am I pairing with `nvcc`?** → `g++ --version`, `clang++ --version`, plus a tiny program that prints `__cplusplus`.
+4. **Does a real kernel compile and run on my GPU?** → build and run the smoke test in §6.
 
-Memorize that order. When *anything* goes wrong later, you re-run those
-checks before you debug anything else.
+Memorize that order.
+When *anything* goes wrong later, you re-run those checks before you debug anything else.
 
 ---
 
 ## 1. `nvidia-smi` — the GPU's status bar
 
-`nvidia-smi` (NVIDIA System Management Interface) talks to the **driver**,
-not the toolkit. It works even when the CUDA toolkit isn't installed.
+`nvidia-smi` (NVIDIA System Management Interface) talks to the **driver**, not the toolkit.
+It works even when the CUDA toolkit isn't installed.
 
 ### 1.1 First run
 
@@ -53,9 +44,8 @@ What you must read off the output, top to bottom:
 | **GPU-Util / Volatile GPU-Util %** | 0% when idle. If a stale process is pinning your GPU, that's where you'll see it. |
 | **Processes** (bottom table) | PID, process name, memory used. Kill stragglers with `kill <pid>` before benchmarking. |
 
-If `nvidia-smi` errors with `command not found` or `Driver/library
-version mismatch`, stop. Reinstall the driver or reboot before going
-further.
+If `nvidia-smi` errors with `command not found` or `Driver/library version mismatch`, stop.
+Reinstall the driver or reboot before going further.
 
 ### 1.2 The flags you'll actually use
 
@@ -86,32 +76,21 @@ watch -n 0.5 nvidia-smi          # or: nvidia-smi dmon
 
 ### 1.3 Things `nvidia-smi` is *not*
 
-- It is not a profiler. For "why is my kernel slow", use Nsight Systems
-  (`nsys`) and Nsight Compute (`ncu`). The `cuda-perf-profiler` agent
-  drives both.
-- It does not tell you the toolkit version. `CUDA Version` in the
-  header is the **driver's max supported runtime**, not what you have
-  installed for compilation.
+- It is not a profiler. For "why is my kernel slow", use Nsight Systems (`nsys`) and Nsight Compute (`ncu`). The `cuda-perf-profiler` agent drives both.
+- It does not tell you the toolkit version. `CUDA Version` in the header is the **driver's max supported runtime**, not what you have installed for compilation.
 
 ### 1.4 Spark-specific notes
 
-- DGX Spark uses **unified memory** between CPU (Grace) and GPU
-  (Blackwell). `nvidia-smi`'s "Memory-Usage" reflects what the GPU
-  side currently sees — it can change as pages migrate.
-- Spark is a **single-GPU** node, so `nvidia-smi topo -m` will be a
-  trivial 1×1. Multi-GPU patterns are practiced via two Sparks over
-  ConnectX-7 (Month 4 stretch).
-- Compute capability is **`sm_121`** (Blackwell, 5th-gen tensor cores,
-  FP4/FP6/FP8). `nvidia-smi --query-gpu=compute_cap --format=csv`
-  prints `12.1`.
+- DGX Spark uses **unified memory** between CPU (Grace) and GPU (Blackwell). `nvidia-smi`'s "Memory-Usage" reflects what the GPU side currently sees — it can change as pages migrate.
+- Spark is a **single-GPU** node, so `nvidia-smi topo -m` will be a trivial 1×1. Multi-GPU patterns are practiced via two Sparks over ConnectX-7 (Month 4 stretch).
+- Compute capability is **`sm_121`** (Blackwell, 5th-gen tensor cores, FP4/FP6/FP8). `nvidia-smi --query-gpu=compute_cap --format=csv` prints `12.1`.
 
 ---
 
 ## 2. `nvcc` — the CUDA compiler
 
-`nvcc` is the **toolkit's** C++/CUDA compiler driver. It hands C++ to
-your host compiler (`gcc`/`clang`) and CUDA device code to its own
-backend (`cicc` → PTX → SASS).
+`nvcc` is the **toolkit's** C++/CUDA compiler driver.
+It hands C++ to your host compiler (`gcc`/`clang`) and CUDA device code to its own backend (`cicc` → PTX → SASS).
 
 ### 2.1 Confirm you have it
 
@@ -132,10 +111,8 @@ Build cuda_13.0.r13.0/compiler.xxxxxxxx_0
 
 Pair this with `nvidia-smi`'s `CUDA Version`:
 
-- `nvcc --version` ≤ `nvidia-smi`'s `CUDA Version` → ✅ you can build
-  and run.
-- `nvcc --version` >  `nvidia-smi`'s `CUDA Version` → ❌ driver too old.
-  Upgrade the driver, don't downgrade the toolkit.
+- `nvcc --version` ≤ `nvidia-smi`'s `CUDA Version` → ✅ you can build and run.
+- `nvcc --version` >  `nvidia-smi`'s `CUDA Version` → ❌ driver too old. Upgrade the driver, don't downgrade the toolkit.
 
 ### 2.2 The flags this curriculum uses by default
 
@@ -172,8 +149,8 @@ Other useful flags:
 -Xcompiler -fopenmp       # pass arbitrary flags to the host compiler
 ```
 
-`-Xptxas -v` is the single most useful flag during kernel tuning. It
-prints lines like:
+`-Xptxas -v` is the single most useful flag during kernel tuning.
+It prints lines like:
 
 ```
 ptxas info    : Compiling entry function '_Z4axpyfPKfPfi' for 'sm_121'
@@ -182,23 +159,19 @@ ptxas info    : Function properties for _Z4axpyfPKfPfi
 ptxas info    : Used 12 registers, 384 bytes cmem[0]
 ```
 
-You'll come to read register pressure and spill bytes the way you read
-log lines today.
+You'll come to read register pressure and spill bytes the way you read log lines today.
 
 ### 2.3 What `nvcc` is *not*
 
-- Not the linker. For multi-translation-unit projects use `nvcc` to
-  link, or hand `.o` files to `g++` and link the runtime explicitly
-  (`-lcudart -L${CUDA_HOME}/lib64`).
-- Not the only frontend. Clang can compile CUDA too. We default to
-  `nvcc` for sm_121 support; `cuda-tutor` will tell you when Clang is
-  the better choice.
+- Not the linker. For multi-translation-unit projects use `nvcc` to link, or hand `.o` files to `g++` and link the runtime explicitly (`-lcudart -L${CUDA_HOME}/lib64`).
+- Not the only frontend. Clang can compile CUDA too. We default to `nvcc` for sm_121 support; `cuda-tutor` will tell you when Clang is the better choice.
 
 ---
 
 ## 3. C++ compiler — the host half of every CUDA build
 
-`nvcc` always pairs with a host compiler. On DGX OS that is GCC.
+`nvcc` always pairs with a host compiler.
+On DGX OS that is GCC.
 
 ### 3.1 Check the version
 
@@ -207,8 +180,8 @@ g++ --version
 g++ -dumpfullversion
 ```
 
-Minimum for this curriculum: **GCC 13** (for full C++20: ranges,
-`<format>`, concepts, three-way comparison). GCC 14 is fine.
+Minimum for this curriculum: **GCC 13** (for full C++20: ranges, `<format>`, concepts, three-way comparison).
+GCC 14 is fine.
 
 If you prefer Clang:
 
@@ -272,8 +245,7 @@ span:     202002
 1 4 9 16 25
 ```
 
-If `__cplusplus` prints `201703` or smaller, you've picked up an old
-compiler — re-check `which g++` and `update-alternatives --display gcc`.
+If `__cplusplus` prints `201703` or smaller, you've picked up an old compiler — re-check `which g++` and `update-alternatives --display gcc`.
 
 ### 3.3 Confirm `nvcc` accepts C++20
 
@@ -307,20 +279,16 @@ Build and run:
 nvcc -std=c++20 -arch=sm_121 -O2 nvcc_check.cu -o nvcc_check && ./nvcc_check
 ```
 
-You should see eight `hi from thread N` lines (in any order) followed by
-`ok, __cplusplus=202002`. If you see all 8 print but `__cplusplus` is
-wrong, your host-compiler default is older than the `nvcc` driver
-expects — pin it explicitly with `nvcc -ccbin /usr/bin/g++-13 ...`.
+You should see eight `hi from thread N` lines (in any order) followed by `ok, __cplusplus=202002`.
+If you see all 8 print but `__cplusplus` is wrong, your host-compiler default is older than the `nvcc` driver expects — pin it explicitly with `nvcc -ccbin /usr/bin/g++-13 ...`.
 
 ---
 
 ## 4. CMake + Ninja — the build system this curriculum assumes
 
-`nvcc` is fine for one-file demos. Anything bigger — multiple
-translation units, GoogleTest, microbenchmarks, separable compilation,
-NGC-vs-host portability — wants a real build system. We use **CMake**
-(the *meta*-build that generates build files) plus **Ninja** (the
-fast build tool that consumes them).
+`nvcc` is fine for one-file demos.
+Anything bigger — multiple translation units, GoogleTest, microbenchmarks, separable compilation, NGC-vs-host portability — wants a real build system.
+We use **CMake** (the *meta*-build that generates build files) plus **Ninja** (the fast build tool that consumes them).
 
 ### 4.1 Verify versions
 
@@ -329,15 +297,10 @@ cmake --version          # need ≥ 3.28 (for first-class CUDA + C++20 + presets
 ninja --version          # any recent version (≥ 1.10) is fine
 ```
 
-Why **3.28** specifically: it's the first release where
-`CMAKE_CUDA_ARCHITECTURES "native"` and per-language standard handling
-across `CXX` and `CUDA` are both stable, and where C++20 modules
-support is mature enough to leave on. If `cmake --version` is older,
-upgrade with Kitware's apt repository or `pip install cmake` — do not
-fight an old system CMake.
+Why **3.28** specifically: it's the first release where `CMAKE_CUDA_ARCHITECTURES "native"` and per-language standard handling across `CXX` and `CUDA` are both stable, and where C++20 modules support is mature enough to leave on.
+If `cmake --version` is older, upgrade with Kitware's apt repository or `pip install cmake` — do not fight an old system CMake.
 
-If `which cmake` resolves to two different binaries on PATH (common on
-DGX OS where Snap and apt both install one), pin the right one:
+If `which cmake` resolves to two different binaries on PATH (common on DGX OS where Snap and apt both install one), pin the right one:
 
 ```bash
 sudo update-alternatives --config cmake
@@ -388,9 +351,8 @@ What each block is doing:
 
 ### 4.3 The `CudaLab.cmake` helper (what every lab uses)
 
-To avoid copy-pasting that block sixteen times, the curriculum ships
-[`cmake/CudaLab.cmake`](../cmake/CudaLab.cmake). Each lab's
-`CMakeLists.txt` reduces to:
+To avoid copy-pasting that block sixteen times, the curriculum ships [`cmake/CudaLab.cmake`](../cmake/CudaLab.cmake).
+Each lab's `CMakeLists.txt` reduces to:
 
 ```cmake
 cmake_minimum_required(VERSION 3.28)
@@ -411,14 +373,10 @@ target_link_libraries(week_NN_lib PUBLIC CUDA::cudart)
 - `CMAKE_CUDA_ARCHITECTURES 121` unless you've overridden it
 - `CMAKE_CUDA_SEPARABLE_COMPILATION ON`
 - `CMAKE_BUILD_TYPE Release` (if not already set)
-- `find_package(CUDAToolkit REQUIRED)` so `CUDA::cudart` etc. are
-  available
-- The standard host warnings (`-Wall -Wextra -Wpedantic`) and the
-  standard CUDA flags (`--use_fast_math -lineinfo
-  --expt-relaxed-constexpr --expt-extended-lambda`)
+- `find_package(CUDAToolkit REQUIRED)` so `CUDA::cudart` etc. are available
+- The standard host warnings (`-Wall -Wextra -Wpedantic`) and the standard CUDA flags (`--use_fast_math -lineinfo --expt-relaxed-constexpr --expt-extended-lambda`)
 
-If you find yourself wanting to disable `--use_fast_math` for a
-correctness-critical lab, override locally:
+If you find yourself wanting to disable `--use_fast_math` for a correctness-critical lab, override locally:
 
 ```cmake
 target_compile_options(my_strict_target PRIVATE
@@ -437,21 +395,12 @@ ctest --test-dir build --output-on-failure      # test
 
 What each command actually does:
 
-- **`cmake -S . -B build -G Ninja`** — *configure* step. Reads
-  `CMakeLists.txt`, finds compilers and packages, writes
-  `build/build.ninja`. `-S` is the source dir, `-B` is the build dir
-  (we always put it in `build/` and gitignore it). `-G Ninja` picks
-  the generator; without it CMake picks "Unix Makefiles" by default.
-- **`cmake --build build -j`** — generator-agnostic *build* step.
-  `cmake --build` works for Ninja, Make, MSBuild, Xcode — useful in
-  scripts. `-j` lets the generator pick parallelism.
-- **`ctest --test-dir build --output-on-failure`** — runs every
-  `add_test()` target; `--output-on-failure` dumps stdout/stderr only
-  for failing tests, which is what you almost always want.
+- **`cmake -S . -B build -G Ninja`** — *configure* step. Reads `CMakeLists.txt`, finds compilers and packages, writes `build/build.ninja`. `-S` is the source dir, `-B` is the build dir (we always put it in `build/` and gitignore it). `-G Ninja` picks the generator; without it CMake picks "Unix Makefiles" by default.
+- **`cmake --build build -j`** — generator-agnostic *build* step. `cmake --build` works for Ninja, Make, MSBuild, Xcode — useful in scripts. `-j` lets the generator pick parallelism.
+- **`ctest --test-dir build --output-on-failure`** — runs every `add_test()` target; `--output-on-failure` dumps stdout/stderr only for failing tests, which is what you almost always want.
 
-You should be able to reflexively type those three commands without
-thinking. If you're typing `make` or `cd build && ninja`, you've
-forgotten the abstraction — `cmake --build` is the Right Way.
+You should be able to reflexively type those three commands without thinking.
+If you're typing `make` or `cd build && ninja`, you've forgotten the abstraction — `cmake --build` is the Right Way.
 
 ### 4.5 The CMake commands you'll actually use
 
@@ -495,8 +444,8 @@ ctest --test-dir build -j 8 --output-on-failure
 
 ### 4.6 Cache variables you'll toggle
 
-Pass with `-D<NAME>=<value>` on the configure line. The most useful in
-this curriculum:
+Pass with `-D<NAME>=<value>` on the configure line.
+The most useful in this curriculum:
 
 | Variable | Effect |
 |---|---|
@@ -511,9 +460,8 @@ this curriculum:
 
 ### 4.7 Presets — stop typing the same flags
 
-Once you've been at this for a week, drop a `CMakePresets.json` in the
-lab so you can do `cmake --preset=spark-release` instead. Minimal
-example:
+Once you've been at this for a week, drop a `CMakePresets.json` in the lab so you can do `cmake --preset=spark-release` instead.
+Minimal example:
 
 ```json
 {
@@ -580,9 +528,7 @@ cmake -S . -B build -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 ln -sf build/compile_commands.json compile_commands.json
 ```
 
-Cursor's C++ extension will pick up `compile_commands.json` from the
-lab root and stop complaining about "unknown include path" for CUDA
-headers.
+Cursor's C++ extension will pick up `compile_commands.json` from the lab root and stop complaining about "unknown include path" for CUDA headers.
 
 ---
 
@@ -607,15 +553,14 @@ nvcc --version
 g++ --version
 ```
 
-`dgx-spark-engineer` is the agent to ask for "which NGC tag should I be
-using right now?".
+`dgx-spark-engineer` is the agent to ask for "which NGC tag should I be using right now?".
 
 ---
 
 ## 6. The smoke test — compile and run something real
 
-The repo's root `main.cu` is the canonical first build. From the repo
-root:
+The repo's root `main.cu` is the canonical first build.
+From the repo root:
 
 ```bash
 nvcc -std=c++20 -arch=sm_121 -O3 -lineinfo main.cu -o vector_add
@@ -628,8 +573,7 @@ Then watch it on the GPU in another terminal:
 watch -n 0.2 nvidia-smi dmon -c 5
 ```
 
-Once that works, do the same with `labs/week-0-an-even-easier-introduction-to-cuda/`
-to confirm the labs build path is wired up.
+Once that works, do the same with `labs/week-0-an-even-easier-introduction-to-cuda/` to confirm the labs build path is wired up.
 
 ---
 
@@ -721,15 +665,9 @@ When stuck, the right escalation is:
 ## 9. Done. Now what?
 
 1. Read [`SYLLABUS.md`](./SYLLABUS.md) once.
-2. Read [`WORKFLOW.md`](./WORKFLOW.md) — how to actually use the
-   slash commands and subagents you're about to depend on.
-3. Open [`CURSOR-DOCS.md`](./CURSOR-DOCS.md) and import the 26 docs
-   it lists into Cursor's `@Docs` panel (PTX, C++20, NeMo, TensorRT,
-   Cosmos, LangChain DeepAgents, …). The agents in this repo expect
-   them by exact name. ~20 minutes of crawling, 16 weeks of payoff.
-4. Skim [`READING-GUIDE.md`](./READING-GUIDE.md) and decide which book
-   sits on your desk for Month 1 (PMPP).
-5. In Cursor, run `/start-week 1`. The `curriculum-mentor` will scaffold
-   `labs/week-01-hello-cuda/` and queue the agents you'll need.
+2. Read [`WORKFLOW.md`](./WORKFLOW.md) — how to actually use the slash commands and subagents you're about to depend on.
+3. Open [`CURSOR-DOCS.md`](./CURSOR-DOCS.md) and import the 25 docs it lists into Cursor's `@Docs` panel (PTX, C++20, NeMo, TensorRT, Cosmos, LangChain DeepAgents, …). The agents in this repo expect them by exact name. ~20 minutes of crawling, 16 weeks of payoff.
+4. Skim [`READING-GUIDE.md`](./READING-GUIDE.md) and decide which book sits on your desk for Month 1 (PMPP).
+5. In Cursor, run `/start-week 1`. The `curriculum-mentor` will scaffold `labs/week-01-hello-cuda/` and queue the agents you'll need.
 
 Welcome to deep water.

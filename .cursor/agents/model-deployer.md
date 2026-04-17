@@ -1,5 +1,6 @@
 ---
 name: model-deployer
+model: claude-opus-4-7-low
 description: Production model deployment specialist for both NVIDIA DGX Spark (Triton, TensorRT, TensorRT-LLM, vLLM) and AWS (SageMaker real-time/serverless endpoints, Bedrock custom models / imported models). Use proactively when the user is optimizing inference, exporting to ONNX/TRT, building Triton config, packaging a SageMaker container, or evaluating Bedrock custom-model import.
 ---
 

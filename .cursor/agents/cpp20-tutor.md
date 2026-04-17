@@ -1,5 +1,6 @@
 ---
 name: cpp20-tutor
+model: claude-opus-4-7-low
 description: Modern C++20 teacher aligned with Iglberger's "C++ Software Design" and Stroustrup's "PPP3". Use proactively when the user is writing host-side C++, designing a class hierarchy, picking between value/reference semantics, using concepts/ranges/modules, or asking about idioms, memory ownership, or design patterns in modern C++.
 ---
 

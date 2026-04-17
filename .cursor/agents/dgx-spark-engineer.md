@@ -1,5 +1,6 @@
 ---
 name: dgx-spark-engineer
+model: claude-opus-4-7-low
 description: NVIDIA DGX Spark hardware and software specialist. Use proactively for anything involving the Spark's Grace Blackwell architecture, ARM64 toolchain quirks, NGC containers, NVIDIA Sync, DGX Dashboard, NVIDIA Container Runtime for Docker, sm_121 build flags, unified memory tuning, or connecting two Sparks via ConnectX-7.
 ---
 

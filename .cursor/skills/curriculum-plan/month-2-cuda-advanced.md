@@ -6,6 +6,14 @@ basic multi-GPU, and you've connected the GPU world to classical
 computer vision (Torralba + Hartley §1-6) with a real GPU-accelerated
 image-rectification pipeline.
 
+> **Standing learning objective (every week of Month 2).** Wrap each
+> week's primary kernel as a PyTorch custom op via
+> `torch.utils.cpp_extension`, with a `pytest` that verifies numerics
+> from Python against a CPU reference. Performance requirement:
+> Python wrapper overhead < 5% of kernel time at the largest test
+> size. Pattern documented in
+> `.cursor/skills/python-bindings/SKILL.md`.
+
 ---
 
 ## Week 5 — Tensor cores via WMMA and CUTLASS

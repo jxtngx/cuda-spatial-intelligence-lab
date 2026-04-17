@@ -1,59 +1,44 @@
 # Reading Guide — How to Use the Six Textbooks
 
-The six required books cover ~7,000 pages between them. You will not
-read all of it, and you should not try to. This guide tells you what to
-read, when, and *how* — passive vs active vs reference — so the
-textbooks become tools, not homework.
+The six required books cover ~7,000 pages between them.
+You will not read all of it, and you should not try to.
+This guide tells you what to read, when, and *how* — passive vs active vs reference — so the textbooks become tools, not homework.
 
-> Read this once before Week 1. Skim it again at the start of each
-> month.
-
-> **Visual companion.** [`READING-GUIDE.excalidraw`](./READING-GUIDE.excalidraw)
-> shows how the six books feed into the Months 1-2 system capstones and
-> the Months 3-4 spatial-intelligence capstones, plus the four reading
-> modes at a glance. Open it in Cursor's Excalidraw extension.
+> Read this once before Week 1.
+> Skim it again at the start of each month.
 
 ---
 
 ## Reading modes
 
-Three modes show up in the per-book sections below. Use them
-deliberately:
+Three modes show up in the per-book sections below.
+Use them deliberately:
 
-- **R — Read cover-to-cover.** Linear. Take notes. Do exercises. This
-  is rare; reserved for the chapters that *teach* a concept you'll use
-  every week.
-- **A — Read actively, with code open.** Type the code into the lab.
-  Predict the output before running. This is most of your CUDA reading.
-- **F — Use as a reference; consult before you write the lab.** Read
-  the relevant section, build a mental map, *then* close the book.
-- **S — Skim once for vocabulary, return when you hit the wall.**
-  For chapters whose concepts you'll only need rarely.
+- **R — Read cover-to-cover.** Linear. Take notes. Do exercises. This is rare; reserved for the chapters that *teach* a concept you'll use every week.
+- **A — Read actively, with code open.** Type the code into the lab. Predict the output before running. This is most of your CUDA reading.
+- **F — Use as a reference; consult before you write the lab.** Read the relevant section, build a mental map, *then* close the book.
+- **S — Skim once for vocabulary, return when you hit the wall.** For chapters whose concepts you'll only need rarely.
 
 ---
 
 ## 1. PMPP — *Programming Massively Parallel Processors*, 4e
 
 **Authors.** Hwu, Kirk, El Hajj.
-**Role.** This is the **CUDA spine** of the course. Months 1-2 are
-basically applied PMPP.
+**Role.** This is the **CUDA spine** of the course.
+Months 1-2 are basically applied PMPP.
 
 ### How to read it
 
-PMPP is a textbook in the best tradition: short chapters, end-of-chapter
-exercises that genuinely build skill. The 4th edition adds DL-relevant
-chapters (16 onward) that earlier editions lack.
+PMPP is a textbook in the best tradition: short chapters, end-of-chapter exercises that genuinely build skill.
+The 4th edition adds DL-relevant chapters (16 onward) that earlier editions lack.
 
 Read each assigned chapter in two passes:
 
-1. **First pass (45 min).** Read the chapter without code. Note every
-   technical term and put it on an index card / Anki deck.
-2. **Second pass (90 min, with editor open).** Type out every code
-   listing into a scratch `.cu` file. Modify one variable; predict the
-   effect; verify with `nsys`/`ncu`.
+1. **First pass (45 min).** Read the chapter without code. Note every technical term and put it on an index card / Anki deck.
+2. **Second pass (90 min, with editor open).** Type out every code listing into a scratch `.cu` file. Modify one variable; predict the effect; verify with `nsys`/`ncu`.
 
-End-of-chapter exercises: **do all of them** for chapters 4, 5, 6, 10,
-11, 16. Skip exercises in chapters you're using as reference.
+End-of-chapter exercises: **do all of them** for chapters 4, 5, 6, 10, 11, 16.
+Skip exercises in chapters you're using as reference.
 
 ### Chapter map → curriculum week
 
@@ -82,46 +67,37 @@ End-of-chapter exercises: **do all of them** for chapters 4, 5, 6, 10,
 
 ### Companion to PMPP — the CUDA C++ docs
 
-PMPP teaches concepts. The official CUDA docs teach syntax and
-constraints. You will live in two URLs:
+PMPP teaches concepts.
+The official CUDA docs teach syntax and constraints.
+You will live in two URLs:
 
-- **CUDA C++ Programming Guide** — the spec. Read §3 (programming
-  interface), §B (built-in functions), §C (CUDA dynamic parallelism).
-  Bookmark §B.16 (warp shuffle), §B.18 (cooperative groups), §B.27
-  (`cuda::pipeline`), §B.30 (`wmma`), §B.31 (`mma`).
-- **CUDA C++ Best Practices Guide** — read §9 (memory optimizations)
-  end-to-end before Week 2. Reread before Week 4.
+- **CUDA C++ Programming Guide** — the spec. Read §3 (programming interface), §B (built-in functions), §C (CUDA dynamic parallelism). Bookmark §B.16 (warp shuffle), §B.18 (cooperative groups), §B.27 (`cuda::pipeline`), §B.30 (`wmma`), §B.31 (`mma`).
+- **CUDA C++ Best Practices Guide** — read §9 (memory optimizations) end-to-end before Week 2. Reread before Week 4.
 
-When the `cuda-tutor` subagent cites "PMPP §5.4", it means the section
-in the 4th edition. Don't accept "PMPP" without a section.
+When the `cuda-tutor` subagent cites "PMPP §5.4", it means the section in the 4th edition.
+Don't accept "PMPP" without a section.
 
 ---
 
 ## 2. Iglberger — *C++ Software Design*
 
 **Author.** Klaus Iglberger.
-**Role.** The book that turns a competent C++ programmer into a
-competent C++ *designer*. Most engineers skip the design layer. Don't.
+**Role.** The book that turns a competent C++ programmer into a competent C++ *designer*.
+Most engineers skip the design layer. Don't.
 
 ### How to read it
 
-Iglberger is structured around *guidelines* (numbered like Scott Meyers'
-*Effective C++*). Read it **R** mode (cover-to-cover) over Weeks 1-7,
-one chapter per weekend. Each guideline has a "before" and "after"
-example — type both into a scratch project and convince yourself the
-"after" is in fact better.
+Iglberger is structured around *guidelines* (numbered like Scott Meyers' *Effective C++*).
+Read it **R** mode (cover-to-cover) over Weeks 1-7, one chapter per weekend.
+Each guideline has a "before" and "after" example — type both into a scratch project and convince yourself the "after" is in fact better.
 
 Most useful guidelines for this lab:
 
 - **Guideline 2** — Design for change.
 - **Guideline 3-5** — Separate interfaces from implementations.
-- **Guideline 15** — Design for the addition of operations (free
-  functions over methods; this is *the* idiom for `Tensor` /
-  `DeviceBuffer` / kernel launchers).
-- **Guideline 19-22** — Type erasure and `std::function`-shaped
-  abstractions.
-- **Guideline 25-32** — Modern alternatives to inheritance (Visitor,
-  Strategy, Command via `std::variant` / type erasure).
+- **Guideline 15** — Design for the addition of operations (free functions over methods; this is *the* idiom for `Tensor` / `DeviceBuffer` / kernel launchers).
+- **Guideline 19-22** — Type erasure and `std::function`-shaped abstractions.
+- **Guideline 25-32** — Modern alternatives to inheritance (Visitor, Strategy, Command via `std::variant` / type erasure).
 
 ### Chapter map → curriculum week
 
@@ -140,23 +116,23 @@ Most useful guidelines for this lab:
 
 ### When to consult the `cpp20-tutor`
 
-Bring it any "should this be a class or a free function?", "how do I
-avoid inheritance here?", or "is this idiomatic C++20?" question. Cite
-the Iglberger guideline you're trying to apply.
+Bring it any "should this be a class or a free function?", "how do I avoid inheritance here?", or "is this idiomatic C++20?" question.
+Cite the Iglberger guideline you're trying to apply.
 
 ---
 
 ## 3. PPP3 — *Programming: Principles and Practice Using C++*, 3e
 
 **Author.** Bjarne Stroustrup.
-**Role.** Foundations. You will not read this book linearly — you have
-real programming experience. Use it **F** mode for any C++ language
-mechanic you're rusty on.
+**Role.** Foundations.
+You will not read this book linearly — you have real programming experience.
+Use it **F** mode for any C++ language mechanic you're rusty on.
 
 ### How to read it
 
-Skim the table of contents Week 1. Mark the chapters you're already
-fluent in (likely Ch 1-3, 18, 22+). Read the chapters below carefully.
+Skim the table of contents Week 1.
+Mark the chapters you're already fluent in (likely Ch 1-3, 18, 22+).
+Read the chapters below carefully.
 
 ### Chapter map → "what to actually read"
 
@@ -189,15 +165,14 @@ fluent in (likely Ch 1-3, 18, 22+). Read the chapters below carefully.
 ## 4. Torralba / Isola / Freeman — *Foundations of Computer Vision*
 
 **Authors.** Antonio Torralba, Phillip Isola, Bill Freeman.
-**Role.** Modern CV theory spine. Bridges classical signal-processing CV
-to learned models. The *most current* of the three CV books.
+**Role.** Modern CV theory spine.
+Bridges classical signal-processing CV to learned models.
+The *most current* of the three CV books.
 
 ### How to read it
 
-Read **R** mode for the chapters in scope (1-6 + targeted later
-chapters). Each chapter has notebook-style exercises — do at least one
-per chapter and check your work against the published solutions where
-available.
+Read **R** mode for the chapters in scope (1-6 + targeted later chapters).
+Each chapter has notebook-style exercises — do at least one per chapter and check your work against the published solutions where available.
 
 ### Chapter map → curriculum week
 
@@ -215,30 +190,27 @@ available.
 ### Pair with
 
 - **Szeliski** (#6 below) — for algorithmic depth on the same topics.
-- **Hartley** (#5 below) — for the geometry depth Torralba introduces
-  but does not exhaust.
+- **Hartley** (#5 below) — for the geometry depth Torralba introduces but does not exhaust.
 
 ---
 
 ## 5. Hartley & Zisserman — *Multiple View Geometry in Computer Vision*, 2e
 
 **Authors.** Hartley, Zisserman.
-**Role.** The geometry spine. Dense, formal, indispensable. The
-classical lens through which you'll read the Cosmos and Gaussian-
-splatting papers.
+**Role.** The geometry spine.
+Dense, formal, indispensable.
+The classical lens through which you'll read the Cosmos and Gaussian-splatting papers.
 
 ### How to read it
 
-Hartley is hard. Read it **R** mode for the chapters in scope, but
-budget more time per page. Two passes per chapter:
+Hartley is hard.
+Read it **R** mode for the chapters in scope, but budget more time per page.
+Two passes per chapter:
 
-1. **Skeleton pass.** Read all the section headers and figure captions.
-   Form an outline.
-2. **Equations pass.** Read with paper and pen. Re-derive every
-   numbered equation that introduces a new variable.
+1. **Skeleton pass.** Read all the section headers and figure captions. Form an outline.
+2. **Equations pass.** Read with paper and pen. Re-derive every numbered equation that introduces a new variable.
 
-The exercises are excellent and hard; do them for §11 (the 8-point
-algorithm) and §12.
+The exercises are excellent and hard; do them for §11 (the 8-point algorithm) and §12.
 
 ### Chapter map → curriculum week
 
@@ -262,27 +234,24 @@ algorithm) and §12.
 
 ### When to consult the `spatial-intel-researcher`
 
-Bring it any "what's the modern (learned) replacement for this Hartley
-chapter?" question. Expect citations like: "Hartley §11 vs DUSt3R
-(Wang et al, arXiv:2312.14132)".
+Bring it any "what's the modern (learned) replacement for this Hartley chapter?" question.
+Expect citations like: "Hartley §11 vs DUSt3R (Wang et al, arXiv:2312.14132)".
 
 ---
 
 ## 6. Szeliski — *Computer Vision: Algorithms and Applications*, 2e
 
 **Authors.** Richard Szeliski.
-**Role.** The breadth reference. Use **F** mode almost exclusively.
+**Role.** The breadth reference.
+Use **F** mode almost exclusively.
 
 ### How to read it
 
-You will read very little of Szeliski cover-to-cover. Instead:
+You will read very little of Szeliski cover-to-cover.
+Instead:
 
-- Use it as the *first* place to look up an algorithm by name
-  ("structure from motion", "loopy belief propagation", "stereo
-  matching"). Szeliski's coverage is the best single-volume index in
-  the field.
-- For each lab in Month 3, read the relevant Szeliski chapter once,
-  *then* go to Hartley for depth.
+- Use it as the *first* place to look up an algorithm by name ("structure from motion", "loopy belief propagation", "stereo matching"). Szeliski's coverage is the best single-volume index in the field.
+- For each lab in Month 3, read the relevant Szeliski chapter once, *then* go to Hartley for depth.
 
 ### Chapter map → curriculum week
 
@@ -345,37 +314,24 @@ You will read very little of Szeliski cover-to-cover. Instead:
 
 ## A 4-month reading plan in one paragraph
 
-**Month 1.** PMPP 1-6, 9-11, **R** mode. Iglberger 1-7, **R** mode, one
-chapter per weekend. PPP3 12, 19, **R** mode; rest **F** mode.
+**Month 1.** PMPP 1-6, 9-11, **R** mode. Iglberger 1-7, **R** mode, one chapter per weekend. PPP3 12, 19, **R** mode; rest **F** mode.
 
-**Month 2.** PMPP 16-17, **R** mode. CUDA C++ Programming Guide §B.27
-(`pipeline`), §B.30-31 (WMMA / MMA), **R** mode. CUTLASS docs *Efficient
-GEMM in CUDA*, **A** mode. Then Week 8: Torralba 1-6 **R**, Hartley 1-3
-+ 6 **R**, Szeliski 2-3 **F**.
+**Month 2.** PMPP 16-17, **R** mode. CUDA C++ Programming Guide §B.27 (`pipeline`), §B.30-31 (WMMA / MMA), **R** mode. CUTLASS docs *Efficient GEMM in CUDA*, **A** mode. Then Week 8: Torralba 1-6 **R**, Hartley 1-3 + 6 **R**, Szeliski 2-3 **F**.
 
-**Month 3.** Hartley 9-13, **R** mode (this is the hard one — protect
-the time). Szeliski 11-13 **F** mode in parallel. Week 11: Cosmos
-technical report **R** mode. Week 12: Kerbl et al SIGGRAPH 2023
-(Gaussian splatting) **R** mode + read the rasterizer's CUDA source.
+**Month 3.** Hartley 9-13, **R** mode (this is the hard one — protect the time). Szeliski 11-13 **F** mode in parallel. Week 11: Cosmos technical report **R** mode. Week 12: Kerbl et al SIGGRAPH 2023 (Gaussian splatting) **R** mode + read the rasterizer's CUDA source.
 
-**Month 4.** Mostly *docs*, not books. TensorRT Developer Guide §1-4 +
-§10 (quantization), **R**. TRT-LLM quick-start + FP8 on Blackwell, **A**.
-Triton model-repository + dynamic batching docs, **A**. SageMaker BYOC
-docs + Bedrock custom-import docs, **F**. LangChain DeepAgents docs §
-*Quickstart*, *Subagents*, *Backends*, *Skills*, **R**. Next.js 15 App
-Router + Vercel AI SDK, **A**.
+**Month 4.** Mostly *docs*, not books.
+TensorRT Developer Guide §1-4 + §10 (quantization), **R**.
+TRT-LLM quick-start + FP8 on Blackwell, **A**.
+Triton model-repository + dynamic batching docs, **A**.
+SageMaker BYOC docs + Bedrock custom-import docs, **F**.
+LangChain DeepAgents docs § *Quickstart*, *Subagents*, *Backends*, *Skills*, **R**.
+Next.js 15 App Router + Vercel AI SDK, **A**.
 
 ---
 
 ## Notes the agents will hold you to
 
-- When the `curriculum-mentor` says "read PMPP §5.4 first", you read
-  PMPP §5.4 first. Coding before reading is a documented anti-pattern
-  in this lab.
-- When you cite a chapter in `report/LAB.md`, cite it with a section
-  number. "PMPP" is not a citation. "PMPP 4e §5.4" is.
-- Keep an Anki deck (or equivalent) of vocabulary from PMPP and
-  Hartley. Drill it 5 minutes / morning. Names of metrics
-  (`smsp__warps_active`, `Stall LG Throttle`, etc.) and geometric
-  quantities (epipole, essential matrix, trifocal tensor) need to be
-  *fluent*, not look-up-able.
+- When the `curriculum-mentor` says "read PMPP §5.4 first", you read PMPP §5.4 first. Coding before reading is a documented anti-pattern in this lab.
+- When you cite a chapter in `report/LAB.md`, cite it with a section number. "PMPP" is not a citation. "PMPP 4e §5.4" is.
+- Keep an Anki deck (or equivalent) of vocabulary from PMPP and Hartley. Drill it 5 minutes / morning. Names of metrics (`smsp__warps_active`, `Stall LG Throttle`, etc.) and geometric quantities (epipole, essential matrix, trifocal tensor) need to be *fluent*, not look-up-able.

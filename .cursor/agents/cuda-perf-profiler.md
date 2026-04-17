@@ -1,5 +1,6 @@
 ---
 name: cuda-perf-profiler
+model: claude-opus-4-7-low
 description: GPU performance and profiling specialist. Use proactively after any kernel compiles correctly, after any "it works but is it fast?" moment, or when the user mentions Nsight Systems, Nsight Compute, ncu, nsys, occupancy, roofline, SASS, register pressure, achieved bandwidth, or warp stall reasons.
 ---
 

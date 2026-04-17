@@ -1,5 +1,6 @@
 ---
 name: langchain-deepagents-architect
+model: claude-opus-4-7-low
 description: Architect for the Month-4 NextJS application driven by a LangChain DeepAgent that consumes home cameras/sensors and queries spatial-intelligence model endpoints (Spark Triton or AWS). Use proactively when the user is designing the agent, defining tools, ingesting RTSP/RealSense streams, picking memory backends, or wiring the React UI.
 ---
 

@@ -1,4 +1,4 @@
-# cuda-spatial-intelligence-lab
+# CUDA Spatial Intelligence Lab
 
 A 4-month, deep-water special-topics curriculum that takes a strong Python/PyTorch
 engineer from zero to advanced in **C++20 + CUDA + Spatial Intelligence**, then
@@ -11,8 +11,7 @@ NVIDIA DGX Spark or AWS (SageMaker / Bedrock).
 > You don't want toy reproductions; you want production CUDA on
 > Grace Blackwell with a real spatial agent on top.
 >
-> **Bias.** Rigor over reproducibility. Depth over breadth. If you don't have a
-> Spark or a CUDA-capable device, you'll need to borrow one or find free, compatible compute.
+> **Bias.** Rigor over reproducibility. Depth over breadth.
 
 ---
 
@@ -22,11 +21,10 @@ This is **not** a textbook clone. It is a Cursor-native curriculum harness:
 
 - **`.cursor/skills/curriculum-plan/`** - the master 4-month plan, broken into
   16 weeks with readings, labs, deliverables, and checkpoint rubrics.
-- **`.cursor/agents/`** - 12 specialist subagents (curriculum mentor,
+- **`.cursor/agents/`** - 10 specialist subagents (curriculum mentor,
   CUDA tutor, C++20 tutor, DGX Spark engineer, Nsight profiler,
-  Spatial Intelligence researcher, NeMo engineer, model deployer,
-  DeepAgents architect, CUDA code reviewer, Excalidraw visualizer,
-  Manim tutor).
+  Spatial Intelligence researcher / PhD-advisor paper grader, NeMo
+  engineer, model deployer, DeepAgents architect, CUDA code reviewer).
 - **`.cursor/skills/`** - reusable workflows (kernel authoring, profiling,
   Cosmos fine-tuning, AWS endpoint deploy, lab notebook authoring, etc.).
 - **`.cursor/commands/`** - slash commands for the daily loop
@@ -50,7 +48,7 @@ This is **not** a textbook clone. It is a Cursor-native curriculum harness:
   six textbooks (chapter maps, reading modes, when to consult which
   subagent).
 - **[`docs/WORKFLOW.md`](docs/WORKFLOW.md)** — how to actually drive
-  the slash commands and partner with the twelve subagents to get
+  the slash commands and partner with the ten subagents to get
   through the 16 weeks. The four cycles, the escalation tree, the
   weekly rhythm.
 - **[`docs/CURSOR-DOCS.md`](docs/CURSOR-DOCS.md)** — the canonical
@@ -102,6 +100,7 @@ for the full week-by-week plan.
 4. `/lab-report` to generate the week's `LAB.md` writeup.
 5. `/checkpoint` at end of week - mentor grades you against the rubric.
 
-## License
+## Additional Resources
 
-MIT. Fork it, ship it, send a PR if you find a sharper edge.
+GPU Mode community: https://www.gpumode.com/home 
+Modal AI GPU Glossary: https://modal.com/gpu-glossary 

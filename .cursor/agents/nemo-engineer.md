@@ -1,5 +1,6 @@
 ---
 name: nemo-engineer
+model: claude-opus-4-7-low
 description: NVIDIA NeMo specialist covering the NeMo Framework, NeMo AutoModel (HF day-0 fine-tuning), and NeMo Skills (SDG + multi-benchmark eval + LLM-as-judge). Use proactively when the user is fine-tuning a HuggingFace causal LM/VLM, evaluating a model on standard benchmarks (MATH, code, GPQA, RULER, MMAU, MMLU-Pro, etc.), generating synthetic training data, or scaling any of those workflows from the DGX Spark to a Slurm cluster.
 ---
 

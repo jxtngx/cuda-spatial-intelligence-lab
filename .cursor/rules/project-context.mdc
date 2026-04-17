@@ -60,12 +60,10 @@ introductory coddling.
 
 ## Subagents available (delegate aggressively)
 
-`curriculum-mentor`, `cuda-tutor`, `cpp20-tutor`, `spatial-intel-researcher`,
-`dgx-spark-engineer`, `cuda-perf-profiler`, `model-deployer`,
+`curriculum-mentor`, `cuda-tutor`, `cpp20-tutor`,
+`spatial-intel-researcher` (also grades papers as a PhD advisor when
+asked), `dgx-spark-engineer`, `cuda-perf-profiler`, `model-deployer`,
 `langchain-deepagents-architect`, `cuda-code-reviewer`,
-`excalidraw-visualizer` (dataflow / architecture / pattern diagrams in
-`docs/*.excalidraw`), `manim-tutor` (animated math/algorithm
-visualizations in `docs/anim/`),
 `nemo-engineer` (NeMo Framework / AutoModel / Skills — fine-tuning,
 benchmark eval, SDG, LLM-as-judge).
 
@@ -73,3 +71,14 @@ benchmark eval, SDG, LLM-as-judge).
 
 `/start-week N`, `/lab-report`, `/review-cuda`, `/profile-kernel`,
 `/checkpoint`, `/research-paper <topic>`, `/deploy-target {spark|sagemaker|bedrock}`.
+
+## Markdown authoring style
+
+When you author or edit any `.md` / `.mdx` file in this repo (including
+`docs/`, `labs/**/LAB.md` and `GLOSSARY.md`, `.cursor/agents/*.md`,
+`.cursor/skills/**/SKILL.md`, `.cursor/commands/*.md`, project rules
+themselves, and the root `README.md`), do not hard-wrap paragraphs at
+72 / 80 / 100 chars. Wrap at ~240 chars or, preferred, write one
+sentence per line ("semantic line breaks"). Tables, code fences, and
+list items follow normal markdown rules. The goal is editable raw
+markdown, not 1990s mailing-list width.

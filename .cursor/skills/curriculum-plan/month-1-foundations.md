@@ -4,6 +4,16 @@ Goal: by end of Month 1 you write modern C++20, you understand the GPU
 memory hierarchy in your hands (not just in your head), and your tiled
 single-precision GEMM hits ≥ 70% of cuBLAS on Spark.
 
+> **Standing learning objective from Week 2 onward.** Every weekly lab
+> from Week 2 to Week 16 must wrap its primary kernel as a PyTorch
+> custom op via `torch.utils.cpp_extension`, with a `pytest` that
+> verifies numerics from Python against a CPU reference. Performance
+> requirement: Python wrapper overhead < 5% of kernel time at the
+> largest test size. Pattern documented in
+> `.cursor/skills/python-bindings/SKILL.md`. Week 1 is intentionally
+> exempt — it stays pure C++/CUDA so the student can focus on RAII
+> and the launch helper.
+
 ---
 
 ## Week 1 — Modern C++20 essentials + CUDA Hello
@@ -57,9 +67,16 @@ GEMM and you can articulate why each refactor moved the needle.
    - `gemm_tiled_async` (uses `cuda::memcpy_async` for global→shared).
 2. Microbench all four against `cublasSgemm` baseline.
 3. For each, commit a Nsight Compute report and a one-paragraph diagnosis.
+4. **Python bindings (first time):** wrap `gemm_tiled_async` as a
+   PyTorch custom op via `torch.utils.cpp_extension` (JIT `load()`
+   acceptable for this week). Add `python/test_gemm.py` that calls
+   the op on torch tensors and asserts max-abs-error against a CPU
+   `torch.matmul` reference. See
+   `.cursor/skills/python-bindings/SKILL.md`.
 
 **Performance target.** `gemm_tiled_async` ≥ 50% of `cublasSgemm` on
-M=N=K=4096. (Week 4 target: ≥ 70%.)
+M=N=K=4096. (Week 4 target: ≥ 70%.) Python wrapper overhead < 5% of
+kernel time at M=N=K=4096.
 
 ---
 

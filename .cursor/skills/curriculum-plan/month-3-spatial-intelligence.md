@@ -5,6 +5,16 @@ the classical way (8-point on GPU, sparse SfM) and the learned way
 (NVIDIA Cosmos foundation models, Gaussian splatting). You have your
 own captured scene rendering at ≥ 30 FPS at 1080p.
 
+> **Standing learning objective (every week of Month 3).** Wrap each
+> week's primary kernel as a PyTorch custom op via
+> `torch.utils.cpp_extension`, with a `pytest` that verifies numerics
+> from Python against a CPU reference. Performance requirement:
+> Python wrapper overhead < 5% of kernel time at the largest test
+> size. By Month 3, prefer AOT (`setup.py` + `BuildExtension`) over
+> JIT `load()` so the wrapper is consumable by the Cosmos
+> fine-tuning pipeline. Pattern documented in
+> `.cursor/skills/python-bindings/SKILL.md`.
+
 ---
 
 ## Week 9 — Two-view geometry, 8-point on GPU

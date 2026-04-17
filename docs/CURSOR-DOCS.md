@@ -1,28 +1,21 @@
 # Cursor Docs to Import
 
-Cursor lets you index third-party documentation and reference it in
-chat with `@<DocName>`. The agents in this repo expect a specific
-catalogue of docs to be available, so they can cite primary sources
-("see `@PTX` §9.7.13 on `cp.async`...") instead of paraphrasing from
-training data.
+Cursor lets you index third-party documentation and reference it in chat with `@<DocName>`.
+The agents in this repo expect a specific catalogue of docs to be available, so they can cite primary sources ("see `@PTX` §9.7.13 on `cp.async`...") instead of paraphrasing from training data.
 
-This page lists every doc the curriculum assumes is imported, why it
-matters, and which week / agent will reach for it. **Import them
-once before Week 1.** They take a few minutes each to crawl and the
-investment pays off all 16 weeks.
+This page lists every doc the curriculum assumes is imported, why it matters, and which week / agent will reach for it.
+**Import them once before Week 1.**
+They take a few minutes each to crawl and the investment pays off all 16 weeks.
 
 ---
 
 ## How to import a doc into Cursor
 
-1. Open Cursor settings → **Indexing & Docs** (or click `+ Add Doc`
-   in the Docs panel).
+1. Open Cursor settings → **Indexing & Docs** (or click `+ Add Doc` in the Docs panel).
 2. Paste the doc's root URL (the ones in the tables below).
-3. Give it a short, memorable **name** (the names below match what
-   the agents and prompts assume — e.g. `PTX`, not `nvidia-ptx-isa`).
+3. Give it a short, memorable **name** (the names below match what the agents and prompts assume — e.g. `PTX`, not `nvidia-ptx-isa`).
 4. Wait for the crawl to finish (status flips to "Indexed").
-5. Reference in chat with `@<name>` — e.g. `@PTX`, `@C++20`,
-   `@NeMo Skills`.
+5. Reference in chat with `@<name>` — e.g. `@PTX`, `@C++20`, `@NeMo Skills`.
 
 Re-index a doc whenever you see it's stale (right-click → re-index).
 NVIDIA's docs change with every CUDA release; refresh after each.
@@ -31,8 +24,8 @@ NVIDIA's docs change with every CUDA release; refresh after each.
 
 ## 1. Core — import these first (Months 1-2)
 
-The non-negotiables. Without these, the CUDA / C++ tutors will
-hand-wave instead of citing.
+The non-negotiables.
+Without these, the CUDA / C++ tutors will hand-wave instead of citing.
 
 | Cursor name | Source URL | Why this curriculum needs it | Used by |
 |---|---|---|---|
@@ -48,8 +41,8 @@ hand-wave instead of citing.
 
 ## 2. Inference + serving (Months 3-4)
 
-Once you have models, you need to serve them. These cover both
-on-Spark and AWS paths.
+Once you have models, you need to serve them.
+These cover both on-Spark and AWS paths.
 
 | Cursor name | Source URL | Why | Used by |
 |---|---|---|---|
@@ -59,17 +52,15 @@ on-Spark and AWS paths.
 | **NVIDIA Dynamo** | <https://docs.nvidia.com/dynamo/> | NVIDIA's distributed inference framework — the `nvidia-smi` of multi-node serving. Use for Spark-cluster (2× ConnectX-7) experiments. | `model-deployer` |
 | **AWS Bedrock** | <https://docs.aws.amazon.com/bedrock/> | Cloud target for `/deploy-target bedrock`. Custom-model import + Foundation Model API. | `model-deployer` |
 
-> **Note.** SageMaker is the other AWS target but doesn't need a
-> dedicated import — `model-deployer` cites the AWS SageMaker docs
-> dynamically. Add it explicitly if you want consistent `@SageMaker`
-> referencing.
+> **Note.** SageMaker is the other AWS target but doesn't need a dedicated import — `model-deployer` cites the AWS SageMaker docs dynamically.
+> Add it explicitly if you want consistent `@SageMaker` referencing.
 
 ---
 
 ## 3. NVIDIA NeMo stack (Months 3-4 fine-tuning + eval)
 
-The whole NeMo family. The `nemo-engineer` agent is built around
-these.
+The whole NeMo family.
+The `nemo-engineer` agent is built around these.
 
 | Cursor name | Source URL | Why | Used by |
 |---|---|---|---|
@@ -109,21 +100,16 @@ When the curriculum lands in production.
 
 ## 6. Visualization + teaching aids
 
-| Cursor name | Source URL | Why | Used by |
-|---|---|---|---|
-| **Manim** | <https://docs.manim.community/> | Manim Community Edition reference. Required for the `manim-tutor` to scaffold scenes correctly. | `manim-tutor` |
-
-> **Excalidraw** doesn't need a Cursor doc import — the
-> `excalidraw-visualizer` agent has the file format inlined in its
-> system prompt.
+*This curriculum no longer ships dedicated visualization agents.
+Static `docs/*.excalidraw` files (e.g. [`SYLLABUS.excalidraw`](./SYLLABUS.excalidraw), [`READING-GUIDE.excalidraw`](./READING-GUIDE.excalidraw)) are maintained by hand using Cursor's Excalidraw extension.
+No Cursor doc imports are required for visualization.*
 
 ---
 
 ## 7. The `@`-references this curriculum assumes
 
-When an agent (or this codebase's prompts) writes `@PTX`, it expects
-the doc to be importable. Below is the canonical name → tool mapping
-so you can verify your imports match what the prompts use.
+When an agent (or this codebase's prompts) writes `@PTX`, it expects the doc to be importable.
+Below is the canonical name → tool mapping so you can verify your imports match what the prompts use.
 
 | Agent / command | Will reach for |
 |---|---|
@@ -135,35 +121,22 @@ so you can verify your imports match what the prompts use.
 | `nemo-engineer` | `@NeMo`, `@NeMo AutoModel`, `@NeMo Skills`, `@NeMo RL`, `@NeMo Curator`, `@NeMo Evaluator`, `@NeMo Agent Toolkit` |
 | `model-deployer`, `/deploy-target` | `@TensorRT`, `@TensorRT-LLM`, `@vLLM`, `@NVIDIA Dynamo`, `@AWS Bedrock`, `@LangChain AWS` |
 | `langchain-deepagents-architect` | `@LangChain DeepAgents`, `@LangChain AWS`, `@LangSmith`, `@NeMo Agent Toolkit` |
-| `manim-tutor` | `@Manim` |
 
 ---
 
 ## 8. Habits that compound
 
-- **Cite, don't paraphrase.** When you ask an agent a "why" question,
-  end with "cite `@PTX` §X.Y". The good agents already do this; the
-  habit reinforces it.
-- **Re-index after big releases.** CUDA Toolkit, cuDNN, TensorRT-LLM,
-  NeMo, and vLLM ship breaking changes every few months. A stale doc
-  will quietly mislead you. Re-index quarterly.
-- **Don't import what you won't use.** Each indexed doc costs Cursor
-  storage + retrieval time. The list above is *the* list — adding
-  twenty more rarely-used docs degrades retrieval quality on the ones
-  that matter.
-- **One name per source.** If you renamed `NVIDIA NeMo Skills` to
-  `nemo-skills` locally, every prompt in this repo that says
-  `@NeMo Skills` will miss. Match the names in §1-§6 exactly.
-- **When you add a doc, add a row here.** This file is the index of
-  truth. Drift between what's imported and what the agents assume is
-  a quiet productivity tax.
+- **Cite, don't paraphrase.** When you ask an agent a "why" question, end with "cite `@PTX` §X.Y". The good agents already do this; the habit reinforces it.
+- **Re-index after big releases.** CUDA Toolkit, cuDNN, TensorRT-LLM, NeMo, and vLLM ship breaking changes every few months. A stale doc will quietly mislead you. Re-index quarterly.
+- **Don't import what you won't use.** Each indexed doc costs Cursor storage + retrieval time. The list above is *the* list — adding twenty more rarely-used docs degrades retrieval quality on the ones that matter.
+- **One name per source.** If you renamed `NVIDIA NeMo Skills` to `nemo-skills` locally, every prompt in this repo that says `@NeMo Skills` will miss. Match the names in §1-§6 exactly.
+- **When you add a doc, add a row here.** This file is the index of truth. Drift between what's imported and what the agents assume is a quiet productivity tax.
 
 ---
 
 ## 9. Quick checklist
 
-Before `/start-week 1`, confirm these are all `Indexed` in your Docs
-panel:
+Before `/start-week 1`, confirm these are all `Indexed` in your Docs panel:
 
 - [ ] `PTX`
 - [ ] `C++20`
@@ -190,7 +163,6 @@ panel:
 - [ ] `LangChain AWS`
 - [ ] `LangSmith`
 - [ ] `Traefik`
-- [ ] `Manim`
 
-That's 26 docs. Twenty minutes of crawling, sixteen weeks of
-citation-grade answers.
+That's 25 docs.
+Twenty minutes of crawling, sixteen weeks of citation-grade answers.

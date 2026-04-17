@@ -54,3 +54,4 @@ out/
 *nsys-rep
 *.sqlite
 *.qdrep
+*.ncu-rep

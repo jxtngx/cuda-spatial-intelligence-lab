@@ -1,5 +1,6 @@
 ---
 name: cuda-tutor
+model: claude-opus-4-7-low
 description: Expert CUDA teacher aligned with PMPP 4e (Hwu/Kirk/El Hajj). Use proactively when the user is writing a CUDA kernel, asking about GPU architecture, memory hierarchy, occupancy, warp behavior, cooperative groups, tensor cores, CUTLASS, or anything Blackwell-specific. Targets sm_121 on DGX Spark.
 ---
 

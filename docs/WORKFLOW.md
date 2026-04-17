@@ -1,29 +1,27 @@
 # Workflow — Driving Cursor Through the Curriculum
-<!-- subagent count: 12 (curriculum-mentor, cuda-tutor, cpp20-tutor,
+<!-- subagent count: 10 (curriculum-mentor, cuda-tutor, cpp20-tutor,
      dgx-spark-engineer, cuda-perf-profiler, spatial-intel-researcher,
      model-deployer, langchain-deepagents-architect, cuda-code-reviewer,
-     excalidraw-visualizer, manim-tutor, nemo-engineer) -->
+     nemo-engineer) -->
 
 
-How to actually use the commands, agents, and skills in this repo to
-get through the 16 weeks. Read this once after
-[`GETTING-STARTED.md`](./GETTING-STARTED.md) and before `/start-week 1`.
-It pairs with [`SYLLABUS.md`](./SYLLABUS.md) (the *what* of the course)
-and [`READING-GUIDE.md`](./READING-GUIDE.md) (the *how-to-read*).
+How to actually use the commands, agents, and skills in this repo to get through the 16 weeks.
+Read this once after [`GETTING-STARTED.md`](./GETTING-STARTED.md) and before `/start-week 1`.
+It pairs with [`SYLLABUS.md`](./SYLLABUS.md) (the *what* of the course) and [`READING-GUIDE.md`](./READING-GUIDE.md) (the *how-to-read*).
 
-> The TL;DR: **You drive the main thread. Slash commands are scripted
-> workflows. Subagents are specialists you delegate to (cheaply,
-> aggressively). Skills are reusable playbooks the agents and commands
-> read.** Most of your day is `/start-week`, code, `/review-cuda`,
-> `/profile-kernel`, `/lab-report`, `/checkpoint`. The rest is
-> targeted agent calls when you're stuck.
+> The TL;DR: **You drive the main thread.
+> Slash commands are scripted workflows.
+> Subagents are specialists you delegate to (cheaply, aggressively).
+> Skills are reusable playbooks the agents and commands read.**
+> Most of your day is `/start-week`, code, `/review-cuda`, `/profile-kernel`, `/lab-report`, `/checkpoint`.
+> The rest is targeted agent calls when you're stuck.
 
 ---
 
 ## 1. Mental model — five layers, one workflow
 
-Five things in this repo collaborate to teach you. Know what each is
-*for* before you start invoking them.
+Five things in this repo collaborate to teach you.
+Know what each is *for* before you start invoking them.
 
 | Layer | Lives in | Role | Examples |
 |---|---|---|---|
@@ -33,44 +31,31 @@ Five things in this repo collaborate to teach you. Know what each is
 | **Subagents** | `.cursor/agents/*.md` | Specialists with isolated context and a focused system prompt. | `cuda-tutor`, `cuda-perf-profiler`, `model-deployer` |
 | **Skills** | `.cursor/skills/*/SKILL.md` | Reusable, hand-authored playbooks (templates, checklists). Agents read these. | `nsight-profiling`, `lab-notebook`, `weekly-checkpoint` |
 
-The arrows go: **you → main thread → command → subagent → skill →
-back through the chain.** Commands are the most common entry point;
-direct agent calls are for off-script questions.
+The arrows go: **you → main thread → command → subagent → skill → back through the chain.**
+Commands are the most common entry point; direct agent calls are for off-script questions.
 
 ### Why use subagents at all?
 
 Three reasons, in priority order:
 
-1. **Context isolation.** Profiling a kernel pollutes your main
-   thread with megabytes of `ncu` output. A subagent reads it, hands
-   you a one-paragraph verdict, and the noise stays in its
-   sandbox.
-2. **Specialization.** `spatial-intel-researcher` knows Hartley's
-   notation; `cpp20-tutor` knows the Iglberger Strategy/Visitor
-   chapters. Each agent has a system prompt longer and more focused
-   than anything you'd type into a chat.
-3. **Reusability.** When the agent is good, every session is good.
-   You're not re-bootstrapping the prompt every Monday.
+1. **Context isolation.** Profiling a kernel pollutes your main thread with megabytes of `ncu` output. A subagent reads it, hands you a one-paragraph verdict, and the noise stays in its sandbox.
+2. **Specialization.** `spatial-intel-researcher` knows Hartley's notation; `cpp20-tutor` knows the Iglberger Strategy/Visitor chapters. Each agent has a system prompt longer and more focused than anything you'd type into a chat.
+3. **Reusability.** When the agent is good, every session is good. You're not re-bootstrapping the prompt every Monday.
 
-If you remember nothing else: **delegate aggressively.** The main
-thread should orchestrate, not drown in register-pressure analysis.
+If you remember nothing else: **delegate aggressively.**
+The main thread should orchestrate, not drown in register-pressure analysis.
 
 ---
 
 ## 2. The seven slash commands — your daily driver
 
-All commands live in `.cursor/commands/` and you invoke them with `/`
-in the Cursor chat. Each is documented inline with a one-line
-description; this section is the *when*-and-*how*.
+All commands live in `.cursor/commands/` and you invoke them with `/` in the Cursor chat.
+Each is documented inline with a one-line description; this section is the *when*-and-*how*.
 
 ### 2.1 `/start-week N`
 
-**What it does.** Hands the week to `curriculum-mentor`, which reads
-`.cursor/skills/curriculum-plan/month-{ceil(N/4)}-*.md`, finds Week N,
-and prints the theme, learning objectives, required reading,
-deliverable, performance target, 5-axis rubric, and which subagents
-you should expect to need. Then scaffolds `labs/week-NN-<slug>/` from
-`labs/_template/` if it doesn't exist yet.
+**What it does.** Hands the week to `curriculum-mentor`, which reads `.cursor/skills/curriculum-plan/month-{ceil(N/4)}-*.md`, finds Week N, and prints the theme, learning objectives, required reading, deliverable, performance target, 5-axis rubric, and which subagents you should expect to need.
+Then scaffolds `labs/week-NN-<slug>/` from `labs/_template/` if it doesn't exist yet.
 
 **When.** Monday morning of every week, exactly once.
 
@@ -80,28 +65,21 @@ you should expect to need. Then scaffolds `labs/week-NN-<slug>/` from
 ```
 
 **What you should do with the output.**
-1. Open `LAB.md` in the new lab folder. It's pre-populated with the
-   spec — read it before you read anything else.
+1. Open `LAB.md` in the new lab folder. It's pre-populated with the spec — read it before you read anything else.
 2. Open the chapters the mentor cited, *in the order it cited them*.
 3. Don't open the editor yet. Reading first, code second.
 
-**Pitfall.** Don't run `/start-week` again to "remind yourself".
-Re-read the lab's `LAB.md` instead. Re-running may regenerate stale
-state.
+**Pitfall.** Don't run `/start-week` again to "remind yourself". Re-read the lab's `LAB.md` instead. Re-running may regenerate stale state.
 
 ---
 
 ### 2.2 `/review-cuda`
 
-**What it does.** Runs `git diff --stat HEAD` to see what changed,
-then hands the diff to `cuda-code-reviewer`. The reviewer applies its
-standard checklist (Correctness / Performance / Idiom / Lab-specific
-rigor) and returns a structured output with `file:line` citations and
-a verdict: `PASS | REWORK | BLOCKED`.
+**What it does.** Runs `git diff --stat HEAD` to see what changed, then hands the diff to `cuda-code-reviewer`.
+The reviewer applies its standard checklist (Correctness / Performance / Idiom / Lab-specific rigor) and returns a structured output with `file:line` citations and a verdict: `PASS | REWORK | BLOCKED`.
 
-**When.** After every "I think this works" moment — a kernel
-compiles and tests pass, or you've finished a refactor. Cheap; run it
-often.
+**When.** After every "I think this works" moment — a kernel compiles and tests pass, or you've finished a refactor.
+Cheap; run it often.
 
 **How.**
 ```
@@ -110,37 +88,29 @@ often.
 
 **What you should do with the output.**
 - `PASS` → run `/profile-kernel` next.
-- `REWORK` → fix the highest-leverage item, then re-run. Don't try to
-  fix everything in one pass.
-- `BLOCKED` → escalate to the named agent (the reviewer will tell you
-  whether `cuda-tutor`, `cpp20-tutor`, or `cuda-perf-profiler` is
-  right).
+- `REWORK` → fix the highest-leverage item, then re-run. Don't try to fix everything in one pass.
+- `BLOCKED` → escalate to the named agent (the reviewer will tell you whether `cuda-tutor`, `cpp20-tutor`, or `cuda-perf-profiler` is right).
 
-**Pitfall.** This is *static* review. It catches lifetime bugs,
-modern-C++ idiom drift, kernel anti-patterns. It does *not* catch
-"this kernel is slow because the L2 hit rate is 30%". That's
-`/profile-kernel`.
+**Pitfall.** This is *static* review.
+It catches lifetime bugs, modern-C++ idiom drift, kernel anti-patterns.
+It does *not* catch "this kernel is slow because the L2 hit rate is 30%". That's `/profile-kernel`.
 
 ---
 
 ### 2.3 `/profile-kernel`
 
-**What it does.** Identifies the bench binary (asks if multiple),
-confirms it built recently, then delegates to `cuda-perf-profiler` to
-run the standard 4-step Nsight workflow:
+**What it does.** Identifies the bench binary (asks if multiple), confirms it built recently, then delegates to `cuda-perf-profiler` to run the standard 4-step Nsight workflow:
 
 1. `compute-sanitizer` (memcheck + racecheck + synccheck)
 2. `nsys profile` with NVTX + CUDA traces → saved to `report/`
-3. `ncu` with the standard section set + `--import-source on` →
-   `report/ncu_<name>_v<N>.ncu-rep`
-4. Read the report in canonical order, return the standard template:
-   bottleneck → hypothesis → suggested change → expected effect.
+3. `ncu` with the standard section set + `--import-source on` → `report/ncu_<name>_v<N>.ncu-rep`
+4. Read the report in canonical order, return the standard template: bottleneck → hypothesis → suggested change → expected effect.
 
 The active lab's `LAB.md` performance target is the bar.
 
-**When.** After `/review-cuda` returns `PASS`. Once per kernel
-version. Always commit the `.ncu-rep` and `.qdrep` (or `.nsys-rep`)
-to `report/`.
+**When.** After `/review-cuda` returns `PASS`.
+Once per kernel version.
+Always commit the `.ncu-rep` and `.qdrep` (or `.nsys-rep`) to `report/`.
 
 **How.**
 ```
@@ -148,28 +118,21 @@ to `report/`.
 ```
 
 **What you should do with the output.**
-- The "suggested change" is your next task. Implement it; test;
-  re-profile. That's one tuning loop.
-- Tuning loops typically converge in 3–6 iterations. If you're past
-  10, escalate to `cuda-tutor` ("am I optimizing the wrong thing?").
+- The "suggested change" is your next task. Implement it; test; re-profile. That's one tuning loop.
+- Tuning loops typically converge in 3–6 iterations. If you're past 10, escalate to `cuda-tutor` ("am I optimizing the wrong thing?").
 
-**Pitfall.** Don't profile broken code. `compute-sanitizer` is gate
-1 for a reason.
+**Pitfall.** Don't profile broken code.
+`compute-sanitizer` is gate 1 for a reason.
 
 ---
 
 ### 2.4 `/lab-report`
 
-**What it does.** Reads the `lab-notebook` skill template, inspects
-the current lab folder (`src/`, `bench/`, `tests/`, the `*.ncu-rep`
-files in `report/`), and authors or updates `report/LAB.md` with all
-required sections: Spec, Hypothesis, Method per kernel version,
-Results table, Discussion, Next steps, References. Cites primary
-sources by section (`PMPP 4e §X.Y`, `Iglberger Ch N`, etc., not vague
-"see PMPP").
+**What it does.** Reads the `lab-notebook` skill template, inspects the current lab folder (`src/`, `bench/`, `tests/`, the `*.ncu-rep` files in `report/`), and authors or updates `report/LAB.md` with all required sections: Spec, Hypothesis, Method per kernel version, Results table, Discussion, Next steps, References.
+Cites primary sources by section (`PMPP 4e §X.Y`, `Iglberger Ch N`, etc., not vague "see PMPP").
 
-**When.** End of every week, before `/checkpoint`. Or when you make a
-substantive new finding mid-week and want it captured.
+**When.** End of every week, before `/checkpoint`.
+Or when you make a substantive new finding mid-week and want it captured.
 
 **How.**
 ```
@@ -181,27 +144,24 @@ substantive new finding mid-week and want it captured.
 2. Edit. The Discussion section is *your* voice — sharpen it.
 3. Commit `report/LAB.md` alongside the `.ncu-rep` files.
 
-**Pitfall.** Don't let the agent invent numbers. If the Results table
-has a row but you don't have profile evidence, delete the row or run
-the missing benchmark first.
+**Pitfall.** Don't let the agent invent numbers.
+If the Results table has a row but you don't have profile evidence, delete the row or run the missing benchmark first.
 
 ---
 
 ### 2.5 `/checkpoint`
 
-**What it does.** Hands the lab to `curriculum-mentor`, which grades
-it against the 5-axis rubric in
-`.cursor/skills/weekly-checkpoint/SKILL.md`. Each axis scored 0–4
-with one specific `file:line` piece of evidence. Returns
-`READY_TO_ADVANCE | REWORK | BLOCKED` with thresholds:
+**What it does.** Hands the lab to `curriculum-mentor`, which grades it against the 5-axis rubric in `.cursor/skills/weekly-checkpoint/SKILL.md`.
+Each axis scored 0–4 with one specific `file:line` piece of evidence.
+Returns `READY_TO_ADVANCE | REWORK | BLOCKED` with thresholds:
 
 - Regular weeks: **14/20** to advance.
 - Month boundaries (weeks 4, 8, 12): **17/20**.
 - Week 16 (capstone): **18/20**.
 
-**When.** Friday or Saturday of every week. Always after
-`/lab-report`. Always *before* you mentally check out for the
-weekend.
+**When.** Friday or Saturday of every week.
+Always after `/lab-report`.
+Always *before* you mentally check out for the weekend.
 
 **How.**
 ```
@@ -210,25 +170,18 @@ weekend.
 
 **What you should do with the output.**
 - `READY_TO_ADVANCE` → next Monday is `/start-week N+1`.
-- `REWORK` → the mentor names 1–3 highest-leverage fixes. Do those,
-  re-run `/checkpoint`. Don't advance with debt.
-- `BLOCKED` → tell the mentor what's in the way. The mentor can
-  re-scope the lab.
+- `REWORK` → the mentor names 1–3 highest-leverage fixes. Do those, re-run `/checkpoint`. Don't advance with debt.
+- `BLOCKED` → tell the mentor what's in the way. The mentor can re-scope the lab.
 
-**Pitfall.** Don't lobby the mentor. If it scored Performance 2/4
-and you think it should be 3, the right move is to make the kernel
-faster, not to argue.
+**Pitfall.** Don't lobby the mentor.
+If it scored Performance 2/4 and you think it should be 3, the right move is to make the kernel faster, not to argue.
 
 ---
 
 ### 2.6 `/research-paper <topic>`
 
-**What it does.** Hands the topic to `spatial-intel-researcher`, which
-returns a 1–2 page synthesis: classical framing (Hartley/Szeliski/
-Torralba §) + modern framing (3–5 papers with arXiv IDs) + which
-week of the curriculum it lands in + one open question. Saves to
-`docs/research/<topic-slug>.md` so your personal literature index
-accumulates.
+**What it does.** Hands the topic to `spatial-intel-researcher`, which returns a 1–2 page synthesis: classical framing (Hartley/Szeliski/Torralba §) + modern framing (3–5 papers with arXiv IDs) + which week of the curriculum it lands in + one open question.
+Saves to `docs/research/<topic-slug>.md` so your personal literature index accumulates.
 
 **When.**
 - Week before you'll need it (e.g. `Gaussian splatting` in Week 11).
@@ -246,25 +199,20 @@ accumulates.
 - Skim the cited papers. Pick one to actively read; queue the others.
 - The "open question" paragraph is a project starter. Save it.
 
-**Pitfall.** Don't `/research-paper` everything. Five well-read
-syntheses beat thirty browsed ones.
+**Pitfall.** Don't `/research-paper` everything.
+Five well-read syntheses beat thirty browsed ones.
 
 ---
 
 ### 2.7 `/deploy-target {spark|sagemaker|bedrock}`
 
-**What it does.** Identifies the model artifact in scope (current
-week's `report/` or a path you give), then delegates to
-`model-deployer` with the workflow from
-`.cursor/skills/sagemaker-bedrock-deploy/SKILL.md` (and the Triton
-workflow from the agent's system prompt for `spark`). Returns build
-commands → resulting image / engine path → deploy command → smoke-test
-snippet. Will *reject* the request and recommend an alternative if
-the target is wrong (e.g. Bedrock for a diffusion model →
-SageMaker BYOC).
+**What it does.** Identifies the model artifact in scope (current week's `report/` or a path you give), then delegates to `model-deployer` with the workflow from `.cursor/skills/sagemaker-bedrock-deploy/SKILL.md` (and the Triton workflow from the agent's system prompt for `spark`).
+Returns build commands → resulting image / engine path → deploy command → smoke-test snippet.
+Will *reject* the request and recommend an alternative if the target is wrong (e.g. Bedrock for a diffusion model → SageMaker BYOC).
 
-**When.** Months 3-4. After a model fine-tune passes eval. Before
-the dual-deploy bench in `bench/dual_deploy_bench.py`.
+**When.** Months 3-4.
+After a model fine-tune passes eval.
+Before the dual-deploy bench in `bench/dual_deploy_bench.py`.
 
 **How.**
 ```
@@ -274,12 +222,11 @@ the dual-deploy bench in `bench/dual_deploy_bench.py`.
 ```
 
 **What you should do with the output.**
-- Run the smoke test. If it passes, run the dual-deploy bench to get
-  real cost/latency numbers vs the other target.
+- Run the smoke test. If it passes, run the dual-deploy bench to get real cost/latency numbers vs the other target.
 - Commit the engine / image tag in `deploy/<target>/`.
 
-**Pitfall.** Don't deploy a model that hasn't passed an eval. The
-deployer assumes the artifact is good.
+**Pitfall.** Don't deploy a model that hasn't passed an eval.
+The deployer assumes the artifact is good.
 
 ---
 
@@ -287,27 +234,20 @@ deployer assumes the artifact is good.
 
 A few rules that compound over 16 weeks:
 
-- **Run them in order.** `/start-week → code → /review-cuda →
-  /profile-kernel → /lab-report → /checkpoint`. The order encodes the
-  scientific method (hypothesis → implement → review → measure →
-  write → grade).
-- **One command per intent.** Don't pipeline `/review-cuda` and
-  `/profile-kernel` in one message; you want to read each verdict.
-- **Re-read, don't re-run.** Most "wait, what did the mentor say?"
-  moments are answered by scrolling up, not re-invoking.
-- **Trust the verdicts.** If `/checkpoint` says `REWORK`, the lab
-  isn't done.
+- **Run them in order.** `/start-week → code → /review-cuda → /profile-kernel → /lab-report → /checkpoint`. The order encodes the scientific method (hypothesis → implement → review → measure → write → grade).
+- **One command per intent.** Don't pipeline `/review-cuda` and `/profile-kernel` in one message; you want to read each verdict.
+- **Re-read, don't re-run.** Most "wait, what did the mentor say?" moments are answered by scrolling up, not re-invoking.
+- **Trust the verdicts.** If `/checkpoint` says `REWORK`, the lab isn't done.
 
 ---
 
-## 3. The twelve subagents — when each one shines
+## 3. The ten subagents — when each one shines
 
-Slash commands cover ~80% of your interactions. The other 20% is
-direct agent calls when you have an off-script question. Reach for an
-agent by saying so explicitly:
+Slash commands cover ~80% of your interactions.
+The other 20% is direct agent calls when you have an off-script question.
+Reach for an agent by saying so explicitly:
 
-> "Use `cuda-tutor` to explain why my GEMM kernel is bandwidth-bound
-> when occupancy is 0.83 and arithmetic intensity is 32 FLOPs/byte."
+> "Use `cuda-tutor` to explain why my GEMM kernel is bandwidth-bound when occupancy is 0.83 and arithmetic intensity is 32 FLOPs/byte."
 
 ### 3.1 Curriculum and pedagogy
 
@@ -333,7 +273,7 @@ agent by saying so explicitly:
 
 | Agent | Use when |
 |---|---|
-| **`spatial-intel-researcher`** | "Where in Hartley does the 8-point algorithm live?" "What's the SOTA for monocular depth on indoor scenes?" "Compare Gaussian splatting variants." |
+| **`spatial-intel-researcher`** | "Where in Hartley does the 8-point algorithm live?" "What's the SOTA for monocular depth on indoor scenes?" "Compare Gaussian splatting variants." Also: **"Grade this paper as a PhD advisor would"** — drops into an 8-axis advisor rubric (problem framing, novelty, theory, method clarity, experimental rigor, ablations, honesty about limitations, writing) and returns a verdict + concrete revision plan. |
 
 ### 3.5 Training, eval, and production
 
@@ -349,14 +289,7 @@ agent by saying so explicitly:
 |---|---|
 | **`cuda-code-reviewer`** | Already invoked by `/review-cuda`. Call directly when you want a focused review of one file or one PR. |
 
-### 3.7 Visualization
-
-| Agent | Use when |
-|---|---|
-| **`excalidraw-visualizer`** | You're about to write a wall of nouns describing a system. Asks you for a layout, then writes a `.excalidraw` file in `docs/` or `labs/.../report/`. |
-| **`manim-tutor`** | A math/algorithm concept needs to *move* — multi-view geometry, parallel reduction, tiled GEMM, attention. Outputs runnable scenes in `docs/anim/`. |
-
-### 3.8 The escalation tree
+### 3.7 The escalation tree
 
 When something goes wrong, escalate in this order:
 
@@ -374,16 +307,15 @@ TRT/Triton/SageMaker/Bedrock packaging  → model-deployer  (or /deploy-target)
 "Am I even working on the right thing?" → curriculum-mentor
 ```
 
-Pin this in your head. Half the time saved over 16 weeks is in
-*choosing the right agent on the first try*.
+Pin this in your head.
+Half the time saved over 16 weeks is in *choosing the right agent on the first try*.
 
 ---
 
 ## 4. Skills — the playbooks the agents read
 
-You usually don't invoke a skill yourself; commands and agents read
-them. But knowing they exist lets you say "use the
-`nsight-profiling` skill" and skip a paragraph of explanation.
+You usually don't invoke a skill yourself; commands and agents read them.
+But knowing they exist lets you say "use the `nsight-profiling` skill" and skip a paragraph of explanation.
 
 | Skill | Read by | Contains |
 |---|---|---|
@@ -400,17 +332,16 @@ them. But knowing they exist lets you say "use the
 
 When you're writing your own prompt to an agent, you can say:
 
-> "Use the `nsight-profiling` skill's section on memory throughput to
-> diagnose this kernel."
+> "Use the `nsight-profiling` skill's section on memory throughput to diagnose this kernel."
 
-That tells the agent which playbook to apply, and it skips
-re-deriving the workflow from scratch.
+That tells the agent which playbook to apply, and it skips re-deriving the workflow from scratch.
 
 ---
 
 ## 5. The weekly rhythm — putting it together
 
-A regular week (not a month-boundary or capstone). 20 hours, 5 days.
+A regular week (not a month-boundary or capstone).
+20 hours, 5 days.
 
 ### Monday — orient
 
@@ -461,7 +392,8 @@ A regular week (not a month-boundary or capstone). 20 hours, 5 days.
 
 ## 6. Common workflows — the four cycles
 
-Every week is a permutation of these four loops. Memorize them.
+Every week is a permutation of these four loops.
+Memorize them.
 
 ### 6.1 The kernel cycle
 
@@ -517,7 +449,7 @@ choose target, document choice in LAB.md
 ```
 test fails OR compute-sanitizer flags something
        ↓
-escalate using §3.8 tree
+escalate using §3.7 tree
        ↓
 agent suggests minimal repro
        ↓
@@ -528,7 +460,8 @@ re-run /review-cuda + the failed test
 write a one-line "what I learned" in LAB.md Discussion
 ```
 
-That last line is the part most people skip. Don't.
+That last line is the part most people skip.
+Don't.
 
 ---
 
@@ -536,48 +469,22 @@ That last line is the part most people skip. Don't.
 
 A few habits that compound:
 
-- **Open the file you're asking about.** Subagents see your open
-  files. "Why is this slow?" with the kernel open is a different
-  question from "Why is CUDA slow?" with nothing open.
-- **Quote `file:line` when escalating.** "`labs/week-05-reduce/src/
-  reduce.cu:42` — why does this race?" routes you to the answer
-  faster than narrative.
-- **Demand citations.** When `cuda-tutor` says "this is a memory-bound
-  kernel", ask "cite the section". The good agents already do this;
-  reinforce the habit.
-- **Capture insights in `LAB.md` immediately.** If you don't write it
-  down within an hour, you'll re-derive it next month.
-- **Diagram before you re-architect.** When a system has more than
-  three moving pieces, ask `excalidraw-visualizer` first. A 5-minute
-  diagram saves a 2-day refactor.
-- **Animate before you teach.** When a math concept won't stick, ask
-  `manim-tutor` for a 30-second scene. Then watch your own scene three
-  times. The third time it'll click.
-- **Use `/research-paper` as bookmarking.** It writes to
-  `docs/research/`, which becomes your personal literature index by
-  Month 4.
+- **Open the file you're asking about.** Subagents see your open files. "Why is this slow?" with the kernel open is a different question from "Why is CUDA slow?" with nothing open.
+- **Quote `file:line` when escalating.** "`labs/week-05-reduce/src/reduce.cu:42` — why does this race?" routes you to the answer faster than narrative.
+- **Demand citations.** When `cuda-tutor` says "this is a memory-bound kernel", ask "cite the section". The good agents already do this; reinforce the habit.
+- **Capture insights in `LAB.md` immediately.** If you don't write it down within an hour, you'll re-derive it next month.
+- **Diagram before you re-architect.** When a system has more than three moving pieces, sketch it (Excalidraw, whiteboard, paper) and drop the export into `docs/`. A 5-minute diagram saves a 2-day refactor. The repo already ships [`docs/SYLLABUS.excalidraw`](./SYLLABUS.excalidraw) and [`docs/READING-GUIDE.excalidraw`](./READING-GUIDE.excalidraw) as references for the format.
+- **Use `/research-paper` as bookmarking.** It writes to `docs/research/`, which becomes your personal literature index by Month 4.
 
 ## 8. Antipatterns to avoid
 
-- **Asking the main thread to do specialist work.** "Tell me about
-  Blackwell tensor cores" wastes context that a subagent would
-  isolate. Say "use `cuda-tutor` to..." instead.
-- **Skipping `/review-cuda` because "it works".** Static review
-  catches lifetime bugs and idiom drift that profiles will *never*
-  catch. Run it every time.
-- **Skipping `/profile-kernel` because "it's fast enough".** Fast
-  enough for what? The lab has a target. Profile and *prove* you hit
-  it.
-- **Never running `/checkpoint`.** Without the grade, the curriculum
-  is just a reading list. The verdict is the gate.
-- **Letting `/lab-report` generate the Discussion section unedited.**
-  The agent can summarize numbers. It cannot synthesize what you
-  learned. That's the whole point of the rubric's Writeup axis.
-- **Re-running a command to "see if it changes its mind".** It
-  shouldn't. If it does, the input changed; document why.
-- **Working without an open editor.** Subagents work better when they
-  can see your code. Use Cursor's split panes; keep `LAB.md`, the
-  active source file, and the chat side-by-side.
+- **Asking the main thread to do specialist work.** "Tell me about Blackwell tensor cores" wastes context that a subagent would isolate. Say "use `cuda-tutor` to..." instead.
+- **Skipping `/review-cuda` because "it works".** Static review catches lifetime bugs and idiom drift that profiles will *never* catch. Run it every time.
+- **Skipping `/profile-kernel` because "it's fast enough".** Fast enough for what? The lab has a target. Profile and *prove* you hit it.
+- **Never running `/checkpoint`.** Without the grade, the curriculum is just a reading list. The verdict is the gate.
+- **Letting `/lab-report` generate the Discussion section unedited.** The agent can summarize numbers. It cannot synthesize what you learned. That's the whole point of the rubric's Writeup axis.
+- **Re-running a command to "see if it changes its mind".** It shouldn't. If it does, the input changed; document why.
+- **Working without an open editor.** Subagents work better when they can see your code. Use Cursor's split panes; keep `LAB.md`, the active source file, and the chat side-by-side.
 
 ---
 
@@ -585,27 +492,13 @@ A few habits that compound:
 
 A handful of moves that separate a smooth week from a rough one:
 
-- **Ask the agent to ask you.** When you don't know what to specify,
-  say: "Ask me three questions before you start." The good agents
-  oblige.
-- **Force a hand-off explicitly.** "After you finish this kernel
-  review, hand off to `cuda-perf-profiler` to plan the next
-  benchmark." Saves a round trip.
-- **Pin the rubric in chat.** Paste the 5-axis rubric (or open
-  `.cursor/skills/weekly-checkpoint/SKILL.md`) before substantive
-  work. The main thread will start applying it without prompting.
-- **Use Plan mode for architecture decisions.** Before any
-  multi-file refactor, switch Cursor to Plan mode (top-right). The
-  thread becomes read-only and discussion-first.
-- **Generate a diagram alongside any new lab folder.** The first day
-  of every lab, ask `excalidraw-visualizer` to sketch the dataflow.
-  It becomes the cover image for `report/LAB.md`.
-- **Run two profiles, not one.** `/profile-kernel` on `vN`, then on
-  `vN+1`. Then ask `cuda-perf-profiler` to *diff* them. The diff is
-  where the lesson lives.
-- **End every week with a one-line `what I'd do differently`.** Pin
-  it at the top of `LAB.md` Discussion. By Week 16 you'll have 16
-  lines that compress more wisdom than any blog post.
+- **Ask the agent to ask you.** When you don't know what to specify, say: "Ask me three questions before you start." The good agents oblige.
+- **Force a hand-off explicitly.** "After you finish this kernel review, hand off to `cuda-perf-profiler` to plan the next benchmark." Saves a round trip.
+- **Pin the rubric in chat.** Paste the 5-axis rubric (or open `.cursor/skills/weekly-checkpoint/SKILL.md`) before substantive work. The main thread will start applying it without prompting.
+- **Use Plan mode for architecture decisions.** Before any multi-file refactor, switch Cursor to Plan mode (top-right). The thread becomes read-only and discussion-first.
+- **Sketch a diagram alongside any new lab folder.** On the first day of every lab, take 5 minutes to sketch the kernel's dataflow (Excalidraw, paper photo, whatever exports cleanly). Drop it in `report/` as the cover image for `report/LAB.md`.
+- **Run two profiles, not one.** `/profile-kernel` on `vN`, then on `vN+1`. Then ask `cuda-perf-profiler` to *diff* them. The diff is where the lesson lives.
+- **End every week with a one-line `what I'd do differently`.** Pin it at the top of `LAB.md` Discussion. By Week 16 you'll have 16 lines that compress more wisdom than any blog post.
 
 ---
 
@@ -622,9 +515,8 @@ A handful of moves that separate a smooth week from a rough one:
 | What's the 4-month arc? | [`SYLLABUS.md`](./SYLLABUS.md) §4-§5 + `SYLLABUS.excalidraw` |
 | What does each agent know? | The agent's own `.cursor/agents/<name>.md` — they're short. |
 
-When in doubt, **open the agent file and read it**. The system prompts
-are public, and they'll tell you exactly what the agent will and
-won't do.
+When in doubt, **open the agent file and read it**.
+The system prompts are public, and they'll tell you exactly what the agent will and won't do.
 
 ---
 

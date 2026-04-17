@@ -35,11 +35,15 @@ When you (the agent) operate in this repo, default to these assumptions:
   commands/      # slash commands for the daily loop
   rules/         # always-on project rules
 labs/
+  _template/         # canonical lab scaffold + tier docs
   week-NN-<slug>/
-    LAB.md           # objectives, readings, rubric
+    LAB.md           # 11-section lesson + writeup
+    GLOSSARY.md      # new terms only (CUDA / C++20 / CV / Python bindings)
     CMakeLists.txt
-    src/             # C++/CUDA source
+    src/             # C++/CUDA source (scaffolded at the week's tier)
+    tests/           # GoogleTest unit tests
     bench/           # micro-benchmarks
+    python/          # torch.utils.cpp_extension wrapper + pytest (W2+)
     notebooks/       # optional .ipynb (Python harness only)
     report/          # generated /lab-report output goes here
 deploy/
@@ -92,13 +96,17 @@ Use them aggressively. They're cheap context-isolators:
 - `nemo-engineer` - NVIDIA NeMo Framework + NeMo AutoModel (HF day-0
   fine-tuning) + NeMo Skills (`ns eval`, SDG, multi-benchmark eval,
   LLM-as-judge). Use for fine-tuning, evaluation, and synthetic data.
-- `excalidraw-visualizer` - authors/edits `.excalidraw` diagrams for
-  dataflows, architectures, and design patterns. Use when the user is
-  explaining a system or you'd otherwise write a wall of nouns.
-- `manim-tutor` - Manim Community Edition specialist for animating
-  math / algorithm concepts (multi-view geometry, GEMM tiling,
-  parallel reduction, attention, SVD). Outputs runnable scenes in
-  `docs/anim/`.
 
 When in doubt, delegate. The main thread should orchestrate, not drown in
 register-pressure analysis.
+
+## Skills in this repo
+
+- `curriculum-plan/` - the master 4-month plan (week-by-week source of truth).
+- `cuda-kernel-authoring/` - the standard kernel-writing loop.
+- `cpp20-modern-idioms/` - RAII wrappers, concepts, ranges patterns.
+- `python-bindings/` - canonical `torch.utils.cpp_extension` pattern
+  for wrapping every weekly kernel as a PyTorch custom op (Week 2+,
+  required). JIT in Months 1-2, AOT + `TORCH_LIBRARY` in Months 3-4.
+- `cosmos-models/` - NVIDIA Cosmos fine-tuning workflow.
+- (and others under `.cursor/skills/`).

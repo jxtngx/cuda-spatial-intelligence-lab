@@ -6,6 +6,16 @@ in your home, reasons about it with a fine-tuned NVIDIA Cosmos model
 served through Triton on your Spark **and** through a SageMaker (or
 Bedrock-imported) endpoint in AWS, and answers grounded questions.
 
+> **Standing learning objective (every week of Month 4).** Any custom
+> CUDA kernel in the production stack must ship as a PyTorch custom
+> op via `torch.utils.cpp_extension` (AOT — `setup.py` +
+> `BuildExtension`, never JIT in production), registered as a
+> `TORCH_LIBRARY` op so it survives `torch.compile` and TensorRT
+> export. `pytest` numerics gate: max-abs-error against CPU reference
+> within tolerance, and wrapper overhead < 5% of kernel time at
+> production batch size. Pattern documented in
+> `.cursor/skills/python-bindings/SKILL.md`.
+
 ---
 
 ## Week 13 — Inference optimization (TensorRT, TRT-LLM, FP8 on Blackwell)
