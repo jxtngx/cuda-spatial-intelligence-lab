@@ -1,0 +1,75 @@
+---
+description: Always-on context for the cuda-spatial-intelligence-lab project. Sets hardware target, audience profile, code conventions, and rigor expectations.
+alwaysApply: true
+---
+
+# cuda-spatial-intelligence-lab - project context
+
+You are operating inside a 4-month, deep-water CUDA + Spatial Intelligence
+curriculum. The audience is a strong Python/PyTorch engineer with serious
+ML systems experience. They want top-percentile applied skill, not
+introductory coddling.
+
+## Hardware target (assume always)
+
+- **NVIDIA DGX Spark** - Grace Blackwell, ARM64, 128 GB unified memory,
+  compute capability **sm_121**.
+- Build flags default to `-arch=sm_121 -std=c++20 -O3 --use_fast_math`
+  unless explicitly overridden.
+- Prefer NGC containers (`nvcr.io/nvidia/...`) for builds and runs.
+- Unified memory is fast on Spark - use `cudaMallocManaged` for prototypes,
+  `cudaMallocAsync` + streams for production paths.
+- Target Blackwell features: 5th-gen tensor cores, FP4/FP6/FP8, TMA,
+  thread-block clusters.
+
+## Code conventions
+
+- **C++20** mandatory: concepts, ranges, `<span>`, `<bit>`, modules where
+  practical, RAII always. No raw `new`/`delete`. `[[nodiscard]]` on returning
+  factories.
+- **CUDA**: every kernel ships with a unit test + a microbench + a Nsight
+  Compute report committed to the lab's `report/` folder.
+- **CMake** ≥ 3.28, Ninja, `find_package(CUDAToolkit REQUIRED)`,
+  `CMAKE_CUDA_ARCHITECTURES "121"`.
+- **Python** is harness only - data prep, plotting, fine-tuning via PyTorch /
+  TRL / Cosmos. Never use Python to dodge a CUDA implementation.
+- **Tests**: GoogleTest for C++, CTest integration. Every kernel has a CPU
+  reference and a max-error assertion.
+
+## Rigor rules (penalize the opposite)
+
+1. Do **not** suggest CPU-only fallbacks "for portability". This lab
+   intentionally requires Spark or equivalent.
+2. Do **not** recommend a Python implementation when a CUDA kernel is
+   pedagogically the point.
+3. Do **not** soften a lab's performance target ("≥ 80% of cuBLAS") to make
+   it easier - the target is the lesson.
+4. **Do** cite specific chapters/sections of the canonical books (PMPP 4e,
+   Iglberger, Stroustrup PPP3, Hartley, Szeliski, Torralba) when teaching.
+5. **Do** prefer Nsight Compute / Nsight Systems evidence over hand-wavy
+   reasoning about performance.
+6. **Do** push the user into Blackwell-specific features (TMA, thread-block
+   clusters, FP8 GEMM) once foundations are in place.
+
+## Project structure
+
+- `labs/week-NN-<slug>/` - one folder per curriculum week. Has `LAB.md`,
+  `CMakeLists.txt`, `src/`, `bench/`, `report/`.
+- `deploy/spark/` and `deploy/aws/` - production deploy scaffolds.
+- `app/` - the NextJS + LangChain DeepAgents application (Month 4).
+
+## Subagents available (delegate aggressively)
+
+`curriculum-mentor`, `cuda-tutor`, `cpp20-tutor`, `spatial-intel-researcher`,
+`dgx-spark-engineer`, `cuda-perf-profiler`, `model-deployer`,
+`langchain-deepagents-architect`, `cuda-code-reviewer`,
+`excalidraw-visualizer` (dataflow / architecture / pattern diagrams in
+`docs/*.excalidraw`), `manim-tutor` (animated math/algorithm
+visualizations in `docs/anim/`),
+`nemo-engineer` (NeMo Framework / AutoModel / Skills — fine-tuning,
+benchmark eval, SDG, LLM-as-judge).
+
+## Slash commands
+
+`/start-week N`, `/lab-report`, `/review-cuda`, `/profile-kernel`,
+`/checkpoint`, `/research-paper <topic>`, `/deploy-target {spark|sagemaker|bedrock}`.

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# the file and the func
+nvcc main.cu -o add
+# the func
+./nsys_easy ./add 

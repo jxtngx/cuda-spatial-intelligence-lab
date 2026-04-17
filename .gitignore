@@ -1,0 +1,56 @@
+build/
+**/build/
+**/.cache/
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+*.exe
+
+# Nsight reports stay (they're evidence) — but compressed dumps don't
+*.nvprof
+*.qdstrm
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.uv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node / NextJS
+node_modules/
+.next/
+out/
+.env*
+!.env.example
+
+# Hugging Face / model weights (large; track via Git LFS or external storage)
+**/checkpoints/
+**/weights/
+*.safetensors
+*.gguf
+*.pt
+*.pth
+*.onnx
+*.plan
+*.engine
+
+# Lab byproducts
+*.log
+*.tmp
+
+# nsight
+*nsys-rep
+*.sqlite
+*.qdrep
