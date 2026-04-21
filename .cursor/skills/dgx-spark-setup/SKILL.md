@@ -79,7 +79,7 @@ docker run --rm --gpus all nvcr.io/nvidia/cuda:13.0.0-devel-ubuntu24.04 nvidia-s
 
 ## 6. Verify the standard CMake template builds
 
-From `labs/week-01-hello-cuda/`:
+From `labs/lab-01-hello-cuda/`:
 
 ```bash
 cmake -S . -B build -G Ninja

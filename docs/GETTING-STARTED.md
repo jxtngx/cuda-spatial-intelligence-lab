@@ -1,6 +1,6 @@
 # Getting Started
 
-Before you touch Week 1, prove that your toolchain works.
+Before you touch Lab 01, prove that your toolchain works.
 This guide is the **first 30 minutes** of the curriculum: confirm versions, learn the two CLI tools you'll live in (`nvidia-smi` and `nvcc`), and compile one `.cu` file end-to-end.
 
 > **Target setup.** NVIDIA DGX Spark, DGX OS (Ubuntu-based, ARM64), CUDA Toolkit 13+, GCC 13+ (or Clang 17+), CMake ≥ 3.28, Ninja, NVIDIA Container Runtime for Docker, NGC login.
@@ -573,7 +573,7 @@ Then watch it on the GPU in another terminal:
 watch -n 0.2 nvidia-smi dmon -c 5
 ```
 
-Once that works, do the same with `labs/week-0-an-even-easier-introduction-to-cuda/` to confirm the labs build path is wired up.
+Once that works, do the same with `labs/lab-00-an-even-easier-introduction-to-cuda/` to confirm the labs build path is wired up.
 
 ---
 
@@ -668,6 +668,6 @@ When stuck, the right escalation is:
 2. Read [`WORKFLOW.md`](./WORKFLOW.md) — how to actually use the slash commands and subagents you're about to depend on.
 3. Open [`CURSOR-DOCS.md`](./CURSOR-DOCS.md) and import the 25 docs it lists into Cursor's `@Docs` panel (PTX, C++20, NeMo, TensorRT, Cosmos, LangChain DeepAgents, …). The agents in this repo expect them by exact name. ~20 minutes of crawling, 16 weeks of payoff.
 4. Skim [`READING-GUIDE.md`](./READING-GUIDE.md) and decide which book sits on your desk for Month 1 (PMPP).
-5. In Cursor, run `/start-week 1`. The `curriculum-mentor` will scaffold `labs/week-01-hello-cuda/` and queue the agents you'll need.
+5. In Cursor, run `/start-lab 1`. The `curriculum-mentor` will scaffold `labs/lab-01-hello-cuda/` and queue the agents you'll need.
 
 Welcome to deep water.

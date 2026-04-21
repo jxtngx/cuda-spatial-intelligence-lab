@@ -1,11 +1,11 @@
 ---
 name: python-bindings
-description: Canonical pattern for wrapping our CUDA kernels as PyTorch custom ops via torch.utils.cpp_extension. Use proactively when a lab from Week 2 onward needs a python/ wrapper, or when a production kernel needs to survive torch.compile / TensorRT export.
+description: Canonical pattern for wrapping our CUDA kernels as PyTorch custom ops via torch.utils.cpp_extension. Use proactively when a lab from Lab 02 onward needs a python/ wrapper, or when a production kernel needs to survive torch.compile / TensorRT export.
 ---
 
 # Python bindings for CUDA kernels (`torch.utils.cpp_extension`)
 
-Every weekly lab from Week 2 to Week 16 must expose its primary
+Every lab from Lab 02 to Lab 16 must expose its primary
 kernel to Python as a PyTorch custom op. This is non-negotiable; the
 goal is to make the kernel reachable from the Month 4 application
 stack without rewriting anything. We use `torch.utils.cpp_extension`
@@ -24,10 +24,10 @@ TensorRT export.
 
 The mentor enforces this when scaffolding `python/` at each tier.
 
-## File layout in every lab from Week 2 on
+## File layout in every lab from Lab 02 on
 
 ```
-labs/week-NN-<slug>/
+labs/lab-NN-<slug>/
   python/
     setup.py             # AOT only (Month 3+); omit in Months 1-2
     <lab>_ext.py         # JIT loader OR AOT import + wrapper class
@@ -39,7 +39,7 @@ The C++/CUDA binding source lives next to the kernel, not in
 `python/`:
 
 ```
-labs/week-NN-<slug>/
+labs/lab-NN-<slug>/
   src/
     <kernel>.cu
     <kernel>.hpp
@@ -206,7 +206,7 @@ def test_overhead_bound():
 ```
 
 (Drop the `KERNEL_MS` env coupling once the C++ bench writes a JSON
-file the test can read; that lands in Week 5.)
+file the test can read; that lands in Lab 05.)
 
 ## Common pitfalls
 

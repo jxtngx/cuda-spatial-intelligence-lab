@@ -170,8 +170,8 @@ By the end of this lab you will be able to:
   PyTorch op.
 - Verify numerics from Python against `torch.sum`, `torch.cumsum`,
   and `torch.bincount`.
-- Bound wrapper overhead (Tier-A coarse rule this week; the strict
-  5%-of-kernel-time rule is enforced from Week 5 once the C++ bench
+- Bound wrapper overhead (Tier-A coarse rule in this lab; the strict
+  5%-of-kernel-time rule is enforced from Lab 05 once the C++ bench
   writes a JSON file the test can read).
 
 ## 2. Prerequisites
@@ -185,10 +185,10 @@ By the end of this lab you will be able to:
   (cooperative groups).
 - CUB docs: `DeviceReduce::Sum`, `DeviceScan::InclusiveSum`.
 
-**Prior weeks' deliverables you need working:**
-- Week 01: `DeviceBuffer<T>`, `Stream`, `KernelLaunch` helpers (we
+**Prior labs' deliverables you need working:**
+- Lab 01: `DeviceBuffer<T>`, `Stream`, `KernelLaunch` helpers (we
   re-use the same launch idioms here).
-- Week 02: comfort with `__syncthreads`, shared memory, the
+- Lab 02: comfort with `__syncthreads`, shared memory, the
   `enum class` + dispatcher pattern.
 
 **Toolchain checks:**
@@ -203,7 +203,7 @@ By the end of this lab you will be able to:
 
 - **Reduction.** `float* d_in` of length `n` → single `float` at `*d_out`.
   `dtype = float32`. Sum is the binary op (other ops are stretch).
-- **Scan.** `float* d_in` length `n ≤ 1024` (single-block this week)
+- **Scan.** `float* d_in` length `n ≤ 1024` (single-block in this lab)
   → `float* d_out` of the same length, inclusive prefix sum.
 - **Histogram.** `uint8_t* d_in` length `n` → `uint32_t* d_bins`
   length 256 (256-bin histogram of the byte stream).
@@ -224,7 +224,7 @@ Measured on Spark `sm_121` at the bench sizes below.
 - `scan_best  / cub::DeviceScan::InclusiveSum  ≥ 70%` at `n = 1024`.
 - Histogram: `shared_warp` strictly faster than `global` on
   uniform-random `uint8_t` input at `n = 2^26`. (Tighter target lands
-  in Week 4 once we benchmark on a real image stream.)
+  in Lab 04 once we benchmark on a real image stream.)
 - Python wrapper overhead: coarse Tier-A rule — `reduce("v4")` within
   30% of `reduce_cub()` Python-side. The strict 5% rule lands in W5.
 
@@ -382,7 +382,7 @@ TODO
 - CUB docs: `DeviceReduce`, `DeviceScan`, `WarpReduce`.
 - Iglberger Ch 5 (Strategy modernization).
 - Curriculum: `.cursor/skills/curriculum-plan/month-1-foundations.md`
-  — Week 03.
+  — Week 03 (Lab 03).
 - Skills: `.cursor/skills/cuda-kernel-authoring/SKILL.md`,
   `.cursor/skills/nsight-profiling/SKILL.md`,
   `.cursor/skills/python-bindings/SKILL.md`.

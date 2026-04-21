@@ -5,7 +5,7 @@ description: Build the Month-4 NextJS application backed by a LangChain DeepAgen
 
 # NextJS + LangChain DeepAgents capstone app
 
-This is the shape the Week 15-16 capstone takes.
+This is the shape the Lab 15-16 capstone takes.
 
 ## Stack
 
@@ -146,7 +146,7 @@ Render with the Vercel AI SDK's `useChat` for tokens, plus a custom
 Render the current target prominently in the UI (green = local, amber =
 cloud).
 
-## Capstone deliverable (Week 16)
+## Capstone deliverable (Lab 16)
 
 The DeepAgent answers, with grounded references, at least:
 

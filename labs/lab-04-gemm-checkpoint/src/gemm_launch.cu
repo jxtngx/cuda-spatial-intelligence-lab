@@ -74,7 +74,7 @@ void gemm(const GemmShape& shape, float alpha,
     }
     throw std::invalid_argument(
         "Week-04 gemm() only implements v4_checkpoint; "
-        "older versions live in labs/week-02-tiled-gemm/");
+        "older versions live in labs/lab-02-tiled-gemm/");
 }
 
 }  // namespace cudalab::gemm

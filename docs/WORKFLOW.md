@@ -5,15 +5,15 @@
      nemo-engineer) -->
 
 
-How to actually use the commands, agents, and skills in this repo to get through the 16 weeks.
-Read this once after [`GETTING-STARTED.md`](./GETTING-STARTED.md) and before `/start-week 1`.
+How to actually use the commands, agents, and skills in this repo to get through the 16 labs.
+Read this once after [`GETTING-STARTED.md`](./GETTING-STARTED.md) and before `/start-lab 1`.
 It pairs with [`SYLLABUS.md`](./SYLLABUS.md) (the *what* of the course) and [`READING-GUIDE.md`](./READING-GUIDE.md) (the *how-to-read*).
 
 > The TL;DR: **You drive the main thread.
 > Slash commands are scripted workflows.
 > Subagents are specialists you delegate to (cheaply, aggressively).
 > Skills are reusable playbooks the agents and commands read.**
-> Most of your day is `/start-week`, code, `/review-cuda`, `/profile-kernel`, `/lab-report`, `/checkpoint`.
+> Most of your day is `/start-lab`, code, `/review-cuda`, `/profile-kernel`, `/lab-report`, `/checkpoint`.
 > The rest is targeted agent calls when you're stuck.
 
 ---
@@ -27,7 +27,7 @@ Know what each is *for* before you start invoking them.
 |---|---|---|---|
 | **You** | the chair | Form intent, judge output, write the lab. | "I want to implement tiled GEMM and beat 70% of cuBLAS." |
 | **Main thread** | Cursor's chat | Orchestrates. Keeps you, the codebase, and the agents in sync. Reads files, writes code. | The conversation you're having right now. |
-| **Slash commands** | `.cursor/commands/*.md` | Scripted, opinionated workflows. Each delegates to the right subagent and prints the result. | `/start-week`, `/review-cuda`, `/profile-kernel` |
+| **Slash commands** | `.cursor/commands/*.md` | Scripted, opinionated workflows. Each delegates to the right subagent and prints the result. | `/start-lab`, `/review-cuda`, `/profile-kernel` |
 | **Subagents** | `.cursor/agents/*.md` | Specialists with isolated context and a focused system prompt. | `cuda-tutor`, `cuda-perf-profiler`, `model-deployer` |
 | **Skills** | `.cursor/skills/*/SKILL.md` | Reusable, hand-authored playbooks (templates, checklists). Agents read these. | `nsight-profiling`, `lab-notebook`, `weekly-checkpoint` |
 
@@ -52,24 +52,24 @@ The main thread should orchestrate, not drown in register-pressure analysis.
 All commands live in `.cursor/commands/` and you invoke them with `/` in the Cursor chat.
 Each is documented inline with a one-line description; this section is the *when*-and-*how*.
 
-### 2.1 `/start-week N`
+### 2.1 `/start-lab N`
 
-**What it does.** Hands the week to `curriculum-mentor`, which reads `.cursor/skills/curriculum-plan/month-{ceil(N/4)}-*.md`, finds Week N, and prints the theme, learning objectives, required reading, deliverable, performance target, 5-axis rubric, and which subagents you should expect to need.
-Then scaffolds `labs/week-NN-<slug>/` from `labs/_template/` if it doesn't exist yet.
+**What it does.** Hands the lab to `curriculum-mentor`, which reads `.cursor/skills/curriculum-plan/month-{ceil(N/4)}-*.md`, finds Lab N (the section heading reads "Week N" inside the curriculum-plan files for historical reasons — it's the same lab), and prints the theme, learning objectives, required reading, deliverable, performance target, 5-axis rubric, and which subagents you should expect to need.
+Then scaffolds `labs/lab-NN-<slug>/` from `labs/_template/` if it doesn't exist yet — including a fully populated `## Plan of work` checklist in `LAB.md`.
 
-**When.** Monday morning of every week, exactly once.
+**When.** Monday morning of every lab (~weekly), exactly once.
 
 **How.**
 ```
-/start-week 5
+/start-lab 5
 ```
 
 **What you should do with the output.**
-1. Open `LAB.md` in the new lab folder. It's pre-populated with the spec — read it before you read anything else.
+1. Open `LAB.md` in the new lab folder. Read the `## Plan of work` checklist first — it's the operating manual.
 2. Open the chapters the mentor cited, *in the order it cited them*.
 3. Don't open the editor yet. Reading first, code second.
 
-**Pitfall.** Don't run `/start-week` again to "remind yourself". Re-read the lab's `LAB.md` instead. Re-running may regenerate stale state.
+**Pitfall.** Don't run `/start-lab` again to "remind yourself". Re-read the lab's `LAB.md` instead. Re-running may regenerate stale state.
 
 ---
 
@@ -155,11 +155,11 @@ If the Results table has a row but you don't have profile evidence, delete the r
 Each axis scored 0–4 with one specific `file:line` piece of evidence.
 Returns `READY_TO_ADVANCE | REWORK | BLOCKED` with thresholds:
 
-- Regular weeks: **14/20** to advance.
-- Month boundaries (weeks 4, 8, 12): **17/20**.
-- Week 16 (capstone): **18/20**.
+- Regular labs: **14/20** to advance.
+- Checkpoint labs (4, 8, 12): **17/20**.
+- Lab 16 (capstone): **18/20**.
 
-**When.** Friday or Saturday of every week.
+**When.** Friday or Saturday of every lab.
 Always after `/lab-report`.
 Always *before* you mentally check out for the weekend.
 
@@ -169,7 +169,7 @@ Always *before* you mentally check out for the weekend.
 ```
 
 **What you should do with the output.**
-- `READY_TO_ADVANCE` → next Monday is `/start-week N+1`.
+- `READY_TO_ADVANCE` → next Monday is `/start-lab N+1`.
 - `REWORK` → the mentor names 1–3 highest-leverage fixes. Do those, re-run `/checkpoint`. Don't advance with debt.
 - `BLOCKED` → tell the mentor what's in the way. The mentor can re-scope the lab.
 
@@ -184,7 +184,7 @@ If it scored Performance 2/4 and you think it should be 3, the right move is to 
 Saves to `docs/research/<topic-slug>.md` so your personal literature index accumulates.
 
 **When.**
-- Week before you'll need it (e.g. `Gaussian splatting` in Week 11).
+- Week before you'll need it (e.g. `Gaussian splatting` in Lab 11).
 - When a paper drops (e.g. a new Cosmos release).
 - As a side quest when a concept in another lab fascinates you.
 
@@ -234,7 +234,7 @@ The deployer assumes the artifact is good.
 
 A few rules that compound over 16 weeks:
 
-- **Run them in order.** `/start-week → code → /review-cuda → /profile-kernel → /lab-report → /checkpoint`. The order encodes the scientific method (hypothesis → implement → review → measure → write → grade).
+- **Run them in order.** `/start-lab → code → /review-cuda → /profile-kernel → /lab-report → /checkpoint`. The order encodes the scientific method (hypothesis → implement → review → measure → write → grade).
 - **One command per intent.** Don't pipeline `/review-cuda` and `/profile-kernel` in one message; you want to read each verdict.
 - **Re-read, don't re-run.** Most "wait, what did the mentor say?" moments are answered by scrolling up, not re-invoking.
 - **Trust the verdicts.** If `/checkpoint` says `REWORK`, the lab isn't done.
@@ -253,7 +253,7 @@ Reach for an agent by saying so explicitly:
 
 | Agent | Use when |
 |---|---|
-| **`curriculum-mentor`** | You want the plan re-explained, the rubric clarified, or to negotiate an off-script lab. Owns `month-{1..4}-*.md`. *You almost always reach this one via `/start-week` or `/checkpoint`, not directly.* |
+| **`curriculum-mentor`** | You want the plan re-explained, the rubric clarified, or to negotiate an off-script lab. Owns `month-{1..4}-*.md`. *You almost always reach this one via `/start-lab` or `/checkpoint`, not directly.* |
 
 ### 3.2 Language and CUDA tutors
 
@@ -319,7 +319,7 @@ But knowing they exist lets you say "use the `nsight-profiling` skill" and skip 
 
 | Skill | Read by | Contains |
 |---|---|---|
-| `curriculum-plan/` | `curriculum-mentor`, `/start-week`, `/checkpoint` | The 16-week plan, week-by-week. |
+| `curriculum-plan/` | `curriculum-mentor`, `/start-lab`, `/checkpoint` | The 16-lab plan, lab-by-lab. |
 | `weekly-checkpoint/` | `curriculum-mentor`, `/checkpoint` | The 5-axis rubric and threshold logic. |
 | `lab-notebook/` | `/lab-report`, you | The `report/LAB.md` template. |
 | `cuda-kernel-authoring/` | `cuda-tutor`, `cuda-code-reviewer` | Kernel design checklist (coalesced loads, occupancy, async copies, etc.). |
@@ -347,8 +347,8 @@ A regular week (not a month-boundary or capstone).
 
 | | |
 |---|---|
-| **3 h reading** | The chapters `/start-week` lists. Bias toward PMPP / Iglberger early; Hartley / Torralba in Months 3-4. |
-| **`/start-week N`** | Once. Read the output carefully. |
+| **3 h reading** | The chapters `/start-lab` lists. Bias toward PMPP / Iglberger early; Hartley / Torralba in Months 3-4. |
+| **`/start-lab N`** | Once. Read the output carefully. |
 | **Open `LAB.md`** | Read the spec, the rubric, the perf target. |
 | **First sketch** | Plain English in `LAB.md` Method section: *what* you'll implement, *why* it should hit the target. |
 
@@ -470,7 +470,7 @@ Don't.
 A few habits that compound:
 
 - **Open the file you're asking about.** Subagents see your open files. "Why is this slow?" with the kernel open is a different question from "Why is CUDA slow?" with nothing open.
-- **Quote `file:line` when escalating.** "`labs/week-05-reduce/src/reduce.cu:42` — why does this race?" routes you to the answer faster than narrative.
+- **Quote `file:line` when escalating.** "`labs/lab-05-reduce/src/reduce.cu:42` — why does this race?" routes you to the answer faster than narrative.
 - **Demand citations.** When `cuda-tutor` says "this is a memory-bound kernel", ask "cite the section". The good agents already do this; reinforce the habit.
 - **Capture insights in `LAB.md` immediately.** If you don't write it down within an hour, you'll re-derive it next month.
 - **Diagram before you re-architect.** When a system has more than three moving pieces, sketch it (Excalidraw, whiteboard, paper) and drop the export into `docs/`. A 5-minute diagram saves a 2-day refactor. The repo already ships [`docs/SYLLABUS.excalidraw`](./SYLLABUS.excalidraw) and [`docs/READING-GUIDE.excalidraw`](./READING-GUIDE.excalidraw) as references for the format.
@@ -498,7 +498,7 @@ A handful of moves that separate a smooth week from a rough one:
 - **Use Plan mode for architecture decisions.** Before any multi-file refactor, switch Cursor to Plan mode (top-right). The thread becomes read-only and discussion-first.
 - **Sketch a diagram alongside any new lab folder.** On the first day of every lab, take 5 minutes to sketch the kernel's dataflow (Excalidraw, paper photo, whatever exports cleanly). Drop it in `report/` as the cover image for `report/LAB.md`.
 - **Run two profiles, not one.** `/profile-kernel` on `vN`, then on `vN+1`. Then ask `cuda-perf-profiler` to *diff* them. The diff is where the lesson lives.
-- **End every week with a one-line `what I'd do differently`.** Pin it at the top of `LAB.md` Discussion. By Week 16 you'll have 16 lines that compress more wisdom than any blog post.
+- **End every lab with a one-line `what I'd do differently`.** Pin it at the top of `LAB.md` Discussion. By Lab 16 you'll have 16 lines that compress more wisdom than any blog post.
 
 ---
 
@@ -506,7 +506,7 @@ A handful of moves that separate a smooth week from a rough one:
 
 | Question | Read |
 |---|---|
-| What chapters this week? | `LAB.md` after `/start-week`, or the relevant `month-N-*.md`. |
+| What chapters this lab? | `LAB.md` after `/start-lab`, or the relevant `month-N-*.md`. |
 | How do I structure `report/LAB.md`? | `.cursor/skills/lab-notebook/SKILL.md` |
 | What's the rubric? | `.cursor/skills/weekly-checkpoint/SKILL.md` |
 | Which Nsight section means what? | `.cursor/skills/nsight-profiling/SKILL.md` |
@@ -520,4 +520,4 @@ The system prompts are public, and they'll tell you exactly what the agent will 
 
 ---
 
-Now go run `/start-week 1`.
+Now go run `/start-lab 1`.

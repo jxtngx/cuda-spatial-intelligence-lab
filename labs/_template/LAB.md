@@ -143,10 +143,10 @@ TODO
 ## 4. Your task
 
 *This is the section the student should read most carefully.* Lists
-the files in `src/` (and `python/` from Week 2 on) that are blank /
-stubbed at this week's scaffolding tier, and what "done" looks like.
+the files in `src/` (and `python/` from Lab 02 on) that are blank /
+stubbed at this lab's scaffolding tier, and what "done" looks like.
 
-This week is **Tier <A | B | C | D>**. See
+This lab is **Tier <A | B | C | D>**. See
 [`labs/_template/README.md`](../_template/README.md) for what that
 means. Concretely:
 

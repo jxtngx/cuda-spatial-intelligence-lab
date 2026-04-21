@@ -4,7 +4,7 @@ Cursor lets you index third-party documentation and reference it in chat with `@
 The agents in this repo expect a specific catalogue of docs to be available, so they can cite primary sources ("see `@PTX` §9.7.13 on `cp.async`...") instead of paraphrasing from training data.
 
 This page lists every doc the curriculum assumes is imported, why it matters, and which week / agent will reach for it.
-**Import them once before Week 1.**
+**Import them once before Lab 01.**
 They take a few minutes each to crawl and the investment pays off all 16 weeks.
 
 ---
@@ -136,7 +136,7 @@ Below is the canonical name → tool mapping so you can verify your imports matc
 
 ## 9. Quick checklist
 
-Before `/start-week 1`, confirm these are all `Indexed` in your Docs panel:
+Before `/start-lab 1`, confirm these are all `Indexed` in your Docs panel:
 
 - [ ] `PTX`
 - [ ] `C++20`

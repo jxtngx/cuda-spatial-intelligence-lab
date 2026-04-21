@@ -1,7 +1,7 @@
-# Week 02 — Glossary
+# Lab 02 — Glossary
 
-> Only **new terms** introduced this week. Terms defined in
-> `labs/week-01-hello-cuda/GLOSSARY.md` (kernel, kernel launch, stream,
+> Only **new terms** introduced in this lab. Terms defined in
+> `labs/lab-01-hello-cuda/GLOSSARY.md` (kernel, kernel launch, stream,
 > `cudaMallocAsync`/`cudaFreeAsync`, grid-stride loop, coalesced access,
 > `float4`, `__align__(16)`, occupancy, achieved bandwidth, SOL, Memory
 > Workload Analysis, RAII, move-only, `std::span`, concept,

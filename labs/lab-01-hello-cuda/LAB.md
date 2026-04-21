@@ -205,6 +205,6 @@ ceiling first, then measure.
 - Stroustrup PPP3 — Ch 12-14 (classes), Ch 19 (vectors and free store).
 - CUDA C++ Programming Guide — §3.2.6 (streams), §11 (memory pools /
   `cudaMallocAsync`).
-- `.cursor/skills/curriculum-plan/month-1-foundations.md` (Week 1).
+- `.cursor/skills/curriculum-plan/month-1-foundations.md` (Lab 01 / Week 1).
 - `.cursor/skills/cuda-kernel-authoring/SKILL.md` (the standard loop).
 - `.cursor/skills/cpp20-modern-idioms/SKILL.md` (RAII wrappers).

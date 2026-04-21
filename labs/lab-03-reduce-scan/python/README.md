@@ -1,6 +1,6 @@
-# Week 03 — Python bindings
+# Lab 03 — Python bindings
 
-JIT-loaded PyTorch custom ops for the Week-03 reduction, scan, and
+JIT-loaded PyTorch custom ops for the Lab-03 reduction, scan, and
 histogram kernels. Pattern A from
 [`.cursor/skills/python-bindings/SKILL.md`](../../../.cursor/skills/python-bindings/SKILL.md).
 
@@ -13,7 +13,7 @@ histogram kernels. Pattern A from
 ## Smoke test
 
 ```bash
-cd labs/week-03-reduce-scan/python
+cd labs/lab-03-reduce-scan/python
 python reduce_scan_ext.py
 ```
 
@@ -23,7 +23,7 @@ This builds the extension on first run, then runs `reduce v4` on a
 ## Full test suite
 
 ```bash
-cd labs/week-03-reduce-scan/python
+cd labs/lab-03-reduce-scan/python
 pytest -v
 ```
 
@@ -34,7 +34,7 @@ Three groups:
   vs `torch.cumsum`, single block (n ≤ 1024).
 - `test_histogram_numerics` — both versions vs `torch.bincount`.
 - `test_overhead_bound` — coarse wrapper-overhead sanity check
-  (the strict 5% rule lands in Week 5 via the C++ bench JSON
+  (the strict 5% rule lands in Lab 05 via the C++ bench JSON
   hand-off).
 
 ## Notes
@@ -44,5 +44,5 @@ Three groups:
   `histogram(x, version="global"|"shared_warp")`.
 - The wrapper threads `at::cuda::getCurrentCUDAStream()` into every
   launcher, so `with torch.cuda.stream(s): reduce(x)` runs on `s`.
-- `scan` rejects `n > 1024` by design: this week's scan is single-block.
-  Multi-block decoupled look-back lands in Week 4 / 5.
+- `scan` rejects `n > 1024` by design: this lab's scan is single-block.
+  Multi-block decoupled look-back lands in Lab 04 / 05.

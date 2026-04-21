@@ -10,7 +10,7 @@ writing the test.
 
 ## 0. Preconditions
 
-- You're in a `labs/week-NN-*/` folder with a `CMakeLists.txt` already
+- You're in a `labs/lab-NN-*/` folder with a `CMakeLists.txt` already
   targeting `CMAKE_CUDA_ARCHITECTURES "121"` and `CMAKE_CXX_STANDARD 20`.
 - Nsight Systems and Nsight Compute are on `$PATH` (`nsys`, `ncu`).
 

@@ -1,5 +1,5 @@
 ---
-description: Generate or update report/LAB.md for the current week's lab using the lab-notebook skill template, populated from current code, tests, and Nsight reports in report/.
+description: Generate or update report/LAB.md for the current lab using the lab-notebook skill template, populated from current code, tests, and Nsight reports in report/.
 ---
 
 The user invoked `/lab-report`. Produce a rigorous `report/LAB.md`
@@ -7,7 +7,7 @@ following the **`lab-notebook`** skill's template.
 
 Workflow:
 
-1. Determine the current lab folder. If unclear, list `labs/week-*` and
+1. Determine the current lab folder. If unclear, list `labs/lab-*` and
    ask the user to pick.
 2. Read the `lab-notebook` skill (`.cursor/skills/lab-notebook/SKILL.md`)
    for the required structure and tone rules.

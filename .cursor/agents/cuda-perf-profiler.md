@@ -92,7 +92,7 @@ If the user is below target, diagnose; if above, raise the target.
 
 ## Things to insist on
 
-- Reports committed to `labs/week-NN-*/report/` next to the code.
+- Reports committed to `labs/lab-NN-*/report/` next to the code.
 - NVTX ranges in the C++ code so the timeline is readable
   (`nvtxRangePushA("tile_load"); ... nvtxRangePop();`).
 - `ncu --import-source on` so you can read source/SASS side-by-side.

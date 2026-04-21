@@ -177,10 +177,10 @@ vocabulary starts in Month 3.*
 - CUDA C++ Programming Guide §B.7 (asynchronous copy) and the
   `cuda::pipeline` section.
 
-**Prior weeks' deliverables you need working:**
-- Week 01: `Stream`, `DeviceBuffer<T>`, `CUDA_CHECK`, the
-  `launch<>` helper, and your AXPY profiling workflow. The Week 02
-  CMake imports them from `../week-01-hello-cuda/src` indirectly via
+**Prior labs' deliverables you need working:**
+- Lab 01: `Stream`, `DeviceBuffer<T>`, `CUDA_CHECK`, the
+  `launch<>` helper, and your AXPY profiling workflow. The Lab 02
+  CMake imports them from `../lab-01-hello-cuda/src` indirectly via
   copies of the headers — each lab is self-contained.
 
 **Toolchain checks:**
@@ -211,7 +211,7 @@ vocabulary starts in Month 3.*
 
 ### Performance target
 - **`gemm_tiled_async` ≥ 50% of `cublasSgemm`** at M=N=K=4096 on Spark
-  (sm_121). Week 4's checkpoint will push this to ≥ 70%.
+  (sm_121). Lab 04's checkpoint will push this to ≥ 70%.
 - Python wrapper overhead **< 5%** of kernel time at M=N=K=4096.
 - All four versions must produce a Nsight Compute report committed
   under `report/`.
@@ -367,14 +367,14 @@ TODO
   `cuda::pipeline`).
 - Iglberger, *C++ Software Design* Ch 4-5.
 - Curriculum: `.cursor/skills/curriculum-plan/month-1-foundations.md`
-  (Week 2).
+  (Lab 02 / Week 2).
 - Skills: `.cursor/skills/cuda-kernel-authoring/SKILL.md`,
   `.cursor/skills/nsight-profiling/SKILL.md`,
   `.cursor/skills/python-bindings/SKILL.md`.
 
 ## 10. What I would do next
 
-One paragraph. Candidate stretch directions for Week 4's
+One paragraph. Candidate stretch directions for Lab 04's
 checkpoint: vectorize all global loads as `float4`, double the
 register-tile to 8×8 per thread, sweep block shapes (64×64, 128×64,
 128×128), or — the Blackwell move — start prototyping a TMA-based

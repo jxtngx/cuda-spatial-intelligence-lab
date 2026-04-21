@@ -1,4 +1,4 @@
-# Week 04 — Python wrapper
+# Lab 04 — Python wrapper
 
 JIT loader for the `v4_checkpoint` SGEMM kernel.
 

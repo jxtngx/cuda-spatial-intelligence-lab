@@ -1,4 +1,4 @@
-// Week 03 — warp-aggregated histogram.
+// Lab 03 — warp-aggregated histogram.
 //
 // 256-bin histogram of uint8_t inputs. Two versions:
 //   - global atomics only (the "obvious" baseline)

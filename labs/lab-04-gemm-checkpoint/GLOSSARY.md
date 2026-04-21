@@ -1,9 +1,9 @@
-# Week 04 — Glossary
+# Lab 04 — Glossary
 
-> Only **new terms** introduced this week. Terms defined in
-> `labs/week-01-hello-cuda/GLOSSARY.md`,
-> `labs/week-02-tiled-gemm/GLOSSARY.md`, and
-> `labs/week-03-reduce-scan/GLOSSARY.md` are **not** redefined here.
+> Only **new terms** introduced in this lab. Terms defined in
+> `labs/lab-01-hello-cuda/GLOSSARY.md`,
+> `labs/lab-02-tiled-gemm/GLOSSARY.md`, and
+> `labs/lab-03-reduce-scan/GLOSSARY.md` are **not** redefined here.
 > In particular: shared memory, tiling, `__syncthreads`, bank
 > conflict, shared-memory padding, register tile, arithmetic
 > intensity, `cuda::memcpy_async`, `cuda::pipeline`, double
@@ -50,7 +50,7 @@
   GEMM, conv, and attention primitives, organized around the
   thread-block / warp / MMA tile hierarchy. Used here only as a
   *sanity baseline* via `cutlass::gemm::device::Gemm<...>`; the
-  primary CUTLASS lab is Week 5.
+  primary CUTLASS lab is Lab 05.
   First appears in: `src/cutlass_baseline.cu`.
   See: https://github.com/NVIDIA/cutlass; CUTLASS docs.
 - **`cutlass::gemm::device::Gemm<...>`** — the device-level GEMM
@@ -120,7 +120,7 @@
 
 GEMM is the substrate every Month-3 lab leans on (NeRF MLPs,
 Gaussian-splat projection, attention QKV), but the spatial-
-intelligence vocabulary itself begins in Week 9.
+intelligence vocabulary itself begins in Lab 09.
 
 ## Python bindings
 

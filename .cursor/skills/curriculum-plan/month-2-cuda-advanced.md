@@ -28,7 +28,7 @@ CUTLASS and understand why it exists.
   FP4/FP6/FP8 numerics, TMA.
 - CUTLASS 3.x docs — *Efficient GEMM in CUDA*, *CuTe* concepts.
 
-**Lab — `labs/week-05-tensor-cores/`.**
+**Lab — `labs/lab-05-tensor-cores/`.**
 1. Write `gemm_wmma_bf16` using `nvcuda::wmma` for M=N=K=4096, BF16 in,
    FP32 accumulate.
 2. Write `gemm_mma_bf16` using inline PTX `mma.sync` for the same shape.
@@ -54,7 +54,7 @@ the kernel that defines modern transformer perf.
 - CUDA C++ Programming Guide — §B.27 (`cuda::pipeline`), §B.28
   (asynchronous barrier).
 
-**Lab — `labs/week-06-fused-attention/`.**
+**Lab — `labs/lab-06-fused-attention/`.**
 1. Implement a single-precision causal attention kernel (Q, K, V) with
    the streaming-softmax trick, BR×BC tiles, double buffering.
 2. Implement a BF16 / FP32-accum variant using WMMA for the QKᵀ and PV
@@ -79,7 +79,7 @@ NCCL across two Sparks.
 - PMPP 4e — Ch 20 (Programming a heterogeneous computing cluster).
 - NCCL developer guide — §1-4.
 
-**Lab — `labs/week-07-streams-graphs/`.**
+**Lab — `labs/lab-07-streams-graphs/`.**
 1. Take your Week-6 attention kernel and your Week-2 GEMM; build a
    3-stream pipeline that overlaps `H→D` copy, attention, GEMM.
 2. Capture the pipeline as a `cudaGraph` and re-time vs un-captured.
@@ -107,7 +107,7 @@ stream and outputs rectified, undistorted frames in real time.
   (photometric image formation).
 - NVIDIA Video Codec SDK / NVDEC docs.
 
-**Lab — `labs/week-08-cv-pipeline/`.**
+**Lab — `labs/lab-08-cv-pipeline/`.**
 1. Use NVDEC (via PyAV or the Video Codec SDK) to decode a 4K30 H.264
    stream directly into a CUDA buffer.
 2. Implement on-GPU:

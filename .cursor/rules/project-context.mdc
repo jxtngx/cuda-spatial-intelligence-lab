@@ -53,8 +53,9 @@ introductory coddling.
 
 ## Project structure
 
-- `labs/week-NN-<slug>/` - one folder per curriculum week. Has `LAB.md`,
-  `CMakeLists.txt`, `src/`, `bench/`, `report/`.
+- `labs/lab-NN-<slug>/` - one folder per curriculum lab (16 labs total,
+  paced ~one per week). Has `LAB.md`, `GLOSSARY.md`, `CMakeLists.txt`,
+  `src/`, `tests/`, `bench/`, `report/`, plus `python/` from Lab 02 on.
 - `deploy/spark/` and `deploy/aws/` - production deploy scaffolds.
 - `app/` - the NextJS + LangChain DeepAgents application (Month 4).
 
@@ -69,7 +70,7 @@ benchmark eval, SDG, LLM-as-judge).
 
 ## Slash commands
 
-`/start-week N`, `/lab-report`, `/review-cuda`, `/profile-kernel`,
+`/start-lab N`, `/lab-report`, `/review-cuda`, `/profile-kernel`,
 `/checkpoint`, `/research-paper <topic>`, `/deploy-target {spark|sagemaker|bedrock}`.
 
 ## Markdown authoring style

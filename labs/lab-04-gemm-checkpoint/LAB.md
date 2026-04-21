@@ -1,16 +1,16 @@
 # Lab 04 — Checkpoint: production-grade tiled GEMM
 
-> Month-1 checkpoint week. The bar is **17/20**, not 14. This is the
-> first week the curriculum will refuse to advance you on a "good
+> Month-1 checkpoint lab. The bar is **17/20**, not 14. This is the
+> first lab the curriculum will refuse to advance you on a "good
 > enough" result. Read [`labs/_template/README.md`](../_template/README.md)
-> for what Tier A scaffolding means, and re-read your Week 02 lab
+> for what Tier A scaffolding means, and re-read your Lab 02 lab
 > before you touch this one.
 
 ## 0. Intro
 
-The single point of this week is to show that you can drive **one
+The single point of this lab is to show that you can drive **one
 kernel** to a real performance target with **profile evidence** to
-back it up. You will start from your best Week-02 GEMM
+back it up. You will start from your best Lab 02 GEMM
 (`gemm_tiled_async`), add the four optimizations the literature says
 matter most for SGEMM on a modern NVIDIA GPU — double-buffered async
 copies, register tiling (each thread owns a 4×4 sub-tile of `C`),
@@ -211,18 +211,18 @@ inherit.
 - CUDA C++ Best Practices Guide §9 (Memory optimizations) end-to-end.
 - CUTLASS docs — *Efficient GEMM in CUDA*
   (https://github.com/NVIDIA/cutlass/blob/main/media/docs/efficient_gemm.md).
-  You will *not* use CUTLASS as your primary kernel until Week 5,
+  You will *not* use CUTLASS as your primary kernel until Lab 05,
   but the vocabulary (warp tiles, MMA fragments, double buffering,
   thread-block tile / warp tile / MMA tile hierarchy) is required
   for the §5 Hypothesis and §8 Discussion.
 
-**Prior weeks' deliverables you need working:**
-- Week 02: `gemm_tiled_async` passes `test_gemm` and reports a
-  GFLOP/s number that meets its ≥ 50% target. If Week 02 isn't
-  green, do **not** start Week 04 — fix Week 02 first.
-- Week 01: `DeviceBuffer<T>`, `Stream`, and the `KernelLaunch`
+**Prior labs' deliverables you need working:**
+- Lab 02: `gemm_tiled_async` passes `test_gemm` and reports a
+  GFLOP/s number that meets its ≥ 50% target. If Lab 02 isn't
+  green, do **not** start Lab 04 — fix Lab 02 first.
+- Lab 01: `DeviceBuffer<T>`, `Stream`, and the `KernelLaunch`
   helper. They are reused unchanged here.
-- Week 03: optional. `cub::DeviceReduce` is *not* used this week.
+- Lab 03: optional. `cub::DeviceReduce` is *not* used in this lab.
 
 **Toolchain checks:**
 - `nvidia-smi`, `nvcc --version` (CUDA 13), CMake ≥ 3.28, Nsight
@@ -310,7 +310,7 @@ Concretely:
   One `// TODO(student):` marker: pick the launch geometry
   (`grid`, `block`) for the 128-tile instantiation.
 - `src/gemm_pybind.cpp` — **provided.** Adds `v4_checkpoint` to
-  the `_VERSION_MAP` already exported by Week 02. No TODOs.
+  the `_VERSION_MAP` already exported by Lab 02. No TODOs.
 - `src/cutlass_baseline.cu` — **provided** (guarded by
   `CUDALAB_HAVE_CUTLASS`). One `// TODO(student):` marker: pick
   the `cutlass::gemm::device::Gemm<...>` template parameters
@@ -438,7 +438,7 @@ TODO
 - libcu++ `<cuda/pipeline>`, `<cuda/barrier>`.
 - Williams, Waterman, Patterson — *Roofline: An Insightful Visual
   Performance Model*, CACM 2009.
-- Curriculum: `.cursor/skills/curriculum-plan/month-1-foundations.md` §Week 4.
+- Curriculum: `.cursor/skills/curriculum-plan/month-1-foundations.md` §Week 4 (Lab 04).
 - Skills: `.cursor/skills/cuda-kernel-authoring/SKILL.md`,
   `.cursor/skills/nsight-profiling/SKILL.md`,
   `.cursor/skills/python-bindings/SKILL.md`,
@@ -449,7 +449,7 @@ TODO
 
 Two stretch directions, pick one paragraph: (a) drop to FP16 / BF16
 inputs with FP32 accumulation and route through the tensor-core
-WMMA API — this is the on-ramp to Week 5 (CUTLASS / CuTe / TMA on
+WMMA API — this is the on-ramp to Lab 05 (CUTLASS / CuTe / TMA on
 Blackwell); (b) handle non-multiple-of-128 shapes via a tail-loop
 epilogue without the if-branch killing throughput on the bulk
 tiles. Either is enough; do **not** do both — the checkpoint is

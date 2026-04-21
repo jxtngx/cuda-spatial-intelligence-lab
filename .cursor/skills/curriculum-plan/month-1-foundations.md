@@ -27,7 +27,7 @@ your first real CUDA kernel running on Spark with the right toolchain.
 - PMPP 4e — Ch 1 (Introduction), Ch 2 (Heterogeneous data parallel computing), Ch 3 (Multidimensional grids).
 - CUDA C++ Programming Guide — §1, §2, §5 (programming model, programming interface, programming model details).
 
-**Lab — `labs/week-01-hello-cuda/`.**
+**Lab — `labs/lab-01-hello-cuda/`.**
 1. Build a `DeviceBuffer<T>` RAII type around `cudaMallocAsync` /
    `cudaFreeAsync`. Move-only. Concept-constrained on `std::is_trivially_copyable`.
 2. Build a `Stream` RAII type. Build a `KernelLaunch` helper that takes a
@@ -59,7 +59,7 @@ GEMM and you can articulate why each refactor moved the needle.
 - CUDA C++ Best Practices Guide — §9 (Memory optimizations) end-to-end.
 - Iglberger Ch 4-5 (Visitor / Strategy modernization).
 
-**Lab — `labs/week-02-tiled-gemm/`.**
+**Lab — `labs/lab-02-tiled-gemm/`.**
 1. Implement four versions of single-precision GEMM (M=N=K=4096):
    - `gemm_naive` (one thread = one output element, global memory).
    - `gemm_tiled_32` (32×32 tiles, shared memory).
@@ -90,7 +90,7 @@ Master the building blocks.
 - *Optimizing Parallel Reduction in CUDA* (Mark Harris classic; still required reading).
 - CUDA C++ Programming Guide — §B.16 (warp shuffle), §B.18 (cooperative groups).
 
-**Lab — `labs/week-03-reduce-scan/`.**
+**Lab — `labs/lab-03-reduce-scan/`.**
 1. Implement parallel reduction in 5 stages (Harris's classic), benchmark
    each, commit Nsight Compute reports.
 2. Implement an inclusive scan using `cooperative_groups::scan` AND a
@@ -114,7 +114,7 @@ profile evidence.
   you won't use CUTLASS until Week 5; it teaches the vocabulary
   (warp tiles, MMA fragments, double buffering).
 
-**Lab — `labs/week-04-gemm-checkpoint/`.**
+**Lab — `labs/lab-04-gemm-checkpoint/`.**
 1. Take the best Week-2 GEMM and add: double-buffered async copies,
    register tiling (each thread computes a 4×4 sub-tile), vectorized
    loads (`float4`), and read-only `__ldg` where appropriate.

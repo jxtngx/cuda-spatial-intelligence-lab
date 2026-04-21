@@ -5,7 +5,7 @@ description: Deploy a model trained on DGX Spark to AWS — either as a SageMake
 
 # Deploying to AWS SageMaker / Bedrock
 
-Companion to `sagemaker-bedrock-deploy`. Used in Week 14 (dual deploy).
+Companion to `sagemaker-bedrock-deploy`. Used in Lab 14 (dual deploy).
 
 ## Decision: SageMaker vs Bedrock
 
@@ -158,7 +158,7 @@ Same container; different deploy config.
 
 ## Validation across both targets
 
-End of Week 14: a small Python harness (`bench/dual_deploy_bench.py`) that:
+End of Lab 14: a small Python harness (`bench/dual_deploy_bench.py`) that:
 1. Sends the same N requests to Spark Triton and SageMaker endpoint.
 2. Reports p50/p95 latency, throughput, $-per-1k for AWS, kWh-est. for
    Spark.

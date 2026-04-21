@@ -1,17 +1,17 @@
 ---
 name: lab-notebook
-description: How to author a rigorous report/LAB.md for a curriculum week — the writeup that is graded on the Writeup axis of the rubric and shipped publicly with the repo. Use when running /lab-report or finishing a week.
+description: How to author a rigorous report/LAB.md for a curriculum lab — the writeup that is graded on the Writeup axis of the rubric and shipped publicly with the repo. Use when running /lab-report or finishing a lab.
 ---
 
 # Lab notebook (`report/LAB.md`) authoring
 
-Every `labs/week-NN-*/` ships a `report/LAB.md`. It is the write-up
+Every `labs/lab-NN-*/` ships a `report/LAB.md`. It is the write-up
 recruiters will read. Treat it as a mini-paper.
 
 ## Required sections
 
 ```markdown
-# Week N — <Title>
+# Lab N — <Title>
 
 ## 1. Spec
 - Inputs / outputs (shapes, dtypes, layouts)
@@ -78,7 +78,7 @@ At least one concrete next experiment (with the metric you'd watch).
 ## Ready-to-paste skeleton
 
 ```markdown
-# Week 02 — Tiled SGEMM
+# Lab 02 — Tiled SGEMM
 
 ## Setup
 - Hardware: DGX Spark, sm_121, driver <X>, CUDA <Y>

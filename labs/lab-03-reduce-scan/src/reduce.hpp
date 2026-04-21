@@ -1,4 +1,4 @@
-// Week 03 — parallel reduction API.
+// Lab 03 — parallel reduction API.
 //
 // Five stages, after Mark Harris's classic
 // "Optimizing Parallel Reduction in CUDA" (still required reading).

@@ -72,14 +72,15 @@ academic, but every applied lab is anchored to a primary text or paper.
 
 ## Daily loop in Cursor
 
-1. `/start-week N` → curriculum-mentor opens the week.
+1. `/start-lab N` → curriculum-mentor opens the lab.
 2. Read the assigned chapters first. Do not write code before reading.
-3. Implement in `labs/week-NN-*/`. Use `cpp20-tutor` and `cuda-tutor` as
-   you go.
+3. Implement in `labs/lab-NN-*/`. Use `cpp20-tutor` and `cuda-tutor` as
+   you go. Follow the `## Plan of work` checklist in the lab's
+   `LAB.md`.
 4. After it compiles, `/review-cuda`.
 5. After it passes tests, `/profile-kernel`.
 6. After perf target hit, `/lab-report`.
-7. End of week: `/checkpoint`.
+7. End of lab: `/checkpoint`.
 
 ## Stretch tracks
 

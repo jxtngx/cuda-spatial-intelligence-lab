@@ -4,7 +4,7 @@ The six required books cover ~7,000 pages between them.
 You will not read all of it, and you should not try to.
 This guide tells you what to read, when, and *how* — passive vs active vs reference — so the textbooks become tools, not homework.
 
-> Read this once before Week 1.
+> Read this once before Lab 01.
 > Skim it again at the start of each month.
 
 ---
@@ -14,7 +14,7 @@ This guide tells you what to read, when, and *how* — passive vs active vs refe
 Three modes show up in the per-book sections below.
 Use them deliberately:
 
-- **R — Read cover-to-cover.** Linear. Take notes. Do exercises. This is rare; reserved for the chapters that *teach* a concept you'll use every week.
+- **R — Read cover-to-cover.** Linear. Take notes. Do exercises. This is rare; reserved for the chapters that *teach* a concept you'll use every lab.
 - **A — Read actively, with code open.** Type the code into the lab. Predict the output before running. This is most of your CUDA reading.
 - **F — Use as a reference; consult before you write the lab.** Read the relevant section, build a mental map, *then* close the book.
 - **S — Skim once for vocabulary, return when you hit the wall.** For chapters whose concepts you'll only need rarely.
@@ -40,29 +40,29 @@ Read each assigned chapter in two passes:
 End-of-chapter exercises: **do all of them** for chapters 4, 5, 6, 10, 11, 16.
 Skip exercises in chapters you're using as reference.
 
-### Chapter map → curriculum week
+### Chapter map → curriculum lab
 
-| Chapters | Mode | Week(s) |
+| Chapters | Mode | Lab(s) |
 |---|---|---|
-| 1 — Introduction | S | Week 1 (skim once, never reopen) |
-| 2 — Heterogeneous data parallel computing | A | Week 1 |
-| 3 — Multidimensional grids and data | A | Week 1 |
-| 4 — Compute architecture and scheduling | R | Week 2 (read carefully — the mental model for the rest of CUDA) |
-| 5 — Memory architecture and data locality | R | Week 2 + reread Week 4 |
-| 6 — Performance considerations | R | Week 3 + reread Week 4 |
-| 7 — Convolution | F | Week 6 (reference for the attention kernel work) |
-| 8 — Stencil | S | Week 8 (the rectification kernel rhymes with stencils) |
-| 9 — Parallel histogram (atomics) | A | Week 3 |
-| 10 — Reduction | R | Week 3 |
-| 11 — Prefix sum (scan) | R | Week 3 |
-| 12 — Merge | F | Week 7 (consult when async copies / pipelines come up) |
+| 1 — Introduction | S | Lab 01 (skim once, never reopen) |
+| 2 — Heterogeneous data parallel computing | A | Lab 01 |
+| 3 — Multidimensional grids and data | A | Lab 01 |
+| 4 — Compute architecture and scheduling | R | Lab 02 (read carefully — the mental model for the rest of CUDA) |
+| 5 — Memory architecture and data locality | R | Lab 02 + reread Lab 04 |
+| 6 — Performance considerations | R | Lab 03 + reread Lab 04 |
+| 7 — Convolution | F | Lab 06 (reference for the attention kernel work) |
+| 8 — Stencil | S | Lab 08 (the rectification kernel rhymes with stencils) |
+| 9 — Parallel histogram (atomics) | A | Lab 03 |
+| 10 — Reduction | R | Lab 03 |
+| 11 — Prefix sum (scan) | R | Lab 03 |
+| 12 — Merge | F | Lab 07 (consult when async copies / pipelines come up) |
 | 13 — Sorting | S | Mainly skim |
 | 14 — Sparse matrices | S | Skim |
 | 15 — Graph traversal | S | Skim |
-| 16 — Deep learning (tensor cores) | R | Week 5 |
-| 17 — Iterative solvers | A | Week 6 (the streaming-softmax pattern in fused attention) |
-| 18-19 — DL serving / inference | F | Week 13 (reference when building TRT engines) |
-| 20 — Programming a heterogeneous cluster | A | Week 7 (and the optional 2-Spark NCCL stretch) |
+| 16 — Deep learning (tensor cores) | R | Lab 05 |
+| 17 — Iterative solvers | A | Lab 06 (the streaming-softmax pattern in fused attention) |
+| 18-19 — DL serving / inference | F | Lab 13 (reference when building TRT engines) |
+| 20 — Programming a heterogeneous cluster | A | Lab 07 (and the optional 2-Spark NCCL stretch) |
 | 21+ — Application case studies | F | Skim now; return when a real workload looks similar |
 
 ### Companion to PMPP — the CUDA C++ docs
@@ -72,7 +72,7 @@ The official CUDA docs teach syntax and constraints.
 You will live in two URLs:
 
 - **CUDA C++ Programming Guide** — the spec. Read §3 (programming interface), §B (built-in functions), §C (CUDA dynamic parallelism). Bookmark §B.16 (warp shuffle), §B.18 (cooperative groups), §B.27 (`cuda::pipeline`), §B.30 (`wmma`), §B.31 (`mma`).
-- **CUDA C++ Best Practices Guide** — read §9 (memory optimizations) end-to-end before Week 2. Reread before Week 4.
+- **CUDA C++ Best Practices Guide** — read §9 (memory optimizations) end-to-end before Lab 02. Reread before Lab 04.
 
 When the `cuda-tutor` subagent cites "PMPP §5.4", it means the section in the 4th edition.
 Don't accept "PMPP" without a section.
@@ -88,7 +88,7 @@ Most engineers skip the design layer. Don't.
 ### How to read it
 
 Iglberger is structured around *guidelines* (numbered like Scott Meyers' *Effective C++*).
-Read it **R** mode (cover-to-cover) over Weeks 1-7, one chapter per weekend.
+Read it **R** mode (cover-to-cover) over Labs 01-07, one chapter per weekend.
 Each guideline has a "before" and "after" example — type both into a scratch project and convince yourself the "after" is in fact better.
 
 Most useful guidelines for this lab:
@@ -99,19 +99,19 @@ Most useful guidelines for this lab:
 - **Guideline 19-22** — Type erasure and `std::function`-shaped abstractions.
 - **Guideline 25-32** — Modern alternatives to inheritance (Visitor, Strategy, Command via `std::variant` / type erasure).
 
-### Chapter map → curriculum week
+### Chapter map → curriculum lab
 
-| Chapters | Mode | Week(s) |
+| Chapters | Mode | Lab(s) |
 |---|---|---|
-| 1 — The Art of Software Design | R | Week 1 |
-| 2 — The Art of Building Abstractions | R | Week 1 |
-| 3 — The Purpose of Design Patterns | R | Week 1 |
-| 4 — The Visitor Design Pattern | R | Week 2 (apply to GEMM kernel-version selection) |
-| 5 — The Strategy and Command Patterns | R | Week 2 (the `LaunchConfig` builder is a Command) |
-| 6 — The Adapter, Observer, and CRTP Patterns | R | Week 3 |
-| 7 — The Bridge, Prototype, External Polymorphism | R | Week 3 |
-| 8 — Type Erasure | R | Week 5 (when you have a polymorphic kernel selector) |
-| 9 — The Decorator Pattern | F | Week 13 (TRT engine wrapping) |
+| 1 — The Art of Software Design | R | Lab 01 |
+| 2 — The Art of Building Abstractions | R | Lab 01 |
+| 3 — The Purpose of Design Patterns | R | Lab 01 |
+| 4 — The Visitor Design Pattern | R | Lab 02 (apply to GEMM kernel-version selection) |
+| 5 — The Strategy and Command Patterns | R | Lab 02 (the `LaunchConfig` builder is a Command) |
+| 6 — The Adapter, Observer, and CRTP Patterns | R | Lab 03 |
+| 7 — The Bridge, Prototype, External Polymorphism | R | Lab 03 |
+| 8 — Type Erasure | R | Lab 05 (when you have a polymorphic kernel selector) |
+| 9 — The Decorator Pattern | F | Lab 13 (TRT engine wrapping) |
 | 10 — The Singleton Pattern | S | Skim — Iglberger argues against; agree |
 
 ### When to consult the `cpp20-tutor`
@@ -130,7 +130,7 @@ Use it **F** mode for any C++ language mechanic you're rusty on.
 
 ### How to read it
 
-Skim the table of contents Week 1.
+Skim the table of contents during Lab 01.
 Mark the chapters you're already fluent in (likely Ch 1-3, 18, 22+).
 Read the chapters below carefully.
 
@@ -174,16 +174,16 @@ The *most current* of the three CV books.
 Read **R** mode for the chapters in scope (1-6 + targeted later chapters).
 Each chapter has notebook-style exercises — do at least one per chapter and check your work against the published solutions where available.
 
-### Chapter map → curriculum week
+### Chapter map → curriculum lab
 
-| Chapters | Mode | Week(s) |
+| Chapters | Mode | Lab(s) |
 |---|---|---|
-| 1 — What is vision? | R | Week 8 |
-| 2 — Image formation | R | Week 8 (camera model — also covered by Hartley §6) |
-| 3 — Filtering | R | Week 8 (Gaussian filter you'll write in CUDA) |
-| 4 — Edges | R | Week 8 |
-| 5 — Color | A | Week 8 (NV12 → RGB conversion is a color-space exercise) |
-| 6 — Texture | A | Week 8 |
+| 1 — What is vision? | R | Lab 08 |
+| 2 — Image formation | R | Lab 08 (camera model — also covered by Hartley §6) |
+| 3 — Filtering | R | Lab 08 (Gaussian filter you'll write in CUDA) |
+| 4 — Edges | R | Lab 08 |
+| 5 — Color | A | Lab 08 (NV12 → RGB conversion is a color-space exercise) |
+| 6 — Texture | A | Lab 08 |
 | 7+ — Features, recognition, learned models | F | Reference for Months 3-4 |
 | Chapters on neural CV / generative models | F | Cross-reference when reading the Cosmos paper |
 
@@ -212,23 +212,23 @@ Two passes per chapter:
 
 The exercises are excellent and hard; do them for §11 (the 8-point algorithm) and §12.
 
-### Chapter map → curriculum week
+### Chapter map → curriculum lab
 
-| Sections | Mode | Week(s) |
+| Sections | Mode | Lab(s) |
 |---|---|---|
-| §1 — Introduction | S | Week 8 (skim for vocabulary) |
-| §2 — Projective geometry 2D | A | Week 8 |
-| §3 — Projective geometry 3D | A | Week 8 |
-| §4 — Estimation 2D projective | F | Week 9 reference |
-| §5 — Algorithm evaluation and error analysis | F | Week 9 reference |
-| §6 — Camera models | R | Week 8 (pinhole + distortion — your rectification lab) |
-| §7 — Computation of the camera matrix | F | Week 10 reference |
+| §1 — Introduction | S | Lab 08 (skim for vocabulary) |
+| §2 — Projective geometry 2D | A | Lab 08 |
+| §3 — Projective geometry 3D | A | Lab 08 |
+| §4 — Estimation 2D projective | F | Lab 09 reference |
+| §5 — Algorithm evaluation and error analysis | F | Lab 09 reference |
+| §6 — Camera models | R | Lab 08 (pinhole + distortion — your rectification lab) |
+| §7 — Computation of the camera matrix | F | Lab 10 reference |
 | §8 — More single view geometry | S | Skim |
-| §9 — Epipolar geometry, the fundamental matrix | R | Week 9 (the heart of two-view) |
-| §10 — 3D reconstruction of cameras and structure | R | Week 9 |
-| §11 — Computation of the fundamental matrix F | R | Week 9 (8-point algorithm — implement on GPU) |
-| §12 — Structure computation | R | Week 10 |
-| §13 — Scene planes and homographies | R | Week 10 |
+| §9 — Epipolar geometry, the fundamental matrix | R | Lab 09 (the heart of two-view) |
+| §10 — 3D reconstruction of cameras and structure | R | Lab 09 |
+| §11 — Computation of the fundamental matrix F | R | Lab 09 (8-point algorithm — implement on GPU) |
+| §12 — Structure computation | R | Lab 10 |
+| §13 — Scene planes and homographies | R | Lab 10 |
 | §14 — Affine epipolar geometry | F | Reference |
 | §15 — The trifocal tensor | F | Reference (only if you go deep on three-view) |
 
@@ -253,19 +253,19 @@ Instead:
 - Use it as the *first* place to look up an algorithm by name ("structure from motion", "loopy belief propagation", "stereo matching"). Szeliski's coverage is the best single-volume index in the field.
 - For each lab in Month 3, read the relevant Szeliski chapter once, *then* go to Hartley for depth.
 
-### Chapter map → curriculum week
+### Chapter map → curriculum lab
 
-| Chapters | Mode | Week(s) |
+| Chapters | Mode | Lab(s) |
 |---|---|---|
-| §2 — Image formation | F | Week 8 (cross-reference with Torralba 2 + Hartley 6) |
-| §3 — Image processing | F | Week 8 reference |
+| §2 — Image formation | F | Lab 08 (cross-reference with Torralba 2 + Hartley 6) |
+| §3 — Image processing | F | Lab 08 reference |
 | §4-7 — Features, matching, segmentation | F | Reference |
 | §8 — Dense motion estimation | F | Reference |
 | §9 — Image stitching | F | Reference |
-| §11 — Structure from motion | A | Week 10 |
-| §12 — Stereo correspondence | A | Week 10 (you'll implement SGBM in CUDA) |
-| §13 — 3D reconstruction | R | Week 12 (sets up Gaussian splatting context) |
-| §14 — Image-based rendering | F | Week 12 reference |
+| §11 — Structure from motion | A | Lab 10 |
+| §12 — Stereo correspondence | A | Lab 10 (you'll implement SGBM in CUDA) |
+| §13 — 3D reconstruction | R | Lab 12 (sets up Gaussian splatting context) |
+| §14 — Image-based rendering | F | Lab 12 reference |
 | §15+ — Recognition / generative models | F | Cross-reference for Cosmos work |
 
 ---
@@ -316,9 +316,9 @@ Instead:
 
 **Month 1.** PMPP 1-6, 9-11, **R** mode. Iglberger 1-7, **R** mode, one chapter per weekend. PPP3 12, 19, **R** mode; rest **F** mode.
 
-**Month 2.** PMPP 16-17, **R** mode. CUDA C++ Programming Guide §B.27 (`pipeline`), §B.30-31 (WMMA / MMA), **R** mode. CUTLASS docs *Efficient GEMM in CUDA*, **A** mode. Then Week 8: Torralba 1-6 **R**, Hartley 1-3 + 6 **R**, Szeliski 2-3 **F**.
+**Month 2.** PMPP 16-17, **R** mode. CUDA C++ Programming Guide §B.27 (`pipeline`), §B.30-31 (WMMA / MMA), **R** mode. CUTLASS docs *Efficient GEMM in CUDA*, **A** mode. Then Lab 08: Torralba 1-6 **R**, Hartley 1-3 + 6 **R**, Szeliski 2-3 **F**.
 
-**Month 3.** Hartley 9-13, **R** mode (this is the hard one — protect the time). Szeliski 11-13 **F** mode in parallel. Week 11: Cosmos technical report **R** mode. Week 12: Kerbl et al SIGGRAPH 2023 (Gaussian splatting) **R** mode + read the rasterizer's CUDA source.
+**Month 3.** Hartley 9-13, **R** mode (this is the hard one — protect the time). Szeliski 11-13 **F** mode in parallel. Lab 11: Cosmos technical report **R** mode. Lab 12: Kerbl et al SIGGRAPH 2023 (Gaussian splatting) **R** mode + read the rasterizer's CUDA source.
 
 **Month 4.** Mostly *docs*, not books.
 TensorRT Developer Guide §1-4 + §10 (quantization), **R**.

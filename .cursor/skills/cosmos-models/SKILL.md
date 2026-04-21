@@ -1,6 +1,6 @@
 ---
 name: cosmos-models
-description: Working with NVIDIA Cosmos World Foundation Models (Cosmos-Predict, Cosmos-Reason, Cosmos-Transfer) on DGX Spark — pulling containers, running baseline inference, fine-tuning on custom data, and exporting for production. Use when the user is on Week 11+ or otherwise interacting with Cosmos.
+description: Working with NVIDIA Cosmos World Foundation Models (Cosmos-Predict, Cosmos-Reason, Cosmos-Transfer) on DGX Spark — pulling containers, running baseline inference, fine-tuning on custom data, and exporting for production. Use when the user is on Lab 11+ or otherwise interacting with Cosmos.
 ---
 
 # NVIDIA Cosmos on DGX Spark
@@ -65,7 +65,7 @@ Pick the smallest variant first. Confirm:
 If you OOM, you almost certainly pulled an x86 image or skipped
 `--shm-size`/`--ipc=host`.
 
-## Fine-tuning workflow (Week 11)
+## Fine-tuning workflow (Lab 11)
 
 1. **Curate ≥ 200 clips** of your target domain (~5-10 s each, ≥ 720p).
    Provide captions if the variant expects text conditioning.
@@ -81,7 +81,7 @@ If you OOM, you almost certainly pulled an x86 image or skipped
 5. **Eval qualitatively** on held-out clips first; quantitative metrics
    (FVD, etc.) only if your dataset supports them.
 
-## Export for production (Week 13)
+## Export for production (Lab 13)
 
 Two paths depending on architecture:
 

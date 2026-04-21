@@ -1,4 +1,4 @@
-# Week 02 — Python bindings
+# Lab 02 — Python bindings
 
 JIT-loaded PyTorch custom op for `gemm_tiled_async`. Pattern A from
 [`.cursor/skills/python-bindings/SKILL.md`](../../../.cursor/skills/python-bindings/SKILL.md).
@@ -12,7 +12,7 @@ JIT-loaded PyTorch custom op for `gemm_tiled_async`. Pattern A from
 ## Smoke test
 
 ```bash
-cd labs/week-02-tiled-gemm/python
+cd labs/lab-02-tiled-gemm/python
 python gemm_ext.py
 ```
 
@@ -22,7 +22,7 @@ prints the max-abs-error vs `torch.matmul`.
 ## Full test suite
 
 ```bash
-cd labs/week-02-tiled-gemm/python
+cd labs/lab-02-tiled-gemm/python
 pytest -v
 ```
 

@@ -9,7 +9,7 @@ A 4-month, 16-week, deep-water special-topics course taught **by Claude in Curso
 > - [`WORKFLOW.md`](./WORKFLOW.md) — how to actually drive the slash commands and partner with the subagents.
 >   The four cycles, the escalation tree, the weekly rhythm.
 > - [`CURSOR-DOCS.md`](./CURSOR-DOCS.md) — the third-party docs to import into Cursor's `@Docs` index (PTX, C++20, NeMo, TensorRT-LLM, Cosmos, LangChain DeepAgents, …).
->   Import once, before Week 1.
+>   Import once, before Lab 01.
 > - [`SYLLABUS.excalidraw`](./SYLLABUS.excalidraw) — visual companion: the 4-month arc, the daily Cursor loop, and the subagent roster on one canvas.
 >   Open in Cursor with the Excalidraw extension.
 > - [`READING-GUIDE.md`](./READING-GUIDE.md) — how to actually use the six textbooks.
@@ -70,7 +70,7 @@ Any book without a chapter table on the syllabus is consulted ad hoc; the books 
 | 1 | **PMPP** | *Programming Massively Parallel Processors*, 4e | Hwu, Kirk, El Hajj | CUDA spine — Months 1-2 weekly readings |
 | 2 | **Iglberger** | *C++ Software Design* | Iglberger | C++20 design idioms — Month 1 + ongoing |
 | 3 | **PPP3** | *Programming: Principles and Practice Using C++*, 3e | Stroustrup | C++ language fundamentals — early Month 1 |
-| 4 | **Torralba** | *Foundations of Computer Vision* | Torralba, Isola, Freeman | CV theory — Month 2 Week 8, Month 3 |
+| 4 | **Torralba** | *Foundations of Computer Vision* | Torralba, Isola, Freeman | CV theory — Month 2 Lab 08, Month 3 |
 | 5 | **Hartley** | *Multiple View Geometry in Computer Vision*, 2e | Hartley & Zisserman | Geometry spine — Month 3 |
 | 6 | **Szeliski** | *Computer Vision: Algorithms and Applications*, 2e | Szeliski | CV reference — Months 2-3 (consult more than read) |
 
@@ -132,9 +132,9 @@ Specifically: a roster of subagents plus a set of skills the agents know to cons
 ```
 read the assigned chapter(s)         ← brain on
    ↓
-/start-week N (first day of week)    ← curriculum-mentor opens the week
+/start-lab N (first day of the lab)  ← curriculum-mentor opens the lab
    ↓
-implement in labs/week-NN-*/         ← cuda-tutor + cpp20-tutor on standby
+implement in labs/lab-NN-*/          ← cuda-tutor + cpp20-tutor on standby
    ↓
 build, run, test                     ← compute-sanitizer first
    ↓
@@ -170,7 +170,7 @@ Delegate aggressively — that's what they're for.
 
 | Command | When |
 |---|---|
-| `/start-week N` | First action of a new week |
+| `/start-lab N` | First action of a new lab |
 | `/review-cuda` | After substantive C++/CUDA edits |
 | `/profile-kernel` | After tests pass; before claiming a perf number |
 | `/lab-report` | When you're ready to write up a version |
@@ -213,9 +213,9 @@ Full rubric details:
 
 ## 8. Required artifacts per lab
 
-Per `labs/week-NN-*/`:
+Per `labs/lab-NN-*/`:
 
-- `LAB.md` — spec + readings + perf target (skeleton from `/start-week`)
+- `LAB.md` — spec + readings + Plan of work + perf target (skeleton from `/start-lab`)
 - `src/` — C++ / CUDA implementation, modern idioms enforced
 - `tests/` — GoogleTest with CPU reference, max-error assertion, edge sizes (1, prime, 2^28)
 - `bench/` — microbenchmark reporting GB/s or GFLOPS vs roofline
@@ -241,9 +241,9 @@ The discipline is:
 
 ---
 
-## 10. Stretch tracks (after Week 16)
+## 10. Stretch tracks (after Lab 16)
 
-If you finish ahead — and you might, if you skip some Weeks 1-3 material due to existing knowledge — pick a track:
+If you finish ahead — and you might, if you skip some Lab 01-03 material due to existing knowledge — pick a track:
 
 - **Compiler track** — read the PTX ISA, write a Triton (OpenAI Triton) kernel for the same workload as a CUDA kernel you've written, and diff the SASS.
 - **Distributed track** — pair two Sparks via ConnectX-7; run FSDP + expert parallelism on a 70B-class model.
@@ -261,10 +261,10 @@ If you don't know which subagent, ask the `curriculum-mentor` and it'll route yo
 
 ## 12. Capstone
 
-End of Week 16:
+End of Lab 16:
 
-1. **Working system.** ≥ 1 camera paired (RTSP or RealSense), trained Gaussian-splatting scene from Week 12 viewable in-app, fine-tuned Cosmos served from both Spark (Triton) and AWS, DeepAgent answers ≥ 5 grounded question types.
-2. **Capstone writeup** (`labs/week-16-capstone/report/CAPSTONE.md`): abstract, system diagram, method, results (latency / throughput / cost), discussion, references.
+1. **Working system.** ≥ 1 camera paired (RTSP or RealSense), trained Gaussian-splatting scene from Lab 12 viewable in-app, fine-tuned Cosmos served from both Spark (Triton) and AWS, DeepAgent answers ≥ 5 grounded question types.
+2. **Capstone writeup** (`labs/lab-16-capstone/report/CAPSTONE.md`): abstract, system diagram, method, results (latency / throughput / cost), discussion, references.
 3. **Public release.** Tag `v1.0.0`, polish the README, post.
 
 This is the artifact you point recruiters at.

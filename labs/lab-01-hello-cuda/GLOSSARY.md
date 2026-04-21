@@ -1,7 +1,7 @@
-# Week 01 — Glossary
+# Lab 01 — Glossary
 
-> Only **new terms** introduced this week.
-> Future weeks will not redefine these.
+> Only **new terms** introduced in this lab.
+> Future labs will not redefine these.
 > Each entry: one-line definition, where it first appears in this lab, and a primary-source citation.
 >
 > Read this before [`LAB.md`](./LAB.md) §1 Spec.
@@ -38,13 +38,13 @@
 - **occupancy** — ratio of active warps per SM to the theoretical max, bounded by registers, shared memory, and block size; higher is often (not always) better for memory-bound kernels.
   First appears in: `LAB.md` §3 Method.
   See: PMPP 4e §4.6; Nsight Compute "Occupancy" section.
-- **achieved bandwidth (GB/s)** — measured DRAM throughput, `(bytes_moved) / (time_seconds) / 1e9`; the denominator of the Week 01 perf target.
+- **achieved bandwidth (GB/s)** — measured DRAM throughput, `(bytes_moved) / (time_seconds) / 1e9`; the denominator of the Lab 01 perf target.
   First appears in: `bench/bench_axpy.cpp`.
   See: Nsight Compute "Memory Workload Analysis".
 - **Speed of Light (SOL)** — Nsight Compute section that reports the kernel's achieved fraction of theoretical compute and memory peaks; for AXPY it should saturate the memory SOL, not compute.
   First appears in: `LAB.md` §2 Hypothesis.
   See: Nsight Compute User Guide, "Speed of Light" section.
-- **Memory Workload Analysis** — Nsight Compute section that breaks down DRAM/L2/L1 traffic, hit rates, and sector utilization; the evidence required for the Week 01 perf claim.
+- **Memory Workload Analysis** — Nsight Compute section that breaks down DRAM/L2/L1 traffic, hit rates, and sector utilization; the evidence required for the Lab 01 perf claim.
   First appears in: `LAB.md` §3 Spec.
   See: Nsight Compute User Guide.
 
@@ -76,4 +76,4 @@
 ## Spatial Intelligence / CV
 
 *No new terms introduced this week.*
-*Week 01 is a pure C++20 + CUDA foundations week; spatial-intelligence and CV vocabulary starts in Month 3.*
+*Lab 01 is a pure C++20 + CUDA foundations lab; spatial-intelligence and CV vocabulary starts in Month 3.*

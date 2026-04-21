@@ -30,7 +30,7 @@ own captured scene rendering at ≥ 30 FPS at 1080p.
 - Szeliski — §11 (structure from motion).
 - *MAGSAC++* (Barath et al) for a modern RANSAC variant.
 
-**Lab — `labs/week-09-eight-point-gpu/`.**
+**Lab — `labs/lab-09-eight-point-gpu/`.**
 1. CUDA kernel for normalized DLT (data normalization + SVD-friendly
    matrix construction). Use cuSOLVER for the SVD on the device.
 2. CUDA kernel for RANSAC scoring (each thread = one minimal-set
@@ -53,7 +53,7 @@ matcher in CUDA and connect to COLMAP for sparse SfM ground truth.
 - Szeliski — §12 (stereo correspondence), §13 (3D reconstruction).
 - COLMAP paper (Schönberger & Frahm, 2016).
 
-**Lab — `labs/week-10-stereo-sfm/`.**
+**Lab — `labs/lab-10-stereo-sfm/`.**
 1. Capture (or download from KITTI) ~30 images of a static scene.
 2. Run COLMAP to get ground-truth poses.
 3. Implement a CUDA semi-global block matching (SGBM) stereo kernel for
@@ -80,7 +80,7 @@ Cosmos-Reason on your scenes.
 - NVIDIA Spatial Intelligence Lab publications relevant to current
   research themes (use `spatial-intel-researcher` to surface them).
 
-**Lab — `labs/week-11-cosmos-finetune/`.**
+**Lab — `labs/lab-11-cosmos-finetune/`.**
 1. Pull the Cosmos NGC container; verify a baseline inference on a
    provided sample.
 2. Curate a small (≥ 200 clips) custom dataset from your own captured
@@ -107,7 +107,7 @@ captured. Train a 3D Gaussian splatting model on it, render novel views.
 - Nerfstudio docs (`gsplat` backend).
 - Hartley §10 once more for the camera-model intuition.
 
-**Lab — `labs/week-12-gaussian-splatting/`.**
+**Lab — `labs/lab-12-gaussian-splatting/`.**
 1. Capture ≥ 200 photos of a real scene in your home/yard. Run COLMAP
    for poses.
 2. Train a 3D Gaussian splatting model (use `gsplat` or the official

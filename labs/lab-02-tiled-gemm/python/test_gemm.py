@@ -1,6 +1,6 @@
 """pytest: numerics vs torch.matmul + wrapper-overhead bound.
 
-Required by every lab from Week 2 onward. See
+Required by every lab from Lab 02 onward. See
 `.cursor/skills/python-bindings/SKILL.md` for the canonical shape.
 """
 
@@ -74,5 +74,5 @@ def test_overhead_bound():
         f"wrapper overhead {overhead:.1%} > 5% (py={py_ms:.3f}ms, "
         f"ref={ref_ms:.3f}ms). Note: this comparison conflates kernel "
         f"speed with wrapper overhead; tighten via the C++ bench JSON "
-        f"hand-off in Week 5."
+        f"hand-off in Lab 05."
     )

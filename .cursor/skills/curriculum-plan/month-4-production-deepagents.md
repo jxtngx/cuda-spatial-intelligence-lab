@@ -31,7 +31,7 @@ engine, and benchmark vs the PyTorch baseline.
 - Blackwell whitepaper — quantization formats (E4M3, E5M2, MXFP4/MXFP6).
 - *FP8 Formats for Deep Learning* (Micikevicius et al, NVIDIA).
 
-**Lab — `labs/week-13-trt-optimize/`.**
+**Lab — `labs/lab-13-trt-optimize/`.**
 1. Export your fine-tuned Cosmos variant from Week 11 to ONNX (or use
    the TRT-LLM checkpoint conversion path if it's a transformer).
 2. Build TRT engines at FP16, BF16, and FP8. For each, measure latency
@@ -58,7 +58,7 @@ with accuracy delta within 1% of FP16.
 - Bedrock — *custom model import* (verify current support for your
   model architecture; if unsupported, document the limitation).
 
-**Lab — `labs/week-14-dual-deploy/`.**
+**Lab — `labs/lab-14-dual-deploy/`.**
 1. Stand up Triton on Spark with your TRT engine in `deploy/spark/model_repo/`.
    Health-check, `perf_analyzer`-bench at concurrency 1, 4, 16.
 2. Build a SageMaker BYOC container that wraps the same model. Note
@@ -91,7 +91,7 @@ canonical request shape; cost-per-1k clearly compared.
 - `mediamtx` docs for RTSP → WebRTC.
 - `pyrealsense2` docs if you're using a RealSense.
 
-**Lab — `labs/week-15-nextjs-deepagent/` and `app/`.**
+**Lab — `labs/lab-15-nextjs-deepagent/` and `app/`.**
 1. Stand up `app/` (Next.js 15, TypeScript, Tailwind v4, shadcn/ui).
 2. Stand up `agent/` (Python FastAPI service running `deepagents`).
 3. Implement the tools listed above. Persist scenes to Postgres +
@@ -116,7 +116,7 @@ canonical request shape; cost-per-1k clearly compared.
 - Pick 2-3 papers you cited that you now disagree with, and write
   *why* you disagree (rare, valuable, top-percentile move).
 
-**Lab — `labs/week-16-capstone/` plus polished `app/`.**
+**Lab — `labs/lab-16-capstone/` plus polished `app/`.**
 1. End-to-end demo:
    - At least one camera paired (RTSP or RealSense).
    - Trained Gaussian-splatting scene from Week 12 viewable in-app.

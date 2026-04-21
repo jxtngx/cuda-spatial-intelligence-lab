@@ -91,7 +91,7 @@ keep the Python runtime, keep the React UI, talk over SSE.
   (not frames) to AWS if the user opts in. Make this an explicit toggle
   in the UI.
 
-## Capstone deliverable (Week 16)
+## Capstone deliverable (Lab 16)
 
 A NextJS app where the user:
 

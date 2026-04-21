@@ -1,13 +1,13 @@
-# Week 03 — Glossary
+# Lab 03 — Glossary
 
-> Only **new terms** introduced this week. Terms defined in
-> `labs/week-01-hello-cuda/GLOSSARY.md` (kernel, kernel launch,
+> Only **new terms** introduced in this lab. Terms defined in
+> `labs/lab-01-hello-cuda/GLOSSARY.md` (kernel, kernel launch,
 > stream, `cudaMallocAsync`/`cudaFreeAsync`, grid-stride loop,
 > coalesced access, `float4`, `__align__(16)`, occupancy, achieved
 > bandwidth, SOL, Memory Workload Analysis, RAII, move-only,
 > `std::span`, concept, `std::is_trivially_copyable_v`, designated
 > initializers, templated kernel) and in
-> `labs/week-02-tiled-gemm/GLOSSARY.md` (shared memory, tiling,
+> `labs/lab-02-tiled-gemm/GLOSSARY.md` (shared memory, tiling,
 > `__syncthreads`, bank conflict, shared-memory padding, register
 > tile, arithmetic intensity, `cuda::memcpy_async`, `cuda::pipeline`,
 > double buffering, GFLOP/s, cuBLAS, `__restrict__`, strategy/dispatch
@@ -132,9 +132,9 @@ applications are introduced from Month 3 onward.
 
 ## Python bindings
 
-*No new terms introduced this week.*
+*No new terms introduced in this lab.*
 
 Same JIT loader / `PYBIND11_MODULE` / `at::cuda::getCurrentCUDAStream`
-pattern as Week 02. The only new wrinkle (one extension exposing
+pattern as Lab 02. The only new wrinkle (one extension exposing
 multiple primitive families behind one `_ext` module) is a layout
 choice, not new vocabulary.

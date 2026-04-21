@@ -36,14 +36,14 @@ When you (the agent) operate in this repo, default to these assumptions:
   rules/         # always-on project rules
 labs/
   _template/         # canonical lab scaffold + tier docs
-  week-NN-<slug>/
-    LAB.md           # 11-section lesson + writeup
+  lab-NN-<slug>/
+    LAB.md           # spec + Plan of work + writeup
     GLOSSARY.md      # new terms only (CUDA / C++20 / CV / Python bindings)
     CMakeLists.txt
-    src/             # C++/CUDA source (scaffolded at the week's tier)
+    src/             # C++/CUDA source (scaffolded at the lab's tier)
     tests/           # GoogleTest unit tests
     bench/           # micro-benchmarks
-    python/          # torch.utils.cpp_extension wrapper + pytest (W2+)
+    python/          # torch.utils.cpp_extension wrapper + pytest (Lab 02+)
     notebooks/       # optional .ipynb (Python harness only)
     report/          # generated /lab-report output goes here
 deploy/
@@ -102,11 +102,12 @@ register-pressure analysis.
 
 ## Skills in this repo
 
-- `curriculum-plan/` - the master 4-month plan (week-by-week source of truth).
+- `curriculum-plan/` - the master 4-month plan (lab-by-lab source of truth).
 - `cuda-kernel-authoring/` - the standard kernel-writing loop.
 - `cpp20-modern-idioms/` - RAII wrappers, concepts, ranges patterns.
 - `python-bindings/` - canonical `torch.utils.cpp_extension` pattern
-  for wrapping every weekly kernel as a PyTorch custom op (Week 2+,
-  required). JIT in Months 1-2, AOT + `TORCH_LIBRARY` in Months 3-4.
+  for wrapping every lab's primary kernel as a PyTorch custom op
+  (Lab 02+, required). JIT in Months 1-2, AOT + `TORCH_LIBRARY` in
+  Months 3-4.
 - `cosmos-models/` - NVIDIA Cosmos fine-tuning workflow.
 - (and others under `.cursor/skills/`).

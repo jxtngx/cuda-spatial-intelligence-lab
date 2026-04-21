@@ -20,7 +20,8 @@ NVIDIA DGX Spark or AWS (SageMaker / Bedrock).
 This is **not** a textbook clone. It is a Cursor-native curriculum harness:
 
 - **`.cursor/skills/curriculum-plan/`** - the master 4-month plan, broken into
-  16 weeks with readings, labs, deliverables, and checkpoint rubrics.
+  **16 labs** (paced ~one per week) with readings, deliverables, and
+  checkpoint rubrics.
 - **`.cursor/agents/`** - 10 specialist subagents (curriculum mentor,
   CUDA tutor, C++20 tutor, DGX Spark engineer, Nsight profiler,
   Spatial Intelligence researcher / PhD-advisor paper grader, NeMo
@@ -28,13 +29,13 @@ This is **not** a textbook clone. It is a Cursor-native curriculum harness:
 - **`.cursor/skills/`** - reusable workflows (kernel authoring, profiling,
   Cosmos fine-tuning, AWS endpoint deploy, lab notebook authoring, etc.).
 - **`.cursor/commands/`** - slash commands for the daily loop
-  (`/start-week N`, `/lab-report`, `/review-cuda`, `/profile-kernel`,
+  (`/start-lab N`, `/lab-report`, `/review-cuda`, `/profile-kernel`,
   `/checkpoint`, `/research-paper`, `/deploy-target`).
 - **`.cursor/rules/`** - always-on project context (hardware, conventions,
   required rigor).
-- **`labs/week-XX-*/`** - one lab folder per week, with starter `CMakeLists.txt`,
-  source skeletons, and a `LAB.md` defining objectives, references, and the
-  rubric you'll be graded against.
+- **`labs/lab-NN-*/`** - one folder per lab, with starter `CMakeLists.txt`,
+  source skeletons, and a `LAB.md` defining objectives, the **Plan of
+  work** checklist, references, and the rubric you'll be graded against.
 
 ## Student docs
 
@@ -55,7 +56,7 @@ This is **not** a textbook clone. It is a Cursor-native curriculum harness:
   list of third-party docs to import into Cursor's `@Docs` index
   (PTX, C++20, NeMo, TensorRT-LLM, Cosmos, LangChain DeepAgents, …).
   The agents in this repo assume these names exist. Import once
-  before Week 1.
+  before Lab 01.
 
 ## Required reading (own physical or digital copies)
 
@@ -89,16 +90,17 @@ This is **not** a textbook clone. It is a Cursor-native curriculum harness:
 | 4 | Production + DeepAgents | TensorRT-optimized Cosmos, dual deploy (Spark + SageMaker/Bedrock), NextJS + LangChain DeepAgent driving real sensors |
 
 See [`.cursor/skills/curriculum-plan/SKILL.md`](.cursor/skills/curriculum-plan/SKILL.md)
-for the full week-by-week plan.
+for the full lab-by-lab plan.
 
 ## Daily loop in Cursor
 
-1. `/start-week N` - the curriculum-mentor subagent prints week N's objectives,
+1. `/start-lab N` - the curriculum-mentor subagent prints lab N's objectives,
    readings, and deliverables, then queues subagents you'll need.
-2. Work in `labs/week-NN-*/`. Use `/review-cuda` after substantive kernel edits.
+2. Work in `labs/lab-NN-*/`. Follow the `## Plan of work` checklist in
+   the lab's `LAB.md`. Use `/review-cuda` after substantive kernel edits.
 3. `/profile-kernel` to drive the Nsight workflow when a kernel "works".
-4. `/lab-report` to generate the week's `LAB.md` writeup.
-5. `/checkpoint` at end of week - mentor grades you against the rubric.
+4. `/lab-report` to generate the lab's `LAB.md` writeup.
+5. `/checkpoint` at end of lab - mentor grades you against the rubric.
 
 ## Additional Resources
 

@@ -1,4 +1,4 @@
-// Week 03 — inclusive scan API.
+// Lab 03 — inclusive scan API.
 //
 // Two implementations + a CUB baseline:
 //   - hand-rolled Hillis-Steele block scan (PMPP 4e §11.2)

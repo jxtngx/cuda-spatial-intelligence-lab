@@ -1,6 +1,6 @@
 """pytest: numerics vs torch reference + wrapper-overhead bound.
 
-Required by every lab from Week 2 onward. See
+Required by every lab from Lab 02 onward. See
 `.cursor/skills/python-bindings/SKILL.md` for the canonical shape.
 """
 
@@ -95,7 +95,7 @@ def test_overhead_bound():
     We compare the wrapped op vs the CUB baseline (also wrapped); both
     pay identical Python-side dispatch cost, so any blow-up is in the
     `reduce` wrapper itself, not the kernel. The hard 5% rule is
-    enforced via the C++ bench JSON hand-off in Week 5; this test is
+    enforced via the C++ bench JSON hand-off in Lab 05; this test is
     the coarser Tier-A sanity check.
     """
     n = 1 << 26
