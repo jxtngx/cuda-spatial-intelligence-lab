@@ -1,4 +1,4 @@
-# Week 03 — Reductions, Scans, Atomics, Warp Primitives  (Tier A)
+# Lab 03 — Reductions, Scans, Atomics, Warp Primitives  (Tier A)
 
 ## 0. Intro
 
@@ -17,6 +17,122 @@ Month-4 application stack can call them.
 > folder. Read it before §3 Spec — it covers the CUDA, C++20, and
 > Python-bindings terms that appear here for the first time. (No new
 > CV / Spatial Intelligence terms; that vocabulary starts in Month 3.)
+
+## Plan of work — order of operations
+
+Work this lab top-to-bottom. Don't move past a checkbox until it's
+green. Phase letters are referenced by `/checkpoint` when grading.
+
+### A. Read first (do not skip)
+
+- [ ] PMPP 4e Ch 6 (Performance considerations).
+- [ ] PMPP 4e Ch 9 (Parallel histogram, atomics).
+- [ ] PMPP 4e Ch 10 (Reduction).
+- [ ] PMPP 4e Ch 11 (Prefix sum / scan).
+- [ ] Mark Harris, *Optimizing Parallel Reduction in CUDA*
+      (NVIDIA 2007 whitepaper / slides). All seven stages.
+- [ ] CUDA C++ Programming Guide §B.16 (warp shuffle), §B.18
+      (cooperative groups).
+- [ ] CUB docs: `DeviceReduce::Sum`, `DeviceScan::InclusiveSum`,
+      `WarpReduce`.
+- [ ] Skim this lab's [`GLOSSARY.md`](./GLOSSARY.md).
+
+### B. Bring the scaffold up on Spark
+
+- [ ] Toolchain check (CUDA 13 with CUB headers, CMake ≥ 3.28,
+      Ninja, sm_121).
+- [ ] `cmake -S . -B build -G Ninja && cmake --build build -j`.
+- [ ] Baseline `ctest --test-dir build --output-on-failure`. The
+      kernels compile and produce *correct* results before your
+      TODOs; what your TODOs change is *performance* (and for
+      `reduce_v0`, observable slowness vs `reduce_v1`).
+
+### C. Write §5 Hypothesis *before* you optimize
+
+- [ ] For each of v0..v4, predict the dominant Nsight Compute stall
+      reason / counter (warp divergence → bank conflicts →
+      `__syncthreads` → tail underutilization → bandwidth-bound).
+- [ ] Predict the achieved fraction of `cub::DeviceReduce` for v4
+      and `cub::DeviceScan` for `scan_best`. Commit numbers to §5
+      **before** you measure.
+
+### D. Implement the §4 TODOs and turn ctest green
+
+- [ ] `src/reduce.cu` — `reduce_v0` divergent inner loop;
+      `reduce_v2` reverse-stride sequential addressing;
+      `warp_reduce_sum` written as five explicit `__shfl_down_sync`
+      calls (offsets 16, 8, 4, 2, 1).
+- [ ] `src/reduce.cu` — sweep `grid ∈ {256, 512, 1024, 2048}` for
+      `reduce_v4` and pick the winner. Record both winner and runners
+      in §7.
+- [ ] `src/scan.cu` — `scan_hillis_steele` ping-pong step;
+      `scan_coop_groups` partition choice (whole-block vs per-warp
+      `tiled_partition<32>` + reassembly).
+- [ ] `src/histogram.cu` — replace per-element shared `atomicAdd`
+      with the warp-aggregated variant
+      (`__ballot_sync` + `__match_any_sync` + one atomicAdd per
+      group).
+- [ ] `ctest --test-dir build --output-on-failure` is green for
+      every `ReduceVersion`, `ScanVersion`, and the histogram test.
+
+### E. Get the Python bindings green
+
+- [ ] `pytest python/` — numerics vs `torch.sum`, `torch.cumsum`,
+      `torch.bincount` and the coarse Tier-A wrapper-overhead bound
+      (within 30% of `reduce_cub` Python-side; the strict 5% rule
+      lands in Lab 05).
+
+### F. Run the bench and hit the perf targets
+
+- [ ] `./build/bench_reduce_scan` on Spark, capture ms / GB/s /
+      `% of CUB` for each kernel into the §7 table.
+- [ ] **Target: `reduce_v4 / cub::DeviceReduce::Sum ≥ 80%`** at
+      `n = 2^28`.
+- [ ] **Target: `scan_best / cub::DeviceScan::InclusiveSum ≥ 70%`**
+      at `n = 1024`.
+- [ ] **Target: `hist_shared_warp` strictly faster than
+      `hist_global`** on uniform-random `uint8_t` at `n = 2^26`.
+- [ ] If you miss any target, iterate (block size, grid size,
+      vectorized loads) and document attempts in §8.
+
+### G. Profile (evidence for the perf claim)
+
+Follow `.cursor/skills/nsight-profiling/SKILL.md`. Commit raw
+artifacts under `report/`.
+
+- [ ] `report/nsys_reduce_all.qdrep` — Nsight Systems trace
+      covering all v0..v4 launches in one bench run.
+- [ ] `report/ncu_reduce_v4.ncu-rep` — Nsight Compute on v4 with
+      Speed of Light + Memory Workload Analysis + Source counters,
+      and confirm the warp shuffle is in the SASS.
+- [ ] `report/ncu_hist_shared_warp.ncu-rep` — same, with
+      atomics-per-warp counter as evidence for the warp-aggregation
+      win.
+
+### H. Write it up
+
+- [ ] §7 Results: fill every row, including the kernels you didn't
+      modify (CUB baselines).
+- [ ] §8 Discussion: cite the Nsight section + counter for each
+      claim in §5. Specifically address (a) the biggest single Harris
+      stage win, (b) coop_groups vs hand-rolled Hillis-Steele, and
+      (c) input-distribution effect on the warp-aggregation
+      histogram win.
+- [ ] §10 What I would do next.
+- [ ] Run `/lab-report` to polish.
+
+### I. Self-grade
+
+- [ ] `/checkpoint` against the 5-axis rubric. **≥ 14/20** to
+      advance.
+
+### Definition of done for Lab 03
+
+`ctest -V` is green; `pytest python/` is green;
+`bench_reduce_scan` shows `reduce_v4 ≥ 80%` of
+`cub::DeviceReduce` and `scan_best ≥ 70%` of `cub::DeviceScan`,
+and `hist_shared_warp < hist_global`; `report/` holds the three
+named Nsight artifacts; `LAB.md` §5, §7, §8, §10 are written.
 
 ## 1. What you will learn
 

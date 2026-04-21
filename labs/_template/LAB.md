@@ -1,6 +1,6 @@
-# Week NN — <Title>
+# Lab NN — <Title>
 
-> Replace this template once `/start-week NN` has been run. The
+> Replace this template once `/start-lab NN` has been run. The
 > `curriculum-mentor` populates this file from
 > `.cursor/skills/curriculum-plan/month-X-*.md`.
 
@@ -9,10 +9,88 @@
 *One paragraph in plain English: what is this lab? Why does it exist
 in the curriculum arc? What will the student have built by the end?*
 
-> **New terms this week.** See [`GLOSSARY.md`](./GLOSSARY.md) in this
+> **New terms this lab.** See [`GLOSSARY.md`](./GLOSSARY.md) in this
 > folder. Read it before §3 Spec — it covers the CUDA, C++20, CV /
-> Spatial Intelligence (and from Week 2 on, Python bindings) terms
-> that are introduced for the first time this week.
+> Spatial Intelligence (and from Lab 02 on, Python bindings) terms
+> that are introduced for the first time in this lab.
+
+## Plan of work — order of operations
+
+*Required section. The `curriculum-mentor` must populate every
+checkbox below with lab-specific text when scaffolding. Phase
+letters are referenced by `/checkpoint` when grading. Work
+top-to-bottom; do not move past a checkbox until it's green.*
+
+### A. Read first (do not skip)
+
+- [ ] TODO primary reading 1 (chapter / section)
+- [ ] TODO primary reading 2
+- [ ] Skim this lab's [`GLOSSARY.md`](./GLOSSARY.md).
+
+### B. Bring the scaffold up on Spark
+
+- [ ] Toolchain check (CUDA 13, CMake ≥ 3.28, Ninja, sm_121, plus
+      any lab-specific deps — cuBLAS / CUB / CUTLASS / torch / …).
+- [ ] `cmake -S . -B build -G Ninja && cmake --build build -j`.
+- [ ] Baseline `ctest --test-dir build --output-on-failure`. Note
+      which cases pass at scaffold time and which require Phase D.
+
+### C. Write §5 Hypothesis *before* you optimize
+
+- [ ] State the predicted bottleneck for each version and the
+      Nsight counter that will confirm it. Predict the perf number
+      as a fraction of the §3 baseline. Commit to §5 *before* you
+      measure.
+
+### D. Implement the §4 TODOs and turn ctest green
+
+- [ ] TODO file-specific TODOs from §4 Your task
+- [ ] `ctest --test-dir build --output-on-failure` — green at all
+      sizes for all versions.
+
+### E. Get the Python bindings green   *(Lab 02+ only — delete in Lab 01)*
+
+- [ ] `pytest python/` — numerics vs the torch reference and the
+      wrapper-overhead bound (Tier-A coarse rule in Labs 2-4;
+      strict 5%-of-kernel-time rule from Lab 05 on).
+
+### F. Run the bench and hit the perf target
+
+- [ ] `./build/bench_<name>` on Spark, capture into the §7 table.
+- [ ] **Target:** TODO restate the §3 perf target.
+- [ ] If you miss it, iterate and document each attempt in §8.
+
+### G. Profile (evidence for the perf claim)
+
+Follow `.cursor/skills/nsight-profiling/SKILL.md`. Commit raw
+artifacts under `report/`.
+
+- [ ] `report/nsys_<name>.qdrep` — Nsight Systems trace.
+- [ ] `report/ncu_<name>.ncu-rep` — Nsight Compute report with
+      Speed of Light + Memory Workload Analysis at minimum.
+- [ ] (Checkpoint labs only — 4 / 8 / 12 / 16) full sections, plus
+      `report/roofline.png` if applicable.
+
+### H. Write it up
+
+- [ ] Fill §7 Results from the bench output (every row).
+- [ ] §8 Discussion: cite the Nsight section + counter for each
+      claim in §5 Hypothesis. Honesty about misses counts.
+- [ ] §10 What I would do next.
+- [ ] Run `/lab-report` to polish (`.cursor/skills/lab-notebook/SKILL.md`).
+
+### I. Self-grade
+
+- [ ] `/checkpoint` against the 5-axis rubric in
+      `.cursor/skills/weekly-checkpoint/SKILL.md`.
+      **≥ 14/20** to advance. **≥ 17/20** in checkpoint labs
+      (4 / 8 / 12 / 16).
+
+### Definition of done for Lab NN
+
+`ctest` is green; `pytest python/` is green (Lab 02+); bench
+shows TODO restate perf target; `report/` holds the named Nsight
+artifacts; `LAB.md` §5, §7, §8, §10 are written.
 
 ## 1. What you will learn
 
@@ -29,7 +107,7 @@ By the end of this lab you will be able to:
 - TODO outcome 1 (or *N/A this week — no new CV/SI material*)
 
 ### Python bindings
-*(Week 2+ only — delete this subsection in Week 1.)*
+*(Lab 02+ only — delete this subsection in Lab 01.)*
 - TODO outcome 1
 
 ## 2. Prerequisites
@@ -39,8 +117,8 @@ By the end of this lab you will be able to:
 - Iglberger Ch A
 - (other primary sources)
 
-**Prior weeks' deliverables you need working:**
-- Week NN-1: <what>
+**Prior labs' deliverables you need working:**
+- Lab NN-1: <what>
 
 **Toolchain checks:**
 - `nvidia-smi`, `nvcc --version`, CMake ≥ 3.28 (see
@@ -76,11 +154,11 @@ means. Concretely:
   what to write.
 - `tests/<file>.cpp` — TODO (provided / you-write).
 - `bench/<file>.cpp` — TODO (provided / you-write).
-- `python/<lab>_ext.py` — *(Week 2+ only)* TODO description.
-- `python/test_<lab>.py` — *(Week 2+ only)* TODO description.
+- `python/<lab>_ext.py` — *(Lab 02+ only)* TODO description.
+- `python/test_<lab>.py` — *(Lab 02+ only)* TODO description.
 
 **Definition of done.** All `ctest` targets pass, `pytest python/`
-passes (Week 2+), bench reports a number that meets the §3 target,
+passes (Lab 02+), bench reports a number that meets the §3 target,
 and `report/` contains a Nsight artifact when the rubric requires
 one.
 
@@ -128,7 +206,7 @@ TODO
 - CUDA C++ Programming Guide §
 - Curriculum: `.cursor/skills/curriculum-plan/month-X-*.md`
 - Skills: `.cursor/skills/cuda-kernel-authoring/SKILL.md`,
-  `.cursor/skills/python-bindings/SKILL.md` *(Week 2+)*
+  `.cursor/skills/python-bindings/SKILL.md` *(Lab 02+)*
 
 ## 10. What I would do next
 

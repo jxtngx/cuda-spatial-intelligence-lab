@@ -1,4 +1,4 @@
-# Week 04 — Checkpoint: production-grade tiled GEMM
+# Lab 04 — Checkpoint: production-grade tiled GEMM
 
 > Month-1 checkpoint week. The bar is **17/20**, not 14. This is the
 > first week the curriculum will refuse to advance you on a "good
@@ -27,6 +27,140 @@ earns the bonus point on the Performance axis.
 > folder. Read it before §3 Spec — it covers the CUDA, C++20, CV /
 > Spatial Intelligence, and Python-bindings terms that are introduced
 > for the first time this week.
+
+## Plan of work — order of operations
+
+This is a **checkpoint lab** — the bar is **17/20**, not 14, and
+`/checkpoint` will refuse to advance you on a "good enough" result.
+Work top-to-bottom; don't move past a checkbox until it's green.
+
+### A. Read first (do not skip)
+
+- [ ] PMPP 4e Ch 5 (Memory architecture and data locality) — yes,
+      again.
+- [ ] PMPP 4e Ch 6 (Performance considerations) — yes, again.
+- [ ] CUDA C++ Best Practices Guide §9 (Memory optimizations)
+      end-to-end.
+- [ ] CUTLASS, *Efficient GEMM in CUDA* — vocabulary (warp tiles,
+      MMA fragments, double buffering, thread-block / warp / MMA
+      tile hierarchy) is required for §5 Hypothesis and §8
+      Discussion.
+- [ ] Williams, Waterman, Patterson — *Roofline: An Insightful
+      Visual Performance Model* (CACM 2009). You will draw one in
+      §7.
+- [ ] Skim this lab's [`GLOSSARY.md`](./GLOSSARY.md).
+
+### B. Bring the scaffold up on Spark
+
+- [ ] Confirm Lab 02 is green and `gemm_tiled_async` ≥ 50% of
+      `cublasSgemm`. **If Lab 02 isn't green, fix Lab 02 first.**
+- [ ] Toolchain: CUDA 13, CMake ≥ 3.28, Ninja, Nsight on `PATH`,
+      torch (CUDA 13 / sm_121) + pytest available.
+- [ ] CUTLASS available (`CUTLASS_DIR` set or installed where
+      CMake's `find_package` will find it). Without it the CUTLASS
+      baseline target is silently disabled and you lose 1
+      Performance point — fix this.
+- [ ] `cmake -S . -B build -G Ninja && cmake --build build -j`.
+- [ ] Baseline `ctest --test-dir build --output-on-failure`. Slow
+      reference paths pass; the optimized path fails until Phase D.
+
+### C. Write §5 Hypothesis *before* you optimize
+
+- [ ] State Lab-02's `v3_tiled_async` Speed-of-Light bottleneck at
+      4096³ from its Nsight Compute report — memory- or
+      compute-bound, with the SOL number.
+- [ ] Predict, in order, which of the four optimizations
+      (register tile → `float4` → `__ldg` → double-buffer) moves
+      the needle the most, and which Nsight counter (DRAM
+      throughput, L1 hit rate, `smsp__inst_executed_pipe_fma`,
+      warp-stall reason) will confirm it.
+- [ ] Predict the achieved fraction of `cublasSgemm`. Commit to §5.
+
+### D. Implement the §4 TODOs and turn ctest green
+
+- [ ] `src/gemm_v4_checkpoint.cu` — (1) `float4` global→shared load
+      for `A`, (2) `float4 + __ldg` global→shared load for `B`,
+      (3) 4×4 register-tile inner loop (`a_reg[4]`, `b_reg[4]`,
+      16 FMAs per K-step), (4) second shared-memory buffer +
+      `cuda::pipeline<...>::producer_acquire/commit` swap for
+      double buffering.
+- [ ] `src/gemm_launch.cu` — pick `(grid, block)` for the 128-tile
+      `if constexpr` instantiation.
+- [ ] `src/cutlass_baseline.cu` — pick the
+      `cutlass::gemm::device::Gemm<...>` template parameters
+      (RowMajor, `float`, SIMT, tile shape) so it compiles against
+      your CUTLASS.
+- [ ] `python/gemm_checkpoint_ext.py` — extend `_VERSION_MAP` with
+      `"v4_checkpoint": 4` and add a smoke-test call.
+- [ ] `ctest -R gemm_checkpoint` is green at all sizes.
+
+### E. Get the Python bindings green
+
+- [ ] `pytest python/test_gemm_checkpoint.py` — numerics vs
+      `torch.matmul` and the **< 5%** wrapper-overhead bound at
+      M=N=K=4096.
+
+### F. Run the bench, sweep tiles, hit the perf target
+
+- [ ] `./build/bench_gemm_checkpoint` — captures **median over
+      20 runs after 5 warm-ups** for each variant + tile size.
+- [ ] Re-bench `v3_tiled_async` (carry-forward) on this harness so
+      §7 starts from a known baseline.
+- [ ] Bench v4a / v4b / v4c / v4_checkpoint at BM ∈ {32, 64, 128}.
+- [ ] **Pass: `v4_checkpoint` ≥ 70% of `cublasSgemm`** at
+      M=N=K=4096 single precision.
+- [ ] **Bonus: `v4_checkpoint` ≥ 80% of `cublasSgemm`** earns the
+      Performance bonus point.
+- [ ] CUTLASS baseline runs and reports a number (not used as the
+      pass threshold, but must build).
+
+### G. Profile (mandatory at checkpoint rigor)
+
+Follow `.cursor/skills/nsight-profiling/SKILL.md`. Commit raw
+artifacts under `report/`.
+
+- [ ] `report/ncu_v4_checkpoint.ncu-rep` — **full sections**, not
+      just SOL. Include Memory Workload Analysis, Compute
+      Workload Analysis, Source Counters, Warp State Statistics.
+- [ ] `report/nsys_v4_checkpoint.qdrep` — one bench run.
+- [ ] `report/roofline.png` (or `.svg`) — plot v3_tiled_async, v4a,
+      v4b, v4c, v4_checkpoint, `cublasSgemm`, and CUTLASS on the
+      Spark roofline.
+
+### H. Write the paper-style report
+
+- [ ] §7 Results table — fill **every** row.
+- [ ] `report/LAB.md` — paper-style writeup with the roofline diagram
+      embedded, one paragraph of Nsight diagnosis per optimization
+      attributing speedup to a specific counter, and a final
+      results table.
+- [ ] §8 Discussion — for each optimization, did the predicted
+      counter actually move and by how much? Where on the roofline
+      does `v4_checkpoint` sit relative to `cublasSgemm`? Is the
+      remaining gap arithmetic, scheduling, or memory? If you
+      missed 70%, what is the *minimum* change that would close the
+      gap, and why didn't you make it?
+- [ ] §10 What I would do next — pick one of: tensor-core WMMA
+      route (on-ramp to Lab 05) or non-multiple-of-128 tail loop.
+      One paragraph. Not both.
+- [ ] Run `/lab-report` to polish.
+
+### I. Self-grade (strict — checkpoint rigor)
+
+- [ ] `/checkpoint` against the 5-axis rubric in
+      `.cursor/skills/weekly-checkpoint/SKILL.md`. **≥ 17/20** to
+      advance — not 14. Below 17 means rework, not retry-with-vibes.
+
+### Definition of done for Lab 04
+
+`ctest -R gemm_checkpoint` is green; `pytest
+python/test_gemm_checkpoint.py` is green; `bench_gemm_checkpoint`
+shows `v4_checkpoint ≥ 70%` of `cublasSgemm` at M=N=K=4096 with
+`< 5%` Python wrapper overhead; `report/` holds
+`ncu_v4_checkpoint.ncu-rep` (full sections),
+`nsys_v4_checkpoint.qdrep`, `roofline.png`, and a paper-style
+`LAB.md`; this file's §5, §7, §8, §10 are written;
+`/checkpoint` returns ≥ 17/20.
 
 ## 1. What you will learn
 

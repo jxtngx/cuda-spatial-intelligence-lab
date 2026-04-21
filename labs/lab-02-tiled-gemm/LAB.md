@@ -1,4 +1,4 @@
-# Week 02 — Memory hierarchy and tiled GEMM
+# Lab 02 — Memory hierarchy and tiled GEMM
 
 > Tier **A** scaffold. See [`labs/_template/README.md`](../_template/README.md)
 > for what that means: code compiles as-is, with 2-4 `// TODO(student):`
@@ -25,6 +25,111 @@ Python and that the wrapper overhead is < 5% of kernel time.
 > folder. Read it before §3 Spec — it covers the CUDA, C++20, CV /
 > Spatial Intelligence, and Python-bindings terms that are introduced
 > for the first time this week.
+
+## Plan of work — order of operations
+
+Work this lab top-to-bottom. Don't move past a checkbox until it's
+green. Phase letters are referenced by `/checkpoint` when grading.
+
+### A. Read first (do not skip)
+
+- [ ] PMPP 4e Ch 4 (Compute architecture and scheduling).
+- [ ] PMPP 4e Ch 5 (Memory architecture and data locality) **end-to-end**.
+- [ ] CUDA C++ Best Practices Guide §9 (Memory optimizations) end-to-end.
+- [ ] Iglberger Ch 4-5 (Visitor / Strategy modernization).
+- [ ] CUDA C++ Programming Guide §B.7 (`cuda::memcpy_async`,
+      `cuda::pipeline`).
+- [ ] Skim this lab's [`GLOSSARY.md`](./GLOSSARY.md).
+
+### B. Bring the scaffold up on Spark
+
+- [ ] Toolchain check (CUDA 13, CMake ≥ 3.28, Ninja, cuBLAS,
+      Nsight host tools, sm_121).
+- [ ] From this folder: `cmake -S . -B build -G Ninja && cmake --build build -j`.
+- [ ] Baseline `ctest --test-dir build --output-on-failure`. The
+      reference variants compile but the `// TODO(student):` blocks
+      mean some cases will fail until Phase D — that is expected.
+
+### C. Write §5 Hypothesis *before* you optimize
+
+- [ ] Predict the dominant bottleneck for v0 / v1 / v2 / v3 from
+      readings (memory-bound vs compute-bound, expected GFLOP/s as
+      a fraction of cuBLAS, which Nsight Compute counter will
+      confirm). Commit it to §5 in writing **before** you measure.
+
+### D. Implement the §4 TODOs and turn ctest green
+
+- [ ] `src/gemm_naive.cu` — fill the inner `K` multiply-accumulate.
+- [ ] `src/gemm_tiled_32.cu` — declare 32×32 shared tiles,
+      load/`__syncthreads`/multiply/`__syncthreads`, write the
+      `alpha * acc + beta * C[row,col]` epilogue.
+- [ ] `src/gemm_tiled_64.cu` — pick the padding column count that
+      kills 32-way bank conflicts, fill the `acc[4][4]` register tile.
+- [ ] `src/gemm_tiled_async.cu` — issue `cuda::memcpy_async` for the
+      *next* tile before the current-tile multiply, and place
+      `pipeline.consumer_wait/release()` correctly.
+- [ ] `ctest --test-dir build --output-on-failure` — every
+      parametrized size (128, 512, 1024, 4096) must pass for all
+      four versions.
+
+### E. Get the Python bindings green
+
+- [ ] `pytest python/` — numerics vs `torch.matmul` at sizes
+      {128, 512, 1024, 4096} and the wrapper-overhead bound.
+- [ ] If overhead exceeds 5%, follow
+      `.cursor/skills/python-bindings/SKILL.md` to diagnose
+      (synchronization, host-side allocation, autograd) before
+      blaming the kernel.
+
+### F. Run the bench and hit the perf target
+
+- [ ] `./build/bench_gemm` on Spark, capture ms / GFLOP/s / % cuBLAS
+      for each version into the §7 Results table.
+- [ ] **Target: `gemm_tiled_async` ≥ 50% of `cublasSgemm` at
+      M=N=K=4096.** If you miss it, iterate (block shape, async
+      pipeline depth, register pressure) and document each attempt
+      in §8.
+- [ ] **Target: Python wrapper overhead < 5%** of kernel time at
+      M=N=K=4096. Capture the numbers in §7.
+
+### G. Profile (evidence for the perf claim)
+
+Follow `.cursor/skills/nsight-profiling/SKILL.md`. Commit raw
+artifacts under `report/`.
+
+- [ ] `report/ncu_gemm_v0.ncu-rep` — Memory Workload Analysis +
+      Speed of Light, full sections.
+- [ ] `report/ncu_gemm_v1.ncu-rep` — same + shared-bank-conflict
+      counters.
+- [ ] `report/ncu_gemm_v2.ncu-rep` — same + occupancy section
+      (register-tile cost).
+- [ ] `report/ncu_gemm_v3.ncu-rep` — same + the `cuda::memcpy_async`
+      overlap evidence.
+- [ ] (Optional but recommended) `report/nsys_gemm.qdrep` —
+      timeline of one bench run.
+
+### H. Write it up
+
+- [ ] Fill §7 Results table from the bench output (do not omit any
+      version).
+- [ ] §8 Discussion: cite the Nsight section + counter for each
+      claim in §5 Hypothesis. Honesty about misses counts.
+- [ ] §10 What I would do next.
+- [ ] Run `/lab-report` to polish (`.cursor/skills/lab-notebook/SKILL.md`).
+
+### I. Self-grade
+
+- [ ] `/checkpoint` against the 5-axis rubric in
+      `.cursor/skills/weekly-checkpoint/SKILL.md`. **≥ 14/20** to
+      advance.
+
+### Definition of done for Lab 02
+
+`ctest` is green at all four sizes for all four versions; `pytest
+python/` is green; `bench_gemm` shows `gemm_tiled_async` ≥ 50% of
+`cublasSgemm` at 4096³ and Python wrapper overhead < 5%; `report/`
+holds four `ncu_gemm_v{0,1,2,3}.ncu-rep` files; `LAB.md` §5, §7,
+§8, §10 are written.
 
 ## 1. What you will learn
 

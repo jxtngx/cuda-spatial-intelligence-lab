@@ -1,15 +1,15 @@
-# Week 01 — Modern C++20 essentials + CUDA Hello
+# Lab 01 — Modern C++20 essentials + CUDA Hello
 
 > Source of truth: `.cursor/skills/curriculum-plan/month-1-foundations.md`
-> (Week 1 section). This file is your local writeup template; treat it
-> as a living lab notebook through the week and finalize with `/lab-report`.
+> (Lab 1 section). This file is your local writeup template; treat it
+> as a living lab notebook through the lab and finalize with `/lab-report`.
 
-## 0. Tasks — what you actually do this week
+## 0. Tasks — what you actually do in this lab
 
 The `src/`, `tests/`, and `bench/` trees ship with a working reference
 implementation of `axpy<float>` (v0 naive, v1 vec4, v2 grid-stride),
 the `Stream` / `DeviceBuffer<T>` RAII wrappers, and a GoogleTest +
-microbench. Your job this week is to **bring it up on your Spark,
+microbench. Your job in this lab is to **bring it up on your Spark,
 prove it hits the perf target with profile evidence, close the gaps
 between scaffold and spec, and write the result up**.
 
@@ -30,7 +30,7 @@ green.
 
 - [ ] Confirm Spark toolchain per `.cursor/skills/dgx-spark-setup/SKILL.md`
       (CUDA 13, CMake ≥ 3.28, Ninja, Nsight host tools, sm_121).
-- [ ] From `labs/week-01-hello-cuda/`, configure & build:
+- [ ] From `labs/lab-01-hello-cuda/`, configure & build:
       `cmake -S . -B build -G Ninja && cmake --build build -j`.
 - [ ] Run the tests: `ctest --test-dir build --output-on-failure`.
       All `AxpyAtSize/{Naive,Vec4,Stride}` cases must pass at sizes
@@ -38,12 +38,12 @@ green.
 - [ ] Read every file in `src/` and write a one-sentence comment in
       your own words at the top of `axpy.cu`, `device_buffer.hpp`,
       and `stream.hpp` describing what it does and *why it is shaped
-      that way*. (You will reuse these wrappers for 15 more weeks.)
+      that way*. (You will reuse these wrappers for 15 more labs.)
 
 ### C. Close the scaffold ↔ spec gaps
 
 The reference implementation under-delivers vs. §1 Spec in three
-places. Fix them before claiming the week is done.
+places. Fix them before claiming the lab is done.
 
 - [ ] **`launch<Kernel>(LaunchConfig{}, args...)` helper.** §1 and
       `GLOSSARY.md` describe a designated-initializer launch helper;
@@ -98,9 +98,9 @@ reports under `report/` (create the directory).
 
 - [ ] Run `/checkpoint` against the 5-axis rubric in
       `.cursor/skills/weekly-checkpoint/SKILL.md`. You need ≥ 14/20
-      to advance to Week 2 (≥ 17/20 in checkpoint weeks 4/8/12/16).
+      to advance to Lab 02 (≥ 17/20 in checkpoint labs 4/8/12/16).
 
-### Definition of Done for Week 1
+### Definition of Done for Lab 01
 
 All boxes A-G checked, `LAB.md` §2-§6 fully written, `report/`
 contains both Nsight artifacts, `bench_axpy` shows v2 ≥ 232 GB/s
@@ -111,7 +111,7 @@ on this Spark, and `ctest` is green.
 ## 1. Spec
 
 Build a small, correct, idiomatic C++20 + CUDA foundation you'll reuse
-all 16 weeks:
+across all 16 labs:
 
 - `DeviceBuffer<T>` — RAII owner around `cudaMallocAsync` / `cudaFreeAsync`.
   Move-only. Concept-constrained on `std::is_trivially_copyable_v<T>`.
